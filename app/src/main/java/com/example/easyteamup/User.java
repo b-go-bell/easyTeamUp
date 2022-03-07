@@ -37,10 +37,7 @@ public class User {
         this.settings = settings;
     }
 
-    public User(String email, int phone, String firstName,
-                String lastName, int graduationYear, String major, String bio,
-                String photoUrl, List<String> RSVPedEvents, List<String> hostedEvents,
-                Map<String, Integer> invitedEvents, Map<String, Object> settings) {
+    public User() {
         this.uid = null;
         this.email = null;
         this.phone = 0;
@@ -61,7 +58,7 @@ public class User {
     }
 
     public void setUid(String uid) {
-        this.uid = this.uid == null ? uid : throw_changeUidException();
+        this.uid = (this.uid == null) ? uid : throw_changeUidException();
     }
 
     public String throw_changeUidException() {
