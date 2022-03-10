@@ -1,5 +1,6 @@
 package com.example.easyteamup;
 
+import com.firebase.geofire.GeoFireUtils;
 import com.firebase.geofire.GeoLocation;
 import com.google.firebase.Timestamp;
 
@@ -62,6 +63,14 @@ public class Event {
 
     public void setGeohash(String geohash) {
         this.geohash = geohash;
+    }
+
+    public void generateGeohash() {
+        geohash = GeoFireUtils.getGeoHashForLocation(new GeoLocation(latitude, longitude));
+    }
+
+    public void generateGeohash(Double latitude, Double longitude) {
+        geohash = GeoFireUtils.getGeoHashForLocation(new GeoLocation(latitude, longitude));
     }
 
     public Double getLatitude() {
