@@ -4,6 +4,72 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradients"
     tools:context=".StartActivity">
+
+    <Button
+        android:id="@+id/login_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginLeft="80dp"
+        android:layout_marginTop="260dp"
+        android:layout_marginRight="80dp"
+        android:enabled="true"
+        android:text="@string/login"
+        android:fontFamily="@font/rubik_medium"
+        android:backgroundTint="@color/white"
+        android:textColor="@color/gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/signup_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginLeft="80dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginRight="80dp"
+        android:layout_marginBottom="159dp"
+        android:backgroundTint="@color/white"
+        android:enabled="true"
+        android:fontFamily="@font/rubik_medium"
+        android:text="@string/signup"
+        android:textColor="@color/gray"
+        app:layout_constraintBottom_toTopOf="@+id/loading"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.33"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/login_button" />
+
+
+    <ProgressBar
+        android:id="@+id/loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginRight="50dp"
+        android:indeterminateTint="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/signup_button"/>
+
+    <TextView
+        android:id="@+id/JIB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:fontFamily="@font/rubik_regular"
+        android:text="@string/jib"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/loading" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
