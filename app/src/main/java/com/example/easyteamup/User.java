@@ -15,13 +15,13 @@ public class User {
     private String photoUrl;
     private List<String> RSVPedEvents;
     private List<String> hostedEvents;
-    private Map<String, Integer> invitedEvents;
+    private Map<String, String> invitedEvents;
     private Map<String, Object> settings;
 
     public User(String uid, String email, int phone, String firstName,
                 String lastName, int graduationYear, String major, String bio,
                 String photoUrl, List<String> RSVPedEvents, List<String> hostedEvents,
-                Map<String, Integer> invitedEvents, Map<String, Object> settings) {
+                Map<String, String> invitedEvents, Map<String, Object> settings) {
         this.uid = uid;
         this.email = email;
         this.phone = phone;
@@ -145,11 +145,11 @@ public class User {
         this.hostedEvents = hostedEvents;
     }
 
-    public Map<String, Integer> getInvitedEvents() {
+    public Map<String, String> getInvitedEvents() {
         return invitedEvents;
     }
 
-    public void setInvitedEvents(Map<String, Integer> invitedEvents) {
+    public void setInvitedEvents(Map<String, String> invitedEvents) {
         this.invitedEvents = invitedEvents;
     }
 
