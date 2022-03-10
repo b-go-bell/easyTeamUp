@@ -196,6 +196,7 @@ public class FirebaseOperations {
     }
 
     /**
+     * NEEDS TO BE TESTED STILL
      * Invite a user to an event (action initiated by event host). If the user
      * has already RSVPed for an event, the invitation status will be set to
      * "attending". Otherwise, the invitation will be set to "pending".
