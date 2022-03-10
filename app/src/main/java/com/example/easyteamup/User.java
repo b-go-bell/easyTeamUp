@@ -4,19 +4,19 @@ import java.util.List;
 import java.util.Map;
 
 public class User {
-    public String uid;
-    public String email;
-    public long phone;
-    public String firstName;
-    public String lastName;
-    public int graduationYear;
-    public String major;
-    public String bio;
-    public String photoUrl;
-    public List<String> RSVPedEvents;
-    public List<String> hostedEvents;
-    public Map<String, Integer> invitedEvents;
-    public Map<String, Object> settings;
+    private String uid;
+    private String email;
+    private long phone;
+    private String firstName;
+    private String lastName;
+    private int graduationYear;
+    private String major;
+    private String bio;
+    private String photoUrl;
+    private List<String> RSVPedEvents;
+    private List<String> hostedEvents;
+    private Map<String, Integer> invitedEvents;
+    private Map<String, Object> settings;
 
     public User(String uid, String email, int phone, String firstName,
                 String lastName, int graduationYear, String major, String bio,
@@ -159,5 +159,27 @@ public class User {
 
     public void setSettings(Map<String, Object> settings) {
         this.settings = settings;
+    }
+
+    /*
+    For debugging purposes - will probably want to delete
+     */
+    @Override
+    public String toString() {
+        return "User{" +
+                "uid='" + uid + '\'' +
+                ", email='" + email + '\'' +
+                ", phone=" + phone +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", graduationYear=" + graduationYear +
+                ", major='" + major + '\'' +
+                ", bio='" + bio + '\'' +
+                ", photoUrl='" + photoUrl + '\'' +
+                ", RSVPedEvents=" + RSVPedEvents +
+                ", hostedEvents=" + hostedEvents +
+                ", invitedEvents=" + invitedEvents +
+                ", settings=" + settings +
+                '}';
     }
 }
