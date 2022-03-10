@@ -196,7 +196,9 @@ public class FirebaseOperations {
     }
 
     /**
-     * Invite a user to an event (action initiated by event host)
+     * Invite a user to an event (action initiated by event host). If the user
+     * has already RSVPed for an event, the invitation status will be set to
+     * "attending". Otherwise, the invitation will be set to "pending".
      * @param uid Corresponds to the user being invited
      * @param eid Corresponds to the event the user is being invited too.
      *            Note: This event should be hosted by the currently
@@ -210,18 +212,35 @@ public class FirebaseOperations {
      *            up the data.
      */
     public void inviteUserToEvent(String uid, String eid, BooleanCallback bc){
-        Task<Void> updateUser = db.collection("users")
-                                        .document(uid)
-                                        .update("invitedEvents." + eid, "pending");
-        Task<Void> updateEvent = db.collection("events")
-                                        .document(eid)
-                                        .collection("invitedUsers")
-                                        .document(uid)
-                                        .set(new HashMap<String, Object>(){{ put("status", "pending"); }});
-        while(!updateEvent.isComplete() || !updateUser.isComplete());
-        bc.isTrue(updateUser.isSuccessful() && updateEvent.isSuccessful());
-    }
 
+        //first, check to see if the user has RSVPed to an event already
+        db.collection("events")
+                .document(eid)
+                .collection("RSVPedUsers")
+                .document(uid)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+
+                    //set invitation status, based on whether a user has RSVPed or not
+                    String status = documentSnapshot.exists() ? "attending" : "pending";
+
+                    Task<Void> updateUser = db.collection("users")
+                            .document(uid)
+                            .update("invitedEvents." + eid, status);
+                    Task<Void> updateEvent = db.collection("events")
+                            .document(eid)
+                            .collection("invitedUsers")
+                            .document(uid)
+                            .set(new HashMap<String, Object>(){{ put("status", status); }});
+
+                    while(!updateEvent.isComplete() || !updateUser.isComplete());
+                    bc.isTrue(updateUser.isSuccessful() && updateEvent.isSuccessful());
+                })
+                .addOnFailureListener(listener -> {
+                    bc.isTrue(false);
+                });
+
+    }
 
 
 }
