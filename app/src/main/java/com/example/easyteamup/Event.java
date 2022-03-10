@@ -7,10 +7,10 @@ import com.google.firebase.Timestamp;
 public class Event {
     private String eventId;
     private String host;
+    private String address;
     private String geohash;
     private Double latitude;
     private Double longitude;
-
     private Timestamp dueDate;
     private Timestamp finalTime;
     private boolean isPublic;
@@ -18,6 +18,7 @@ public class Event {
     public Event() {
         this.eventId = null;
         this.host = null;
+        this.address = null;
         this.geohash = null;
         this.latitude = null;
         this.longitude = null;
@@ -26,9 +27,10 @@ public class Event {
         this.isPublic = false;
     }
 
-    public Event(String eventId, String host, String geohash, Double latitude, Double longitude, Timestamp dueDate, Timestamp finalTime, boolean isPublic) {
+    public Event(String eventId, String host,String address, String geohash, Double latitude, Double longitude, Timestamp dueDate, Timestamp finalTime, boolean isPublic) {
         this.eventId = eventId;
         this.host = host;
+        this.address = address;
         this.geohash = geohash;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -55,6 +57,14 @@ public class Event {
 
     public void setHost(String host) {
         this.host = host;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getGeohash() {
@@ -121,7 +131,8 @@ public class Event {
         return "Event{" +
                 "eventId='" + eventId + '\'' +
                 ", host='" + host + '\'' +
-                ", geohash=" + geohash +
+                ", address='" + address + '\'' +
+                ", geohash='" + geohash + '\'' +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
                 ", dueDate=" + dueDate +
