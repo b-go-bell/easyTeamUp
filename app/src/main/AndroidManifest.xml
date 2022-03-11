@@ -4,11 +4,14 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/up_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/up_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.EasyTeamUp">
+        <activity
+            android:name=".ViewProfileActivity"
+            android:exported="false" />
         <activity
             android:name=".SignUpActivity"
             android:exported="false" />

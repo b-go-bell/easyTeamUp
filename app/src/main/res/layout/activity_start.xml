@@ -7,13 +7,23 @@
     android:background="@drawable/gradients"
     tools:context=".StartActivity">
 
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="60dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/login_button"
+        android:src="@drawable/logo_white"
+        />
+
     <Button
         android:id="@+id/login_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
         android:layout_marginLeft="80dp"
-        android:layout_marginTop="260dp"
+        android:layout_marginTop="240dp"
         android:layout_marginRight="80dp"
         android:enabled="true"
         android:text="@string/login"
