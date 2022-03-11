@@ -25,7 +25,8 @@ public class FirebaseOperations {
     }
 
     /**
-     *
+     * Logs in a user using firebase authentication. By default, this user
+     * will remain logged in until the user is explicitly signed out.
      * @param email
      * @param password
      * @return BooleanCallback contains a bool indicating whether the login
@@ -186,10 +187,13 @@ public class FirebaseOperations {
     public void getPastEvents(String uid, ObjectCallback listObject) {
         db.collection("users").document(uid).collection("pastEvents").get().addOnCompleteListener(task-> {
             if (task.isSuccessful()){
-                List<String> invitedEvents = new ArrayList<String>();
+                List<String> invitedEvents = new ArrayList<>();
                 for (QueryDocumentSnapshot document: task.getResult()){
                     invitedEvents.add(document.getId());
                 }
+                listObject.result(invitedEvents);
+            }
+            else {
                 listObject.result(null);
             }
         });
@@ -214,12 +218,11 @@ public class FirebaseOperations {
     }
 
     /**
-     * NEEDS TO BE TESTED STILL
      * Invite a user to an event (action initiated by event host). If the user
      * has already RSVPed for an event, the invitation status will be set to
      * "attending". Otherwise, the invitation will be set to "pending".
      * @param uid Corresponds to the user being invited
-     * @param eid Corresponds to the event the user is being invited too.
+     * @param eventId Corresponds to the event the user is being invited too.
      *            Note: This event should be hosted by the currently
      *            logged-in user, as only the host can make invitations.
      * @return BooleanCallback returns true if the user has been successfully
@@ -230,11 +233,11 @@ public class FirebaseOperations {
      *            do debugging and get a sense of whats going on, and also clean
      *            up the data.
      */
-    public void inviteUserToEvent(String uid, String eid, BooleanCallback bc){
+    public void inviteUserToEvent(String uid, String eventId, BooleanCallback bc){
 
         //first, check to see if the user has RSVPed to an event already
         db.collection("events")
-                .document(eid)
+                .document(eventId)
                 .collection("RSVPedUsers")
                 .document(uid)
                 .get()
@@ -243,11 +246,14 @@ public class FirebaseOperations {
                     //set invitation status, based on whether a user has RSVPed or not
                     String status = documentSnapshot.exists() ? "attending" : "pending";
 
+                    //add invitation to user
                     Task<Void> updateUser = db.collection("users")
                             .document(uid)
-                            .update("invitedEvents." + eid, status);
+                            .update("invitedEvents." + eventId, status);
+
+                    //add invitation to event
                     Task<Void> updateEvent = db.collection("events")
-                            .document(eid)
+                            .document(eventId)
                             .collection("invitedUsers")
                             .document(uid)
                             .set(new HashMap<String, Object>(){{ put("status", status); }});
@@ -261,5 +267,57 @@ public class FirebaseOperations {
 
     }
 
+    /**
+     * Gets a list of uids of all users that have RSVPed for an event.
+     * NOTE: Do not use this functions to add or remove RSVPs, instead use
+     * the dedicated functions for those purposes. This function should be
+     * treated just like a regular getter - use it to GET information about
+     * the RSVPed users, but DON'T use it to SET information about them.
+     * @param eventId corresponds to the event who's RSVP list will be checked
+     * @return listObject is a List<String> of uids of all rsvped guests
+     */
+    public void getRSVPedUsers(String eventId, ObjectCallback listObject){
+        db.collection("events").document(eventId).collection("RSVPedUsers").get().addOnCompleteListener(task -> {
+           if (task.isSuccessful()){
+               List<String> RSVPedUsers = new ArrayList<>();
+               for (QueryDocumentSnapshot document: task.getResult()){
+                   RSVPedUsers.add(document.getId());
+               }
+               listObject.result(RSVPedUsers);
+           }
+           else {
+               listObject.result(null);
+           }
+        });
+    }
+
+    /**
+     * Gets a list of all users that have been invited to an event, as well
+     * as their invitation status.
+     * NOTE: Do not use these functions to add,remove, or modify invitations, instead use
+     * the dedicated functions for those purposes. This function should be
+     * treated just like a regular getter - use it to GET information about
+     * the invited users, but DON'T use it to SET information about them.
+     * @param eventId corresponds to the event who's RSVP list will be checked
+     * @param mapObject listObject is a Map<String,String> where the key is the
+     *                  uid, and the value is the invitation status, which could
+     *                  be one of {attending, pending, rejected}
+     */
+    public void getInvitedUsers(String eventId, ObjectCallback mapObject){
+        db.collection("events").document(eventId).collection("invitedUsers").get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()){
+                Map<String,String> invitedUsers = new HashMap<>();
+                for (QueryDocumentSnapshot document: task.getResult()){
+                    String key = document.getId();
+                    String value = (String) document.getData().get("status");
+                    invitedUsers.put(key,value);
+                }
+                mapObject.result(invitedUsers);
+            }
+            else {
+                mapObject.result(null);
+            }
+        });
+    }
 
 }
