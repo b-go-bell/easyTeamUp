@@ -3,12 +3,15 @@
 
     <!-- General Use Strings -->
     <string name="jib">JIB Inc.</string>
+
     <!-- Strings related to Start Activity -->
     <string name="signup">Sign Up</string>
+    <string name="signup_underline"><u>Sign Up</u></string>
     <string name="login">Login</string>
 
-    <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
+    <!-- Strings related to Login and Signup Activities -->
+    <string name="username">username</string>
+    <string name="password">password</string>
+    <string name="invalid_message">Invalid username-password combination; please try again!</string>
     <string name="login_failed">"Login failed"</string>
-    <string name="title_activity_view_map_events">ViewMapEventsActivity</string>
 </resources>
