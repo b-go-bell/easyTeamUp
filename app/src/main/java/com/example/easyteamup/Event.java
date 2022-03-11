@@ -3,9 +3,14 @@ package com.example.easyteamup;
 import com.firebase.geofire.GeoFireUtils;
 import com.firebase.geofire.GeoLocation;
 import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.Exclude;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Event {
     private String eventId;
+    private String name;
     private String host;
     private String address;
     private String geohash;
@@ -17,6 +22,7 @@ public class Event {
 
     public Event() {
         this.eventId = null;
+        this.name = null;
         this.host = null;
         this.address = null;
         this.geohash = null;
@@ -27,8 +33,12 @@ public class Event {
         this.isPublic = false;
     }
 
-    public Event(String eventId, String host,String address, String geohash, Double latitude, Double longitude, Timestamp dueDate, Timestamp finalTime, boolean isPublic) {
+
+    public Event(String eventId, String name, String host, String address,
+                 String geohash, Double latitude, Double longitude, Timestamp dueDate,
+                 Timestamp finalTime, boolean isPublic) {
         this.eventId = eventId;
+        this.name = name;
         this.host = host;
         this.address = address;
         this.geohash = geohash;
@@ -47,8 +57,17 @@ public class Event {
         throw new RuntimeException("eventId is immutable. DO NOT CHANGE!");
     }
 
+    @Exclude
     public String getEventId() {
         return eventId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getHost() {
@@ -115,21 +134,22 @@ public class Event {
         this.finalTime = finalTime;
     }
 
-    public boolean isPublic() {
+    public boolean getIsPublic() {
         return isPublic;
     }
 
-    public void setPublic(boolean aPublic) {
-        isPublic = aPublic;
+    public void setIsPublic(boolean isPublic) {
+        this.isPublic = isPublic;
     }
 
     /*
-    For debugging - will probably want to delete
-     */
+       For debugging - will probably want to delete
+    */
     @Override
     public String toString() {
         return "Event{" +
                 "eventId='" + eventId + '\'' +
+                ", name='" + name + '\'' +
                 ", host='" + host + '\'' +
                 ", address='" + address + '\'' +
                 ", geohash='" + geohash + '\'' +
