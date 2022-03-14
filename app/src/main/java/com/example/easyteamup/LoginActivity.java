@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import com.example.easyteamup.ViewProfileActivity;
+import com.example.easyteamup.SignUpActivity;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -59,6 +61,7 @@ public class LoginActivity extends AppCompatActivity {
         signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                invalid.setVisibility(View.INVISIBLE);
                 loadingBar.setVisibility(View.VISIBLE);
 
                 Intent signup = new Intent(LoginActivity.this, SignUpActivity.class);
