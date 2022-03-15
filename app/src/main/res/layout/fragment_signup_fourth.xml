@@ -4,60 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:context=".FirstSignUpFragment"
     android:orientation="vertical"
-    tools:context=".SecondSignUpFragment">
-
+    >
     <EditText
-        android:id="@+id/first_name_text"
-        android:layout_width="110dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        android:layout_marginLeft="80dp"
-        android:layout_marginTop="120dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:hint="@string/fname"
-        android:backgroundTint="@color/white"
-        android:textColor="@color/white"
-        android:textColorHint="@color/transparent_white"
-        android:fontFamily="@font/rubik_light_italic"
-        android:singleLine="true"
-        />
-
-    <EditText
-        android:id="@+id/last_name_text"
-        android:layout_width="110dp"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="80dp"
-        android:layout_marginTop="120dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:hint="@string/lname"
-        android:backgroundTint="@color/white"
-        android:textColor="@color/white"
-        android:textColorHint="@color/transparent_white"
-        android:fontFamily="@font/rubik_light_italic"
-        android:singleLine="true"
-        />
-
-    <EditText
-        android:id="@+id/phone_text"
+        android:id="@+id/bio_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
         android:layout_marginLeft="80dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="120dp"
         android:layout_marginRight="80dp"
-        android:layout_marginBottom="159dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/first_name_text"
-        android:hint="@string/phone"
+        app:layout_constraintTop_toTopOf="parent"
+        android:hint="@string/bio"
         android:backgroundTint="@color/white"
         android:textColor="@color/white"
         android:textColorHint="@color/transparent_white"
         android:fontFamily="@font/rubik_light_italic"
-        android:inputType="phone"
+
         />
 
     <ImageButton
@@ -72,7 +38,7 @@
         android:rotation="180"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/phone_text"
+        app:layout_constraintTop_toBottomOf="@+id/bio_text"
         />
 
     <ImageButton
@@ -86,6 +52,6 @@
         android:background="@drawable/white_arrow"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/phone_text"
+        app:layout_constraintTop_toBottomOf="@+id/bio_text"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>

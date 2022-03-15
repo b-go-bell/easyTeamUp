@@ -23,6 +23,7 @@
         android:textColor="@color/white"
         android:textColorHint="@color/transparent_white"
         android:fontFamily="@font/rubik_light_italic"
+        android:inputType="textEmailAddress"
         />
 
     <EditText
@@ -43,6 +44,7 @@
         android:textColor="@color/white"
         android:textColorHint="@color/transparent_white"
         android:fontFamily="@font/rubik_light_italic"
+        android:inputType="textPassword"
         />
 
     <ImageButton

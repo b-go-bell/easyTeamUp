@@ -51,9 +51,9 @@ public class SignUpActivity extends AppCompatActivity implements SignUpInterface
 
     public void onFirstContinue(String email, String psd) {
         loadingBar.setVisibility(View.VISIBLE);
+
         user.setEmail(email);
         password = psd;
-
         fragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, SecondSignUpFragment.class, null)
                 .setReorderingAllowed(true)
@@ -62,17 +62,15 @@ public class SignUpActivity extends AppCompatActivity implements SignUpInterface
         loadingBar.setVisibility(View.INVISIBLE);
     }
 
-    public void onSecondContinue(boolean back, String firstName, String lastName, String phone){
+    public void onSecondContinue(boolean back, String firstName, String lastName, long phone){
         loadingBar.setVisibility(View.VISIBLE);
-
-        user.setFirstName(firstName);
-        user.setLastName(lastName);
-        // user.setPhone(phone);
-
-        if (back){
+        if (back) {
             fragmentManager.popBackStack();
         }
         else {
+            user.setFirstName(firstName);
+            user.setLastName(lastName);
+            user.setPhone(phone);
             fragmentManager.beginTransaction()
                     .replace(R.id.fragment_container, ThirdSignUpFragment.class, null)
                     .setReorderingAllowed(true)
@@ -82,12 +80,41 @@ public class SignUpActivity extends AppCompatActivity implements SignUpInterface
         loadingBar.setVisibility(View.INVISIBLE);
     }
 
-    public void onThirdContinue(boolean back, String major, String year){
+    public void onThirdContinue(boolean back, String major, int year){
+        loadingBar.setVisibility(View.VISIBLE);
 
+        user.setMajor(major);
+        user.setGraduationYear(year);
+
+        if (back){
+            fragmentManager.popBackStack();
+        }
+        else {
+            fragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, FourthSignUpFragment.class, null)
+                    .setReorderingAllowed(true)
+                    .addToBackStack("fourth fragment")
+                    .commit();
+        }
+        loadingBar.setVisibility(View.INVISIBLE);
     }
 
     public void onFourthContinue(boolean back, String bio){
+        loadingBar.setVisibility(View.VISIBLE);
 
+        user.setBio(bio);
+
+        if (back){
+            fragmentManager.popBackStack();
+        }
+        else {
+            fragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, FifthSignUpFragment.class, null)
+                    .setReorderingAllowed(true)
+                    .addToBackStack("fifth fragment")
+                    .commit();
+        }
+        loadingBar.setVisibility(View.INVISIBLE);
     }
 
     public void onFifthSubmit(boolean back, String image){

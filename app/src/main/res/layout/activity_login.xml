@@ -34,6 +34,7 @@
         android:textColor="@color/white"
         android:textColorHint="@color/transparent_white"
         android:fontFamily="@font/rubik_light_italic"
+        android:inputType="textEmailAddress"
         />
 
     <EditText
@@ -54,6 +55,7 @@
         android:textColor="@color/white"
         android:textColorHint="@color/transparent_white"
         android:fontFamily="@font/rubik_light_italic"
+        android:inputType="textPassword"
         />
 
     <Button
@@ -83,10 +85,11 @@
         android:layout_marginTop="0dp"
         android:layout_marginRight="50dp"
         android:indeterminateTint="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/signup_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/password_text"/>
+        app:layout_constraintTop_toBottomOf="@+id/submit_button"/>
+
 
     <TextView
         android:id="@+id/bad_login"
@@ -96,15 +99,15 @@
         android:layout_marginLeft="60dp"
         android:layout_marginTop="0dp"
         android:layout_marginRight="60dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/password_text"
         android:fontFamily="@font/rubik_bold_italic"
         android:gravity="center_horizontal"
         android:text="@string/invalid_message"
-        android:textColor="@color/gray"/>
-
+        android:textColor="@color/gray"
+        app:layout_constraintBottom_toTopOf="@+id/signup_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/submit_button"
+         />
 
     <Button
         android:id="@+id/signup_button"

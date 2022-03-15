@@ -45,7 +45,13 @@ public class SecondSignUpFragment extends Fragment {
             public void onClick(View v) {
                 String firstName = firstNameText.getText().toString();
                 String lastName = lastNameText.getText().toString();
-                String phone = phoneText.getText().toString();
+                long phone;
+                try {
+                    phone = Long.parseLong(phoneText.getText().toString()) ;
+                }
+                catch (NumberFormatException nfe){
+                    phone = 0;
+                }
 
                 mCallback.onSecondContinue(false, firstName, lastName, phone);
             }
@@ -53,7 +59,7 @@ public class SecondSignUpFragment extends Fragment {
 
         backButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                mCallback.onSecondContinue(true, null, null, null);
+                mCallback.onSecondContinue(true, null, null, 0);
             }
         });
         return v;
