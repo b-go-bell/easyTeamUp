@@ -20,6 +20,7 @@
     <string name="major">university major</string>
     <string name="year">graduation year</string>
     <string name="bio">write a short bio describing yourself…</string>
+    <string name="photo">click the icon to upload a profile photo…</string>
     <string name="invalid_message">Invalid username-password combination; please try again!</string>
     <string name="login_failed">"Login failed"</string>
 

@@ -4,10 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 public class SignUpActivity extends AppCompatActivity implements SignUpInterface {
 
@@ -16,6 +21,7 @@ public class SignUpActivity extends AppCompatActivity implements SignUpInterface
     private ProgressBar loadingBar;
     private Button loginButton;
     FragmentManager fragmentManager;
+    StorageReference storageReference;
 
 
     @Override
@@ -117,7 +123,19 @@ public class SignUpActivity extends AppCompatActivity implements SignUpInterface
         loadingBar.setVisibility(View.INVISIBLE);
     }
 
-    public void onFifthSubmit(boolean back, String image){
+    public void onFifthSubmit(boolean back, Uri image){
+        loadingBar.setVisibility(View.VISIBLE);
 
+        if(back){
+            fragmentManager.popBackStack();
+            loadingBar.setVisibility(View.INVISIBLE);
+        }
+        else {
+            /*
+                SET IMAGE IN FIREBASE STORAGE
+             */
+            Intent viewProfile = new Intent(SignUpActivity.this, ViewProfileActivity.class);
+            startActivity(viewProfile);
+        }
     }
 }
