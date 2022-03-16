@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FirstSignUpFragment"
+    android:orientation="vertical"
+    >
+
+    <ImageView
+        android:id="@+id/profile_photo"
+        android:layout_width="200dp"
+        android:layout_height="180dp"
+        android:layout_gravity="start"
+        android:layout_marginLeft="80dp"
+        android:layout_marginRight="80dp"
+        app:cardCornerRadius="50dp"
+        android:src="@drawable/user"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:backgroundTint="@color/white"
+        />
+
+    <TextView
+        android:id="@+id/image_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginLeft="80dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginRight="80dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_photo"
+        android:text="@string/photo"
+        android:textColor="@color/white"
+        android:fontFamily="@font/rubik_light_italic"
+        android:textSize="14sp"
+        />
+
+    <ImageButton
+        android:id="@+id/back_button"
+        android:layout_width="63dp"
+        android:layout_height="39dp"
+        android:layout_gravity="start"
+        android:layout_marginLeft="100dp"
+        android:layout_marginRight="210dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/white_arrow"
+        android:rotation="180"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image_text"
+        />
+
+    <Button
+        android:id="@+id/submit_button"
+        android:layout_width="90dp"
+        android:layout_height="45dp"
+        android:layout_gravity="start"
+        android:layout_marginLeft="210dp"
+        android:layout_marginRight="100dp"
+        android:layout_marginTop="37dp"
+        android:backgroundTint="@color/white"
+        android:enabled="true"
+        android:fontFamily="@font/rubik_medium"
+        android:textSize="12sp"
+        android:minHeight="0dp"
+        android:minWidth="0dp"
+        android:text="@string/signup"
+        android:textColor="@color/gray"
+        app:layout_constraintTop_toBottomOf="@+id/image_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

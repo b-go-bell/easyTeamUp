@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import com.example.easyteamup.SignUpActivity;
+import com.example.easyteamup.LoginActivity;
 
 public class StartActivity extends AppCompatActivity {
 

@@ -8,10 +8,22 @@
     <string name="signup">Sign Up</string>
     <string name="signup_underline"><u>Sign Up</u></string>
     <string name="login">Login</string>
+    <string name="login_underline"><u>Login</u></string>
 
     <!-- Strings related to Login and Signup Activities -->
     <string name="username">username</string>
+    <string name="email">email</string>
     <string name="password">password</string>
+    <string name="fname">first name</string>
+    <string name="lname">last name</string>
+    <string name="phone">phone number</string>
+    <string name="major">university major</string>
+    <string name="year">graduation year</string>
+    <string name="bio">write a short bio describing yourself…</string>
+    <string name="photo">click the icon to upload a profile photo…</string>
     <string name="invalid_message">Invalid username-password combination; please try again!</string>
     <string name="login_failed">"Login failed"</string>
+
+
+
 </resources>
