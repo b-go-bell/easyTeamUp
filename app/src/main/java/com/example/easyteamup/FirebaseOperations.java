@@ -1,5 +1,7 @@
 package com.example.easyteamup;
 
+import android.net.Uri;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -7,6 +9,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,11 +21,13 @@ import java.util.Map;
 public class FirebaseOperations {
     FirebaseAuth auth;
     FirebaseFirestore db;
+    StorageReference storage;
     FirebaseUser authenticatedUser;
 
     public FirebaseOperations() {
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+        storage = FirebaseStorage.getInstance().getReference();
     }
 
     /**
@@ -71,6 +77,40 @@ public class FirebaseOperations {
             }
             else bc.isTrue(false);
         });
+    }
+
+    /**
+     * Will upload a profile picture to Firebase storage for the user. The
+     * URL will be profile_pictures/[uid].jpg. Note: uploading a new photo
+     * will replace the old photo.
+     * @param uid The user who's profile is being updated
+     * @param imageUri The valid uri leading to the image being uploaded
+     * @return bc will contain true if the file was succesfully updated, false
+     *         otherwise
+     */
+    public void uploadProfilePhoto(String uid, Uri imageUri, BooleanCallback bc){
+        StorageReference fileRef = storage.child("profile_pictures/"+ uid+".jpg");
+        fileRef.putFile(imageUri).addOnCompleteListener(task -> {
+            bc.isTrue(task.isComplete());
+        });
+    }
+
+    /**
+     * Gets the download link to a user's profile photo
+     * @param uid
+     * @return uriObject is a Uri containing the download url for the
+     * profile photo with corresponding userId, or will throw a
+     * StorageException if no photo exists
+     */
+    public void getProfilePhoto(String uid, ObjectCallback uriObject){
+        StorageReference fileRef = storage.child("profile_pictures/"+ uid+".jpg");
+        fileRef.getDownloadUrl()
+                .addOnSuccessListener(uri ->{
+                    uriObject.result(uri);
+                })
+                .addOnFailureListener(exception ->{
+                    uriObject.result(null);
+                });
     }
 
     /**
@@ -355,7 +395,7 @@ public class FirebaseOperations {
                         //change user invitation status
                         Task<Void> updateUserInvitation = db.collection("users")
                                 .document(uid)
-                                .update("invitedEvents."+eventId, "accepted");
+                                .update("invitedEvents." + eventId, "accepted");
 
                         //change event invitation status
                         Task<Void> updateEventInvitation = db.collection("events")
