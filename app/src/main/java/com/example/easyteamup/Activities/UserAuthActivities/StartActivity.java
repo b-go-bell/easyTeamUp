@@ -1,4 +1,4 @@
-package com.example.easyteamup.Activities;
+package com.example.easyteamup.Activities.UserAuthActivities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 
-import com.example.easyteamup.Activities.SignUpActivityFolder.SignUpActivity;
+import com.example.easyteamup.Activities.UserAuthActivities.SignUpActivityFolder.SignUpActivity;
 import com.example.easyteamup.R;
 
 public class StartActivity extends AppCompatActivity {

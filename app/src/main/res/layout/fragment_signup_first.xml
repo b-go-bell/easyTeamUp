@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.SignUpActivityFolder.FirstSignUpFragment"
+    tools:context=".Activities.UserAuthActivities.SignUpActivityFolder.FirstSignUpFragment"
     android:orientation="vertical"
     >
     <EditText
@@ -55,6 +55,19 @@
         android:layout_marginRight="100dp"
         android:layout_marginTop="40dp"
         android:background="@drawable/white_arrow"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/password_text"
+        />
+    <ImageButton
+        android:id="@+id/continue_button_transparent"
+        android:layout_width="63dp"
+        android:layout_height="39dp"
+        android:layout_gravity="start"
+        android:layout_marginLeft="100dp"
+        android:layout_marginRight="100dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/transparent_arrow"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password_text"

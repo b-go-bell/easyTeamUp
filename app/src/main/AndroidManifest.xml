@@ -13,13 +13,13 @@
             android:name=".Activities.ViewProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.SignUpActivityFolder.SignUpActivity"
+            android:name=".Activities.UserAuthActivities.SignUpActivityFolder.SignUpActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.LoginActivity"
+            android:name=".Activities.UserAuthActivities.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.StartActivity"
+            android:name=".Activities.UserAuthActivities.StartActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

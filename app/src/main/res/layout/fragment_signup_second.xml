@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Activities.SignUpActivityFolder.SecondSignUpFragment">
+    tools:context=".Activities.UserAuthActivities.SignUpActivityFolder.SecondSignUpFragment">
 
     <EditText
         android:id="@+id/first_name_text"
@@ -82,6 +82,20 @@
         android:layout_marginRight="100dp"
         android:layout_marginTop="40dp"
         android:background="@drawable/white_arrow"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/phone_text"
+        />
+
+    <ImageButton
+        android:id="@+id/continue_button_transparent"
+        android:layout_width="63dp"
+        android:layout_height="39dp"
+        android:layout_gravity="start"
+        android:layout_marginLeft="210dp"
+        android:layout_marginRight="100dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/transparent_arrow"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/phone_text"

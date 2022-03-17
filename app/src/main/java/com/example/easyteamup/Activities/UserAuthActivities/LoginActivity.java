@@ -1,4 +1,4 @@
-package com.example.easyteamup.Activities;
+package com.example.easyteamup.Activities.UserAuthActivities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,7 +10,8 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.example.easyteamup.Activities.SignUpActivityFolder.SignUpActivity;
+import com.example.easyteamup.Activities.UserAuthActivities.SignUpActivityFolder.SignUpActivity;
+import com.example.easyteamup.Activities.ViewProfileActivity;
 import com.example.easyteamup.FirebaseOperations;
 import com.example.easyteamup.R;
 
@@ -51,8 +52,10 @@ public class LoginActivity extends AppCompatActivity {
                 try {
                     fops.loginUser(username, password, bool -> {
                         if (bool){
+
                             invalid.setVisibility(View.INVISIBLE);
                             Intent viewProfile = new Intent(LoginActivity.this, ViewProfileActivity.class);
+                            //viewProfile.putExtra("uid", );
                             startActivity(viewProfile);
                         }
                         else {

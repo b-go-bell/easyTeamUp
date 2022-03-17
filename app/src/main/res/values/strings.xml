@@ -23,6 +23,11 @@
     <string name="photo">click the icon to upload a profile photo…</string>
     <string name="invalid_login">Invalid username-password combination; please try again!</string>
     <string name="invalid_signup">There was a problem signing up with this email; please try again!</string>
+    <string name="invalid_name_phone">There was a problem setting your name or phone number; please try again!</string>
+    <string name="invalid_school">There was a problem setting your major or graduation year; please try again!</string>
+    <string name="invalid_bio">There was a problem setting your personal bio; please try again!</string>
+    <string name="invalid_photo">There was a problem setting your profile photo; please try again!</string>
+    <string name="welcome">Welcome</string>
 
 
 </resources>

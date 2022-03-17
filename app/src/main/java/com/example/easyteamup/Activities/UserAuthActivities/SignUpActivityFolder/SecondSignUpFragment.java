@@ -1,7 +1,10 @@
-package com.example.easyteamup.Activities.SignUpActivityFolder;
+package com.example.easyteamup.Activities.UserAuthActivities.SignUpActivityFolder;
 
 import android.content.Context;
 import android.os.Bundle;
+
+import androidx.fragment.app.Fragment;
+
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -10,17 +13,17 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
-import androidx.fragment.app.Fragment;
-
 import com.example.easyteamup.R;
 
-public class FirstSignUpFragment extends Fragment {
+public class SecondSignUpFragment extends Fragment {
+
+    public SecondSignUpFragment() {
+    }
 
     private SignUpInterface mCallback;
-
-    private EditText usernameText, passwordText;
-    private ImageButton continueButton;
-    private boolean usr, psd;
+    private EditText firstNameText, lastNameText, phoneText;
+    private ImageButton backButton, continueButton, transContinueButton;
+    private boolean first, last;
 
     @Override
     public void onAttach(Context context) {
@@ -34,15 +37,20 @@ public class FirstSignUpFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_signup_first, container, false);
+        View v = inflater.inflate(R.layout.fragment_signup_second, container, false);
 
-        usernameText = (EditText) v.findViewById(R.id.username_text);
-        passwordText = (EditText) v.findViewById(R.id.password_text);
+
+        firstNameText = (EditText) v.findViewById(R.id.first_name_text);
+        lastNameText = (EditText) v.findViewById(R.id.last_name_text);
+        phoneText = (EditText) v.findViewById(R.id.phone_text);
+        transContinueButton = (ImageButton) v.findViewById(R.id.continue_button_transparent);
         continueButton = (ImageButton) v.findViewById(R.id.continue_button);
+        backButton = (ImageButton) v.findViewById(R.id.back_button);
+        transContinueButton.setEnabled(false);
         continueButton.setEnabled(false);
         continueButton.setVisibility(View.INVISIBLE);
 
-        usernameText.addTextChangedListener(new TextWatcher() {
+        firstNameText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
@@ -51,15 +59,16 @@ public class FirstSignUpFragment extends Fragment {
                 if (s.toString().equals("")) {
                     continueButton.setEnabled(false);
                     continueButton.setVisibility(View.INVISIBLE);
-                    usr = false;
+                    first = false;
 
                 } else {
-                    usr = true;
+                    first = true;
                 }
 
-                if(usr && psd){
+                if(first && last){
                     continueButton.setEnabled(true);
                     continueButton.setVisibility(View.VISIBLE);
+                    transContinueButton.setVisibility(View.INVISIBLE);
                 }
             }
 
@@ -67,7 +76,7 @@ public class FirstSignUpFragment extends Fragment {
             public void afterTextChanged(Editable editable) {}
         });
 
-        passwordText.addTextChangedListener(new TextWatcher() {
+        lastNameText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
@@ -76,29 +85,42 @@ public class FirstSignUpFragment extends Fragment {
                 if (s.toString().equals("")) {
                     continueButton.setEnabled(false);
                     continueButton.setVisibility(View.INVISIBLE);
-                    psd = false;
+                    last = false;
 
                 } else {
-                    psd = true;
+                    last = true;
                 }
 
-                if(usr && psd){
+                if(first && last){
                     continueButton.setEnabled(true);
                     continueButton.setVisibility(View.VISIBLE);
+                    transContinueButton.setVisibility(View.INVISIBLE);
                 }
             }
 
             @Override
             public void afterTextChanged(Editable editable) {}
         });
-
 
         continueButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                String username = usernameText.getText().toString();
-                String password = passwordText.getText().toString();
+                String firstName = firstNameText.getText().toString();
+                String lastName = lastNameText.getText().toString();
+                long phone;
+                try {
+                    phone = Long.parseLong(phoneText.getText().toString()) ;
+                }
+                catch (NumberFormatException nfe){
+                    phone = 0;
+                }
 
-                mCallback.onFirstContinue(username, password);
+                mCallback.onSecondContinue(false, firstName, lastName, phone);
+            }
+        });
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                mCallback.onSecondContinue(true, null, null, 0);
             }
         });
         return v;

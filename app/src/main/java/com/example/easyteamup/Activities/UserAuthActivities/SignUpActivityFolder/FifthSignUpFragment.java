@@ -1,4 +1,4 @@
-package com.example.easyteamup.Activities.SignUpActivityFolder;
+package com.example.easyteamup.Activities.UserAuthActivities.SignUpActivityFolder;
 
 import android.content.Context;
 import android.net.Uri;

@@ -1,8 +1,6 @@
-package com.example.easyteamup.Activities.SignUpActivityFolder;
+package com.example.easyteamup.Activities.UserAuthActivities.SignUpActivityFolder;
 
 import android.net.Uri;
-
-import com.example.easyteamup.User;
 
 public interface SignUpInterface {
     public void onFirstContinue(String email, String psd);
