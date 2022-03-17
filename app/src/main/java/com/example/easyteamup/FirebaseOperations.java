@@ -440,11 +440,35 @@ public class FirebaseOperations {
                     }
                 });
 
-
-        //if invited, update users invite status
-        //if invited, update events user status
     }
 
+
+
+
+    public void rejectEventInvitation(String uid, String eventId, BooleanCallback bc) {
+        db.collection("events")
+                .document(eventId)
+                .collection("invitedUsers")
+                .document(uid)
+                .update("status", "rejected")
+                .addOnSuccessListener(Void -> {
+                    db.collection("users")
+                            .document(uid)
+                            .update("invitedEvents." + eventId, "rejected")
+                            .addOnSuccessListener(Void2 -> {
+                                bc.isTrue(true);
+                            })
+                            .addOnFailureListener(Void2 -> {
+                                bc.isTrue(false);
+                                throw new ArrayStoreException("Invitation exists for Event but not User");
+                            });
+                })
+                .addOnFailureListener(e -> {
+                    System.out.println("ERROR!: " + e);
+                    bc.isTrue(false);
+                    throw new ArrayIndexOutOfBoundsException("User invitation does not exits");
+                });
+    }
 
     //to be deleted - this is just for debugging purposes
     public void loadSampleUsers() {
