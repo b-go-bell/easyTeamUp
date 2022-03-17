@@ -443,8 +443,15 @@ public class FirebaseOperations {
     }
 
 
-
-
+    /**
+     * Serves as a method for a user to reject an invitation they have received
+     * to a specific event
+     * @param uid
+     * @param eventId
+     * @throws ArrayIndexOutOfBoundsException if an invitation corresponding to
+     *         the provided user and event doesn't exist
+     * @return bc returns true if event rejection was succesful
+     */
     public void rejectEventInvitation(String uid, String eventId, BooleanCallback bc) {
         db.collection("events")
                 .document(eventId)
