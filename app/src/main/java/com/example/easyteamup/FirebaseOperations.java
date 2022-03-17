@@ -80,6 +80,24 @@ public class FirebaseOperations {
     }
 
     /**
+     * Get the currently logged in User's uid
+     * @return the uid of the currently logged in user, and null if no user
+     * is logged in
+     */
+    public String getLoggedInUserId() {
+        if (authenticatedUser != null){
+            return authenticatedUser.getUid();
+        }
+        else {
+            return null;
+        }
+    }
+
+    public void signOut() {
+        auth.signOut();
+    }
+
+    /**
      * Will upload a profile picture to Firebase storage for the user. The
      * URL will be profile_pictures/[uid].jpg. Note: uploading a new photo
      * will replace the old photo.
