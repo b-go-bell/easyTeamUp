@@ -1,4 +1,4 @@
-package com.example.easyteamup;
+package com.example.easyteamup.Activities.SignUpActivityFolder;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -11,6 +11,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import androidx.fragment.app.Fragment;
+
+import com.example.easyteamup.R;
 
 public class FirstSignUpFragment extends Fragment {
 

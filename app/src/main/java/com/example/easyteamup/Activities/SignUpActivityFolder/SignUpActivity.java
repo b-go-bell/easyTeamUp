@@ -1,4 +1,4 @@
-package com.example.easyteamup;
+package com.example.easyteamup.Activities.SignUpActivityFolder;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
@@ -6,15 +6,18 @@ import androidx.fragment.app.FragmentManager;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
+import com.example.easyteamup.Activities.LoginActivity;
+import com.example.easyteamup.Activities.ViewProfileActivity;
+import com.example.easyteamup.BooleanCallback;
+import com.example.easyteamup.FirebaseOperations;
+import com.example.easyteamup.R;
+import com.example.easyteamup.User;
 
 public class SignUpActivity extends AppCompatActivity implements SignUpInterface {
 

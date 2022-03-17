@@ -1,8 +1,10 @@
-package com.example.easyteamup;
+package com.example.easyteamup.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.easyteamup.R;
 
 public class ViewProfileActivity extends AppCompatActivity {
 
