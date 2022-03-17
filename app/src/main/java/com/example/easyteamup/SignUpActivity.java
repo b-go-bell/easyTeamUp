@@ -7,9 +7,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -20,8 +22,9 @@ public class SignUpActivity extends AppCompatActivity implements SignUpInterface
     private String password;
     private ProgressBar loadingBar;
     private Button loginButton;
+    private TextView invalid;
     FragmentManager fragmentManager;
-    StorageReference storageReference;
+    FirebaseOperations fops;
 
 
     @Override
@@ -33,6 +36,8 @@ public class SignUpActivity extends AppCompatActivity implements SignUpInterface
         loginButton = (Button) findViewById(R.id.login_button);
         loadingBar = (ProgressBar) findViewById(R.id.loading);
         loadingBar.setVisibility(View.INVISIBLE);
+        invalid = (TextView) findViewById(R.id.bad_signup);
+        invalid.setVisibility(View.INVISIBLE);
 
         user = new User();
         fragmentManager = getSupportFragmentManager();
@@ -60,12 +65,26 @@ public class SignUpActivity extends AppCompatActivity implements SignUpInterface
 
         user.setEmail(email);
         password = psd;
-        fragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, SecondSignUpFragment.class, null)
-                .setReorderingAllowed(true)
-                .addToBackStack("second fragment")
-                .commit();
-        loadingBar.setVisibility(View.INVISIBLE);
+
+        Log.d("Null check", String.valueOf(user));
+        Log.d("Null check", password);
+
+        fops.registerUser(user, password, new BooleanCallback() {
+            @Override
+            public void isTrue(boolean bool) {
+                if (bool) {
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.fragment_container, SecondSignUpFragment.class, null)
+                            .setReorderingAllowed(true)
+                            .addToBackStack("second fragment")
+                            .commit();
+                    loadingBar.setVisibility(View.INVISIBLE);
+                } else {
+                    loadingBar.setVisibility(View.INVISIBLE);
+                    invalid.setVisibility(View.VISIBLE);
+                }
+            }
+        });
     }
 
     public void onSecondContinue(boolean back, String firstName, String lastName, long phone){

@@ -2,6 +2,8 @@ package com.example.easyteamup;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,7 @@ public class FirstSignUpFragment extends Fragment {
 
     private EditText usernameText, passwordText;
     private ImageButton continueButton;
+    private boolean usr, psd;
 
     @Override
     public void onAttach(Context context) {
@@ -34,6 +37,59 @@ public class FirstSignUpFragment extends Fragment {
         usernameText = (EditText) v.findViewById(R.id.username_text);
         passwordText = (EditText) v.findViewById(R.id.password_text);
         continueButton = (ImageButton) v.findViewById(R.id.continue_button);
+        continueButton.setEnabled(false);
+        continueButton.setVisibility(View.INVISIBLE);
+
+        usernameText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().equals("")) {
+                    continueButton.setEnabled(false);
+                    continueButton.setVisibility(View.INVISIBLE);
+                    usr = false;
+
+                } else {
+                    usr = true;
+                }
+
+                if(usr && psd){
+                    continueButton.setEnabled(true);
+                    continueButton.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {}
+        });
+
+        passwordText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().equals("")) {
+                    continueButton.setEnabled(false);
+                    continueButton.setVisibility(View.INVISIBLE);
+                    psd = false;
+
+                } else {
+                    psd = true;
+                }
+
+                if(usr && psd){
+                    continueButton.setEnabled(true);
+                    continueButton.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {}
+        });
+
 
         continueButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

@@ -41,6 +41,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fragment_container"/>
 
+    <TextView
+        android:id="@+id/bad_signup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginLeft="60dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginRight="60dp"
+        android:fontFamily="@font/rubik_bold_italic"
+        android:gravity="center_horizontal"
+        android:text="@string/invalid_signup"
+        android:textColor="@color/gray"
+        app:layout_constraintBottom_toTopOf="@+id/login_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fragment_container"
+        />
+
 
     <Button
         android:id="@+id/login_button"

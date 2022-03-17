@@ -40,21 +40,29 @@ public class LoginActivity extends AppCompatActivity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                invalid.setVisibility(View.INVISIBLE);
                 loadingBar.setVisibility(View.VISIBLE);
 
                 String username = usernameText.getText().toString();
                 String password = passwordText.getText().toString();
-                fops.loginUser(username, password, bool -> {
-                    if (bool){
-                        invalid.setVisibility(View.INVISIBLE);
-                        Intent viewProfile = new Intent(LoginActivity.this, ViewProfileActivity.class);
-                        startActivity(viewProfile);
-                    }
-                    else {
-                        loadingBar.setVisibility(View.INVISIBLE);
-                        invalid.setVisibility(View.VISIBLE);
-                    }
-                });
+
+                try {
+                    fops.loginUser(username, password, bool -> {
+                        if (bool){
+                            invalid.setVisibility(View.INVISIBLE);
+                            Intent viewProfile = new Intent(LoginActivity.this, ViewProfileActivity.class);
+                            startActivity(viewProfile);
+                        }
+                        else {
+                            loadingBar.setVisibility(View.INVISIBLE);
+                            invalid.setVisibility(View.VISIBLE);
+                        }
+                    });
+                }
+                catch(IllegalArgumentException iae){
+                    loadingBar.setVisibility(View.INVISIBLE);
+                    invalid.setVisibility(View.VISIBLE);
+                }
             }
         });
 
