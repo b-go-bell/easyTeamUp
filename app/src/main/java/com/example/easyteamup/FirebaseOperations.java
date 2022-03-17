@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -380,16 +381,57 @@ public class FirebaseOperations {
     }
 
     /**
+     * Updates the availability of a user already registered for an event.
+     * @param uid
+     * @param eventId
+     * @param availability The time availability of of a user who is registering.
+     *                    Here is what the keys and values look kinda like:
+     *                    Map<"Day", List<Map<["startDate"/"endDate"],actual time>>>.
+     *                    A null argument here is equivalent to 0 availability.
+     * @param bc Will return false if uid is not registered for eventId or for
+     *           any other failure, true otherwise
+     */
+    public void updateUserAvailability(String uid, String eventId, Map<String, List<Map<String, String>>> availability, BooleanCallback bc){
+        //ensure user is RSVPed for Event
+        DocumentReference eventRef = db.collection("events")
+                .document(eventId);
+
+        eventRef.collection("rsvpedUsers")
+                .document(uid)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()){
+                        db.collection("events")
+                                .document(eventId)
+                                .collection("userAvailabilities")
+                                .document(uid)
+                                .set(availability != null ? availability : new HashMap<>())
+                                .addOnCompleteListener(task -> {
+                                    bc.isTrue(task.isSuccessful());
+                                });
+                    }
+                    else {
+                        bc.isTrue(false);
+                    }
+                });
+
+    }
+
+    /**
      * Allows a user to register for a given event. If the user has been invited
      * to an event, this will automatically update the user's invitation status
      * to "accepted". This function should also be used for a user to "accept"
      * an invitation.
      * @param uid
      * @param eventId
+     * @param availability The time availability of of a user who is registering.
+     *                     Here is what the keys and values look kinda like:
+     *                     Map<"Day", List<Map<["startDate"/"endDate"],actual time>>>.
+     *                     A null argument here is equivalent to 0 availability.
      * @returns BooleanCallback contains true if the event registration was a success,
      *          false otherwise.
      */
-    public void RSVPforEvent(String uid, String eventId, BooleanCallback bc){
+    public void RSVPforEvent(String uid, String eventId, Map<String, List<Map<String, String>>> availability, BooleanCallback bc){
         //add event to users RSVPlist
         Task<Void> updateUserRSVP = db.collection("users")
                 .document(uid)
@@ -401,6 +443,13 @@ public class FirebaseOperations {
                 .collection("rsvpedUsers")
                 .document(uid)
                 .set(new HashMap<String, Object>());
+
+        //add userAvailabilities
+        Task<Void> addAvailabilities = db.collection("events")
+                .document(eventId)
+                .collection("userAvailabilities")
+                .document(uid)
+                .set(availability != null ? availability : new HashMap<>());
 
         //check if user has been invited
         db.collection("events")
@@ -425,18 +474,22 @@ public class FirebaseOperations {
                         while (!updateUserRSVP.isComplete()
                                 | !updateEventRSVP.isComplete()
                                 | !updateUserInvitation.isComplete()
-                                | !updateEventInvitation.isComplete());
+                                | !updateEventInvitation.isComplete()
+                                | !addAvailabilities.isComplete());
 
                         bc.isTrue(updateUserRSVP.isSuccessful()
                                 && updateEventRSVP.isSuccessful()
                                 && updateUserInvitation.isSuccessful()
-                                && updateEventInvitation.isSuccessful());
+                                && updateEventInvitation.isSuccessful()
+                                && addAvailabilities.isSuccessful());
                     }
                     else {
                         while (!updateUserRSVP.isComplete()
-                                | !updateEventRSVP.isComplete()) ;
+                                | !updateEventRSVP.isComplete()
+                                | !addAvailabilities.isComplete()) ;
                         bc.isTrue(updateUserRSVP.isSuccessful()
-                                && updateEventRSVP.isSuccessful());
+                                && updateEventRSVP.isSuccessful()
+                                && addAvailabilities.isSuccessful());
                     }
                 });
 
