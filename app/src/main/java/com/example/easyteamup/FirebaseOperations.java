@@ -189,14 +189,24 @@ public class FirebaseOperations {
      * @return BooleanCallback will be true if operation is succesful
      */
     public void setUser(User user, String uid, BooleanCallback bc) {
-        db.collection("users").document(uid).set(user).addOnCompleteListener(task -> {
-            if (task.isSuccessful()){
-                bc.isTrue(true);
-            }
-            else {
-                bc.isTrue(true);
-            }
-        });
+        db.collection("users")
+                .document(uid)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()){
+
+                        //create Map from User
+                        ObjectMapper UserToMap = new ObjectMapper();
+                        Map <String, Object> mappedUser =   UserToMap.convertValue(user, Map.class);
+                        mappedUser.remove("uid");
+
+                        db.collection("users").document(uid).set(mappedUser).addOnCompleteListener(task -> {
+                            bc.isTrue(task.isSuccessful());
+                        });
+                    }
+                });
+
+
     }
 
     /**
