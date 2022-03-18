@@ -10,6 +10,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -162,6 +163,28 @@ public class FirebaseOperations {
                 eventIdString.result(null);
             }
         });
+    }
+
+    /**
+     * Update event details. In general, the workflow for updating an event
+     * should be as follows:
+     *      - Use getEventByEventId() to get Event Object
+     *      - Create an EventDetails object using the Event Constructor:
+     *          EventDetails ed = new EventDetails(event);
+     *      - Modify that eventDetails object using getters and setters
+     *      - Use setEvent() to push those changes to firebase
+     * @param eventId corresponds to the event who's details you want to chagne
+     * @param eventDetails The newly updated EventDetails object. Note that this
+     *                     contains all of the fields that can be updated at will.
+     * @return bc returns true if the event was successfully updated
+     */
+    public void setEvent(String eventId, EventDetails eventDetails, BooleanCallback bc){
+        db.collection("events")
+                .document(eventId)
+                .set(eventDetails, SetOptions.merge())
+                .addOnCompleteListener(task -> {
+                    bc.isTrue(task.isSuccessful());
+                });
     }
 
     /**
@@ -430,7 +453,7 @@ public class FirebaseOperations {
     /**
      * Allows a user to register for a given event. If the user has been invited
      * to an event, this will automatically update the user's invitation status
-     * to "accepted". This function should also be used for a user to "accept"
+     * to "attending". This function should also be used for a user to "accept"
      * an invitation.
      * @param uid
      * @param eventId
@@ -472,14 +495,14 @@ public class FirebaseOperations {
                         //change user invitation status
                         Task<Void> updateUserInvitation = db.collection("users")
                                 .document(uid)
-                                .update("invitedEvents." + eventId, "accepted");
+                                .update("invitedEvents." + eventId, "attending");
 
                         //change event invitation status
                         Task<Void> updateEventInvitation = db.collection("events")
                                 .document(eventId)
                                 .collection("invitedUsers")
                                 .document(uid)
-                                .update("status", "accepted");
+                                .update("status", "attending");
 
                         while (!updateUserRSVP.isComplete()
                                 | !updateEventRSVP.isComplete()
