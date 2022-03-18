@@ -11,7 +11,7 @@
         android:theme="@style/Theme.EasyTeamUp">
         <activity
             android:name=".Activities.ViewProfileActivity"
-            android:exported="false" />
+            android:exported="false"/>
         <activity
             android:name=".Activities.UserAuthActivities.SignUpActivityFolder.SignUpActivity"
             android:exported="false" />

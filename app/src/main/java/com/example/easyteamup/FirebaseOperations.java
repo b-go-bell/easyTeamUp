@@ -1,6 +1,7 @@
 package com.example.easyteamup;
 
 import android.net.Uri;
+import android.util.Log;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.android.gms.tasks.Task;

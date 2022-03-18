@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -55,7 +56,8 @@ public class LoginActivity extends AppCompatActivity {
 
                             invalid.setVisibility(View.INVISIBLE);
                             Intent viewProfile = new Intent(LoginActivity.this, ViewProfileActivity.class);
-                            //viewProfile.putExtra("uid", );
+                            String uid = fops.getLoggedInUserId();
+                            viewProfile.putExtra("uid", uid);
                             startActivity(viewProfile);
                         }
                         else {

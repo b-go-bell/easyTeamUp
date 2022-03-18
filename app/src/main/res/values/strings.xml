@@ -27,7 +27,22 @@
     <string name="invalid_school">There was a problem setting your major or graduation year; please try again!</string>
     <string name="invalid_bio">There was a problem setting your personal bio; please try again!</string>
     <string name="invalid_photo">There was a problem setting your profile photo; please try again!</string>
-    <string name="welcome">Welcome</string>
 
+    <!-- Strings related to View Profile Activity -->
+    <string name="welcome">Welcome, %1$s</string>
+    <string name="invitations">My Active Invitations</string>
+    <string name="upcoming">My Upcoming Events</string>
+    <string name="profile">My Profile Information</string>
+    <string name="private_events_map">View my Private Event Invitations on the Map</string>
+    <string name="private_events_list">View my Private Event Invitations in a List</string>
+    <string name="public_events_map">View Public Events on the Map</string>
+    <string name="public_events_list">View Public Events in a List</string>
+    <string name="attending_events_map">View my RSVP\'d Events on the Map</string>
+    <string name="attending_events_list">View my RSVP\'d Events in a List</string>
+    <string name="hosted_events_map">View Events I\'m Hosting on the Map</string>
+    <string name="hosted_events_list">View Events I\'m Hosting in a List</string>
+    <string name="host_event">Host an Event</string>
+    <string name="view_history">View my Event History</string>
+    <string name="update_profile">Update my Profile</string>
 
 </resources>
