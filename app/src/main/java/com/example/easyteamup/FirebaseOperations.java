@@ -563,6 +563,30 @@ public class FirebaseOperations {
                 });
     }
 
+    /**
+     * Takes a private event, and makes it public. All invitations and RSVPs
+     * will remain unchanged.
+     * @param eventId
+     * @throws IllegalStateException when the event is already public
+     * @param bc returns true is conversion was successful, false otherwise
+     */
+    public void convertPrivateToPublic(String eventId, BooleanCallback bc){
+        getEventByEventid(eventId, eventObject -> {
+            Event event = (Event) eventObject;
+            if (!event.getIsPublic()){
+                db.collection("events")
+                        .document(eventId)
+                        .update("isPublic", true)
+                        .addOnCompleteListener(task -> {
+                            bc.isTrue(task.isSuccessful());
+                        });
+            }
+            else {
+                throw new IllegalStateException("Event " + eventId + " is already public");
+            }
+        });
+    }
+
     //to be deleted - this is just for debugging purposes
     public void loadSampleUsers() {
         User user1 = new User();
