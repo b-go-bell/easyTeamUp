@@ -10,8 +10,23 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EasyTeamUp">
         <activity
-            android:name=".Activities.ViewProfileActivity"
-            android:exported="false"/>
+            android:name=".Activities.UserHomeActivities.UpdateProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.UserHomeActivities.ViewEventAnalyticsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.CreateEventActivities.CreateEventActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.ViewEventActivities.ViewMapEventsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.ViewEventActivities.ViewListEventsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.UserHomeActivities.ViewProfileActivity"
+            android:exported="false" />
         <activity
             android:name=".Activities.UserAuthActivities.SignUpActivityFolder.SignUpActivity"
             android:exported="false" />

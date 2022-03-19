@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/blue"
-    android:padding="16dp"
-    tools:context=".Activities.SnackBarFragment">
+    android:padding="18dp"
+    tools:context=".Activities.SnackBarActivity.SnackBarFragment">
 
     <ImageButton
         android:id="@+id/public_map"

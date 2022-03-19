@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,7 +11,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.easyteamup.Activities.UserAuthActivities.SignUpActivityFolder.SignUpActivity;
-import com.example.easyteamup.Activities.ViewProfileActivity;
+import com.example.easyteamup.Activities.UserHomeActivities.ViewProfileActivity;
 import com.example.easyteamup.FirebaseOperations;
 import com.example.easyteamup.R;
 

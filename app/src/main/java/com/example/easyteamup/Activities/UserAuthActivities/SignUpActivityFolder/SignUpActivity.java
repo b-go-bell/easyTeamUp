@@ -13,7 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.easyteamup.Activities.UserAuthActivities.LoginActivity;
-import com.example.easyteamup.Activities.ViewProfileActivity;
+import com.example.easyteamup.Activities.UserHomeActivities.ViewProfileActivity;
 import com.example.easyteamup.BooleanCallback;
 import com.example.easyteamup.FirebaseOperations;
 import com.example.easyteamup.R;

@@ -215,7 +215,7 @@ public class FirebaseOperations {
      * Options are {attending, pending, rejected}
      * @param uid Represents the user who's invitations we are checking
      * @return mapObject is a Map <String, String> where the key is the eventId
-     * and and the value is the invitation status.
+     * and the value is the invitation status.
      */
     public void getInvitedEvents(String uid, ObjectCallback mapObject) {
         db.collection("users").document(uid).get().addOnCompleteListener(task -> {

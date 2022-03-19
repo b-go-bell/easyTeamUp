@@ -29,6 +29,7 @@
     <string name="invalid_photo">There was a problem setting your profile photo; please try again!</string>
 
     <!-- Strings related to View Profile Activity -->
+    <string name="w">Welcome</string>
     <string name="welcome">Welcome, %1$s</string>
     <string name="invitations">My Active Invitations</string>
     <string name="upcoming">My Upcoming Events</string>
@@ -44,5 +45,7 @@
     <string name="host_event">Host an Event</string>
     <string name="view_history">View my Event History</string>
     <string name="update_profile">Update my Profile</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
