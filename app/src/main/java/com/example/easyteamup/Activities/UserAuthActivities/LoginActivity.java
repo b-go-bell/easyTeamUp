@@ -11,7 +11,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.easyteamup.Activities.UserAuthActivities.SignUpActivityFolder.SignUpActivity;
-import com.example.easyteamup.Activities.ViewProfileActivity;
+import com.example.easyteamup.Activities.UserHomeActivities.ViewProfileActivity;
 import com.example.easyteamup.FirebaseOperations;
 import com.example.easyteamup.R;
 
@@ -55,7 +55,8 @@ public class LoginActivity extends AppCompatActivity {
 
                             invalid.setVisibility(View.INVISIBLE);
                             Intent viewProfile = new Intent(LoginActivity.this, ViewProfileActivity.class);
-                            //viewProfile.putExtra("uid", );
+                            String uid = fops.getLoggedInUserId();
+                            viewProfile.putExtra("uid", uid);
                             startActivity(viewProfile);
                         }
                         else {

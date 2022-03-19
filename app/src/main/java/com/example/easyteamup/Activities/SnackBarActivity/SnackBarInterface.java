@@ -1,4 +1,4 @@
-package com.example.easyteamup.Activities;
+package com.example.easyteamup.Activities.SnackBarActivity;
 
 public interface SnackBarInterface {
     public void viewPublicMapEvents();
