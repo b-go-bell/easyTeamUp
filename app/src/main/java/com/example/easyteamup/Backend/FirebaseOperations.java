@@ -249,12 +249,16 @@ public class FirebaseOperations {
      * @param uid Represents the user who's invitations we are checking
      * @return mapObject is a Map <String, String> where the key is the eventId
      * and the value is the invitation status.
+     * @throws NullPointerException when there are no invited events or
+     * an error with Firestore
      */
     public void getInvitedEvents(String uid, ObjectCallback mapObject) {
         db.collection("users").document(uid).get().addOnCompleteListener(task -> {
             if (task.isSuccessful()){
                 Map<String, Object> userInfo = task.getResult().getData();
-                mapObject.result(userInfo.get("invitedEvents"));
+                Object res = userInfo.get("invitedEvents");
+                if (res == null) throw new NullPointerException("User doesn't have any invited events");
+                mapObject.result(res);
             }
             else{
                 mapObject.result(null);
@@ -267,12 +271,16 @@ public class FirebaseOperations {
      * @param uid Represents the user who's invitations we are checking
      * @return listObject is a List<String> containing eventsIds for all events that
      * the user has RSVPed for and confirmed that they will attend.
+     * @throws NullPointerException when there are no RSVPed events or
+     * an error with Firestore
      */
     public void getRSVPedEvents(String uid, ObjectCallback listObject) {
         db.collection("users").document(uid).get().addOnCompleteListener(task -> {
             if (task.isSuccessful()){
                 Map<String, Object> userInfo = task.getResult().getData();
-                listObject.result(userInfo.get("rsvpedEvents"));
+                Object res = userInfo.get("rsvpedEvents");
+                if (res == null) throw new NullPointerException("User doesn't have any RSVPed events");
+                listObject.result(res);
             }
             else{
                 listObject.result(null);
@@ -286,6 +294,8 @@ public class FirebaseOperations {
      * @param uid
      * @return listObject is a List<String> containing eventIds for all events that the users
      * has RSVPed for and confirmed that they will attend.
+     * @throws NullPointerException when there are no past events or
+     * an error with Firestore
      */
     public void getPastEvents(String uid, ObjectCallback listObject) {
         db.collection("users").document(uid).collection("pastEvents").get().addOnCompleteListener(task-> {
@@ -294,12 +304,40 @@ public class FirebaseOperations {
                 for (QueryDocumentSnapshot document: task.getResult()){
                     invitedEvents.add(document.getId());
                 }
+                if (invitedEvents == null) throw new NullPointerException("User doesn't have any past events");
                 listObject.result(invitedEvents);
             }
             else {
                 listObject.result(null);
             }
         });
+    }
+
+
+    /**
+     * Returns events that the user is set to be hosting (but haven't
+     * yet passed).
+     * @param uid
+     * @return listObject is a List<String> containing eventIds that the
+     * user has hosted.
+     * @throws NullPointerException when there are no hosted events or
+     * an error with Firestore
+     */
+    public void getHostedEvents(String uid, ObjectCallback listObject) {
+        db.collection("users")
+                .document(uid)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    Object res = documentSnapshot.getData().get("hostedEvents");
+                    if (res == null) {
+                        throw new NullPointerException("User doesn't have any hosted events");
+                    }
+                    listObject.result(res);
+                })
+                .addOnFailureListener(e -> {
+                    throw new NullPointerException("Firebase error");
+                });
+
     }
 
     /**
