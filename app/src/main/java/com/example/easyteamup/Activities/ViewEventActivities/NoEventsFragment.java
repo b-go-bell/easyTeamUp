@@ -77,10 +77,13 @@ public class NoEventsFragment extends Fragment {
                 noEvents.setText(R.string.no_rsvps);
             browsePublicLeft.setVisibility(View.VISIBLE);
             viewInvitationsRight.setVisibility(View.VISIBLE);
-            if(map)
+            if(map){
                 browsePublicLeft.setText(R.string.browse_public_events_map);
-            else
+                viewInvitationsRight.setText(R.string.view_invited_events_map);
+            } else{
                 browsePublicLeft.setText(R.string.browse_public_events_list);
+                viewInvitationsRight.setText(R.string.view_invited_events_list);
+            }
             browsePublicLeft.setEnabled(true);
             viewInvitationsRight.setEnabled(true);
 
