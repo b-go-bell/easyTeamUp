@@ -69,12 +69,12 @@ public class ViewListEventsActivity extends AppCompatActivity implements ViewEve
     public void getEvents() {
         if(event_type.equals("invited")) { //displays events user is invited to, regardless of status
             fops.getInvitedEvents(uid, listObject -> {
-                try {
+                try{
                     Map<String, String> mapEvents = (Map<String, String>) listObject;
-                    ArrayList<Pair<String, String>>  events = new ArrayList<>();
+                    ArrayList<Pair<String, String>> events = new ArrayList<>();
 
                     Iterator<Map.Entry<String, String>> it = mapEvents.entrySet().iterator();
-                    while(it.hasNext()){
+                    while (it.hasNext()) {
                         Map.Entry<String, String> event = it.next();
                         String eid = event.getKey();
                         String status = event.getValue();
@@ -109,7 +109,7 @@ public class ViewListEventsActivity extends AppCompatActivity implements ViewEve
             fops.getRSVPedEvents(uid, listObject -> {
                 try {
                     List<String> events = (List<String>) listObject;
-                    for(int i = 0; i < events.size(); i++){
+                    for (int i = 0; i < events.size(); i++) {
                         String eid = events.get(i);
                         Log.d("location", "attending has items");
                         Bundle bundle = new Bundle();

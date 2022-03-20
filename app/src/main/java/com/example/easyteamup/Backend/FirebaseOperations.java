@@ -257,7 +257,6 @@ public class FirebaseOperations {
             if (task.isSuccessful()){
                 Map<String, Object> userInfo = task.getResult().getData();
                 Object res = userInfo.get("invitedEvents");
-                if (res == null) throw new NullPointerException("User doesn't have any invited events");
                 mapObject.result(res);
             }
             else{
