@@ -1,4 +1,4 @@
-package com.example.easyteamup;
+package com.example.easyteamup.Backend;
 
 public interface BooleanCallback {
     void isTrue(boolean bool);

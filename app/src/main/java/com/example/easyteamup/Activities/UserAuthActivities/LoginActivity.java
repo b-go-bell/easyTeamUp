@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.example.easyteamup.Activities.UserAuthActivities.SignUpActivityFolder.SignUpActivity;
 import com.example.easyteamup.Activities.UserHomeActivities.ViewProfileActivity;
-import com.example.easyteamup.FirebaseOperations;
+import com.example.easyteamup.Backend.FirebaseOperations;
 import com.example.easyteamup.R;
 
 public class LoginActivity extends AppCompatActivity {
