@@ -14,8 +14,8 @@ import com.example.easyteamup.Activities.SnackBarActivity.SnackBarFragment;
 import com.example.easyteamup.Activities.SnackBarActivity.SnackBarInterface;
 import com.example.easyteamup.Activities.UserHomeActivities.ViewEventAnalyticsActivity;
 import com.example.easyteamup.Activities.UserHomeActivities.ViewProfileActivity;
-import com.example.easyteamup.Event;
-import com.example.easyteamup.FirebaseOperations;
+import com.example.easyteamup.Backend.Event;
+import com.example.easyteamup.Backend.FirebaseOperations;
 import com.example.easyteamup.R;
 import com.firebase.geofire.GeoLocation;
 

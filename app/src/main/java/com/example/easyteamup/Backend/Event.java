@@ -1,4 +1,4 @@
-package com.example.easyteamup;
+package com.example.easyteamup.Backend;
 
 import com.firebase.geofire.GeoFireUtils;
 import com.firebase.geofire.GeoLocation;

@@ -14,10 +14,10 @@ import android.widget.TextView;
 
 import com.example.easyteamup.Activities.UserAuthActivities.LoginActivity;
 import com.example.easyteamup.Activities.UserHomeActivities.ViewProfileActivity;
-import com.example.easyteamup.BooleanCallback;
-import com.example.easyteamup.FirebaseOperations;
+import com.example.easyteamup.Backend.BooleanCallback;
+import com.example.easyteamup.Backend.FirebaseOperations;
 import com.example.easyteamup.R;
-import com.example.easyteamup.User;
+import com.example.easyteamup.Backend.User;
 
 public class SignUpActivity extends AppCompatActivity implements SignUpInterface {
 

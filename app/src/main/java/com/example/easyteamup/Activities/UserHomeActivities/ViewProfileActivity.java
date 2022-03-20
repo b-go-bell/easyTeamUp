@@ -16,9 +16,9 @@ import com.example.easyteamup.Activities.SnackBarActivity.SnackBarFragment;
 import com.example.easyteamup.Activities.SnackBarActivity.SnackBarInterface;
 import com.example.easyteamup.Activities.ViewEventActivities.ViewListEventsActivity;
 import com.example.easyteamup.Activities.ViewEventActivities.ViewMapEventsActivity;
-import com.example.easyteamup.FirebaseOperations;
+import com.example.easyteamup.Backend.FirebaseOperations;
 import com.example.easyteamup.R;
-import com.example.easyteamup.User;
+import com.example.easyteamup.Backend.User;
 
 public class ViewProfileActivity extends AppCompatActivity implements SnackBarInterface {
 

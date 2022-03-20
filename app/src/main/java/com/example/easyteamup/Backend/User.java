@@ -1,4 +1,4 @@
-package com.example.easyteamup;
+package com.example.easyteamup.Backend;
 
 import java.util.List;
 import java.util.Map;
