@@ -256,8 +256,7 @@ public class FirebaseOperations {
         db.collection("users").document(uid).get().addOnCompleteListener(task -> {
             if (task.isSuccessful()){
                 Map<String, Object> userInfo = task.getResult().getData();
-                Object res = userInfo.get("invitedEvents");
-                mapObject.result(res);
+                mapObject.result(userInfo.get("invitedEvents"));
             }
             else{
                 mapObject.result(null);
@@ -277,9 +276,7 @@ public class FirebaseOperations {
         db.collection("users").document(uid).get().addOnCompleteListener(task -> {
             if (task.isSuccessful()){
                 Map<String, Object> userInfo = task.getResult().getData();
-                Object res = userInfo.get("rsvpedEvents");
-                if (res == null) throw new NullPointerException("User doesn't have any RSVPed events");
-                listObject.result(res);
+                listObject.result(userInfo.get("rsvpedEvents"));
             }
             else{
                 listObject.result(null);
@@ -303,7 +300,6 @@ public class FirebaseOperations {
                 for (QueryDocumentSnapshot document: task.getResult()){
                     invitedEvents.add(document.getId());
                 }
-                if (invitedEvents == null) throw new NullPointerException("User doesn't have any past events");
                 listObject.result(invitedEvents);
             }
             else {
@@ -326,17 +322,15 @@ public class FirebaseOperations {
         db.collection("users")
                 .document(uid)
                 .get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    Object res = documentSnapshot.getData().get("hostedEvents");
-                    if (res == null) {
-                        throw new NullPointerException("User doesn't have any hosted events");
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Map <String, Object> userData = task.getResult().getData();
+                        listObject.result(userData.get("hostedEvents"));
                     }
-                    listObject.result(res);
-                })
-                .addOnFailureListener(e -> {
-                    throw new NullPointerException("Firebase error");
+                    else {
+                        listObject.result(null);
+                    }
                 });
-
     }
 
     /**
