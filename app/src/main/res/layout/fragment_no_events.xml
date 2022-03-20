@@ -1,14 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.ViewEventActivities.NoEventsFragment">
+    tools:context=".Activities.UserAuthActivities.SignUpActivityFolder.FirstSignUpFragment"
+    android:orientation="vertical"
+    >
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/no_events"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:fontFamily="@font/rubik_bold"
+        android:text="@string/no_events_general"
+        android:textColor="@color/gray"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toTopOf="@+id/browse_public_events"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
 
-</FrameLayout>
+    <Button
+        android:id="@+id/browse_public_events"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:gravity="center"
+        android:layout_marginTop="80dp"
+        android:backgroundTint="@color/orange"
+        android:fontFamily="@font/rubik_medium_italic"
+        android:text="@string/browse_public_events_general"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/no_events"
+        app:layout_constraintBottom_toTopOf="@+id/user_home"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        />
+    <Button
+        android:id="@+id/create_event"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:gravity="center"
+        android:layout_marginTop="40dp"
+        android:backgroundTint="@color/orange"
+        android:fontFamily="@font/rubik_medium_italic"
+        android:text="@string/create_event"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/no_events"
+        app:layout_constraintBottom_toTopOf="@+id/user_home"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        />
+
+    <Button
+        android:id="@+id/browse_public_events_left"
+        android:layout_width="160dp"
+        android:layout_height="82dp"
+        android:layout_gravity="start"
+        android:gravity="center"
+        android:layout_marginTop="40dp"
+        android:backgroundTint="@color/orange"
+        android:fontFamily="@font/rubik_medium_italic"
+        android:text="@string/browse_public_events_general"
+        android:textSize="16sp"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/no_events"
+        app:layout_constraintBottom_toTopOf="@+id/user_home"
+        app:layout_constraintEnd_toStartOf="@+id/browse_invited_events_right"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textAllCaps="false"
+        />
+    <Button
+        android:id="@+id/browse_invited_events_right"
+        android:layout_width="160dp"
+        android:layout_height="82dp"
+        android:layout_gravity="start"
+        android:gravity="center"
+        android:layout_marginTop="40dp"
+        android:backgroundTint="@color/orange"
+        android:textSize="16sp"
+        android:fontFamily="@font/rubik_medium_italic"
+        android:text="@string/view_invited_events"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/no_events"
+        app:layout_constraintBottom_toTopOf="@+id/user_home"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/browse_public_events_left"
+        android:textAllCaps="false"
+        />
+
+    <Button
+        android:id="@+id/user_home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_gravity="start"
+        android:gravity="center"
+        android:backgroundTint="@color/coral"
+        android:fontFamily="@font/rubik_medium_italic"
+        android:text="@string/view_profile"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/browse_public_events"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textAllCaps="false"
+        android:textSize="16sp"
+        />
+
+    <ProgressBar
+        android:id="@+id/loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginTop="50dp"
+        android:indeterminateTint="@color/gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/user_home"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

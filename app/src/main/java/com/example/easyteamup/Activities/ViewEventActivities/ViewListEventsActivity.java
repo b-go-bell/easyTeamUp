@@ -2,13 +2,18 @@ package com.example.easyteamup.Activities.ViewEventActivities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Pair;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
+import com.example.easyteamup.Activities.CreateEventActivities.CreateEventActivity;
 import com.example.easyteamup.Activities.SnackBarActivity.SnackBarFragment;
 import com.example.easyteamup.Activities.SnackBarActivity.SnackBarInterface;
+import com.example.easyteamup.Activities.UserHomeActivities.ViewEventAnalyticsActivity;
+import com.example.easyteamup.Activities.UserHomeActivities.ViewProfileActivity;
 import com.example.easyteamup.Event;
 import com.example.easyteamup.FirebaseOperations;
 import com.example.easyteamup.R;
@@ -31,6 +36,7 @@ public class ViewListEventsActivity extends AppCompatActivity implements ViewEve
     private String sortBy = "proximity"; //defaults to events listed in order of closeness to geolocation
 
     private String uid; //uid
+    private String event_type;
     private boolean hosting; //either hosting or not hosting event
     private int attending; //1 means attending, 0 means not RSVPd, -1 means either
     private int invited; //1 means public, 0 means private, -1 means either
@@ -49,99 +55,120 @@ public class ViewListEventsActivity extends AppCompatActivity implements ViewEve
         fragmentManager.beginTransaction()
                 .setReorderingAllowed(true)
                 .add(R.id.snackbar_container, SnackBarFragment.class, bundle)
+                .addToBackStack("snackbar")
                 .commit();
 
         getIntent = getIntent();
         uid = getIntent.getStringExtra("uid");
-        hosting = getIntent.getBooleanExtra("hosting", false);
-        attending = getIntent.getIntExtra("attending", -1);
-        invited = getIntent.getIntExtra("invited", -1);
+        event_type = getIntent.getStringExtra("event_type");
+
+        getEvents();
     }
 
     @Override
     public void getEvents() {
-        if(hosting) { //displays hosted events
-            // DOES NOT CARE ABOUT 'attending' OR 'publicity' VARS SINCE HOSTS AUTO ATTEND, AUTO ACCESS PRIV/PUB
+        if(event_type.equals("invited")) { //displays events user is invited to, regardless of status
+            fops.getInvitedEvents(uid, listObject -> {
+                try {
+                    Map<String, String> mapEvents = (Map<String, String>) listObject;
+                    ArrayList<Pair<String, String>>  events = new ArrayList<>();
+
+                    Iterator<Map.Entry<String, String>> it = mapEvents.entrySet().iterator();
+                    while(it.hasNext()){
+                        Map.Entry<String, String> event = it.next();
+                        String eid = event.getKey();
+                        String status = event.getValue();
+                        events.add(new Pair(eid, status));
+                    }
+                    Log.d("location", "invited has items");
+                    Bundle bundle = new Bundle();
+                    fragmentManager.beginTransaction()
+                            .setReorderingAllowed(true)
+                            .add(R.id.list_container, EventsListFragment.class, bundle)
+                            .addToBackStack("invited_list")
+                            .commit();
+                }
+                catch(NullPointerException npe) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("uid", uid);
+                    bundle.putBoolean("map", false);
+                    bundle.putString("none", event_type);
+                    Log.d("location", "NPE for invited");
+                    fragmentManager.beginTransaction()
+                            .setReorderingAllowed(true)
+                            .add(R.id.list_container, NoEventsFragment.class, bundle)
+                            .addToBackStack("none_invited_list")
+                            .commit();
+                }
+            });
+        } else if (event_type.equals("public")) { //displays public events
             /*
-                FILL IN
+                TO DO
              */
-        } else {
-            if(attending == 1) {   //displays rsvpd events
-                fops.getRSVPedEvents(uid, listObject -> {
-                    try {
-                        List<String> events = (List<String>) listObject;
-                        for(int i = 0; i < events.size(); i++){
-                            String eid = events.get(i);
-                            Bundle bundle = new Bundle();
-                            fragmentManager.beginTransaction()
-                                    .setReorderingAllowed(true)
-                                    .add(R.id.list_container, EventsListFragment.class, bundle)
-                                    .commit();
-                        }
-                    }
-                    catch(NullPointerException npe) {
-                        Bundle bundle = new Bundle();
-                        fragmentManager.beginTransaction()
-                                .setReorderingAllowed(true)
-                                .add(R.id.list_container, NoEventsFragment.class, bundle)
-                                .commit();
-                    }
-                });
-            }
-
-            if (invited == 1) { //
-                fops.getInvitedEvents(uid, listObject -> {
-                    try {
-                        Map<String, String> mapEvents = (Map<String, String>) listObject;
-                        ArrayList<Pair<String, String>>  events = new ArrayList<>();
-
-                        Iterator<Map.Entry<String, String>> it = mapEvents.entrySet().iterator();
-                        while(it.hasNext()){
-                            Map.Entry<String, String> event = it.next();
-                            String eid = event.getKey();
-                            String status = event.getValue();
-                            events.add(new Pair(eid, status));
-                        }
+        } else if (event_type.equals("attending")) { //displays events user is registered to attend
+            fops.getRSVPedEvents(uid, listObject -> {
+                try {
+                    List<String> events = (List<String>) listObject;
+                    for(int i = 0; i < events.size(); i++){
+                        String eid = events.get(i);
+                        Log.d("location", "attending has items");
                         Bundle bundle = new Bundle();
                         fragmentManager.beginTransaction()
                                 .setReorderingAllowed(true)
                                 .add(R.id.list_container, EventsListFragment.class, bundle)
+                                .addToBackStack("attending_list")
                                 .commit();
                     }
-                    catch(NullPointerException npe) {
-                        Bundle bundle = new Bundle();
-                        fragmentManager.beginTransaction()
-                                .setReorderingAllowed(true)
-                                .add(R.id.list_container, NoEventsFragment.class, bundle)
-                                .commit();
-                    }
-                });
-            }
+                }
+                catch(NullPointerException npe) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("uid", uid);
+                    bundle.putBoolean("map", false);
+                    bundle.putString("none", event_type);
+                    Log.d("location", "NPE for attending");
+                    fragmentManager.beginTransaction()
+                            .setReorderingAllowed(true)
+                            .add(R.id.list_container, NoEventsFragment.class, bundle)
+                            .addToBackStack("none_attending_list")
+                            .commit();
+                }
+            });
+        } else if (event_type.equals("hosting")) { //displays events user is hosting
+            /*
+                TO DO
+             */
         }
     }
 
-    @Override
-    public void viewPublicMapEvents() {
-
+    public void viewPublicMapEvents(){ ;
+        Intent viewPublicEventsMap = new Intent(ViewListEventsActivity.this, ViewMapEventsActivity.class);
+        viewPublicEventsMap.putExtra("uid", uid);
+        viewPublicEventsMap.putExtra("event_type", "public");
+        startActivity(viewPublicEventsMap);
     }
 
-    @Override
-    public void viewPublicListEvents() {
-
+    public void viewPublicListEvents(){
+        Intent viewPublicEventsList = new Intent(ViewListEventsActivity.this, ViewListEventsActivity.class);
+        viewPublicEventsList.putExtra("uid", uid);
+        viewPublicEventsList.putExtra("event_type", "public");
+        startActivity(viewPublicEventsList);
     }
 
-    @Override
-    public void createEvent() {
-
+    public void createEvent(){
+        Intent createEvent = new Intent(ViewListEventsActivity.this, CreateEventActivity.class);
+        createEvent.putExtra("uid", uid);
+        startActivity(createEvent);
     }
 
-    @Override
-    public void viewUserProfile() {
-
+    public void viewUserProfile(){
+        Intent userProfile = new Intent(ViewListEventsActivity.this, ViewProfileActivity.class);
+        userProfile.putExtra("uid", uid);
+        startActivity(userProfile);
     }
 
-    @Override
-    public void viewUserHistory() {
-
+    public void viewUserHistory(){
+        Intent viewEventHistory = new Intent(ViewListEventsActivity.this, ViewEventAnalyticsActivity.class);
+        viewEventHistory.putExtra("uid", uid);
+        startActivity(viewEventHistory);
     }
 }

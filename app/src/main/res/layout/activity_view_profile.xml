@@ -61,24 +61,25 @@
             android:text="@string/private_events_map"
             android:textColor="@color/white"
             />
+
             <Button
                 android:id="@+id/private_events_list_button"
-                android:textAllCaps="false"
                 android:layout_width="160dp"
                 android:layout_height="112dp"
-                android:layout_marginLeft="20dp"
-                android:paddingTop="28dp"
-                android:paddingLeft="14dp"
-                android:paddingRight="14dp"
-                android:paddingBottom="28dp"
                 android:layout_gravity="start"
+                android:layout_marginLeft="20dp"
                 android:backgroundTint="@color/coral"
                 android:enabled="true"
                 android:fontFamily="@font/rubik_medium_italic"
-                android:textSize="12dp"
+                android:paddingLeft="14dp"
+                android:paddingTop="28dp"
+                android:paddingRight="14dp"
+                android:paddingBottom="28dp"
                 android:text="@string/private_events_list"
+                android:textAllCaps="false"
                 android:textColor="@color/white"
-                />
+                android:textSize="12dp" />
+
             <Button
                 android:id="@+id/public_events_map_button"
                 android:textAllCaps="false"
