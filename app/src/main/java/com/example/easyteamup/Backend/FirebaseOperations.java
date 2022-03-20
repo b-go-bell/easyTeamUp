@@ -702,12 +702,6 @@ public class FirebaseOperations {
         });
     }
 
-    private double calculateDistance(double lat1, double lng1, double lat2, double lng2 ) {
-        double xDiff = lat2 - lat1;
-        double yDiff = lng2 - lng1;
-        return Math.sqrt(Math.pow(xDiff, 2)+ Math.pow(yDiff, 2));
-    }
-
     //to be deleted - this is just for debugging purposes
     public void loadSampleUsers() {
         User user1 = new User();
