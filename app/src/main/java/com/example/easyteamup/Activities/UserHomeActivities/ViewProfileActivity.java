@@ -29,7 +29,7 @@ public class ViewProfileActivity extends AppCompatActivity implements SnackBarIn
 
     private TextView welcome;
     private ProgressBar loadingBar;
-    private Button private_events_map, private_events_list, public_events_map, public_events_list;
+    private Button invited_events_map, invited_events_list, public_events_map, public_events_list;
     private Button attending_map, attending_list, hosting_map, hosting_list;
     private Button create_event, event_history, update_profile;
 
@@ -47,8 +47,8 @@ public class ViewProfileActivity extends AppCompatActivity implements SnackBarIn
         loadingBar = (ProgressBar)  findViewById(R.id.loading);
         loadingBar.setVisibility(View.INVISIBLE);
 
-        private_events_map = (Button) findViewById(R.id.private_events_map_button);
-        private_events_list = (Button) findViewById(R.id.private_events_list_button);
+        invited_events_map = (Button) findViewById(R.id.private_events_map_button);
+        invited_events_list = (Button) findViewById(R.id.private_events_list_button);
         public_events_map = (Button) findViewById(R.id.public_events_map_button);
         public_events_list = (Button) findViewById(R.id.public_events_list_button);
 
@@ -77,111 +77,103 @@ public class ViewProfileActivity extends AppCompatActivity implements SnackBarIn
             welcome.setText(formatted_welcome);
         });
 
-        private_events_map.setOnClickListener(new View.OnClickListener() {
+        //invitations on the map
+        invited_events_map.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 loadingBar.setVisibility(View.VISIBLE);
                 Intent viewPrivateEventsMap = new Intent(ViewProfileActivity.this, ViewMapEventsActivity.class);
                 viewPrivateEventsMap.putExtra("uid", uid);
-                viewPrivateEventsMap.putExtra("hosting", -1);
-                viewPrivateEventsMap.putExtra("attending", -1);
-                viewPrivateEventsMap.putExtra("invited", 1);
+                viewPrivateEventsMap.putExtra("event_type", "invited");
                 startActivity(viewPrivateEventsMap);
             }
         });
 
-        private_events_list.setOnClickListener(new View.OnClickListener() {
+        //invitations in a list
+        invited_events_list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 loadingBar.setVisibility(View.VISIBLE);
                 Intent viewPrivateEventsList = new Intent(ViewProfileActivity.this, ViewListEventsActivity.class);
                 viewPrivateEventsList.putExtra("uid", uid);
-                viewPrivateEventsList.putExtra("hosting", -1);
-                viewPrivateEventsList.putExtra("attending", -1);
-                viewPrivateEventsList.putExtra("invited", 1);
+                viewPrivateEventsList.putExtra("event_type", "invited");
                 startActivity(viewPrivateEventsList);
             }
         });
 
+        //public events on the map
         public_events_map.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 loadingBar.setVisibility(View.VISIBLE);
                 Intent viewPublicEventsMap = new Intent(ViewProfileActivity.this, ViewMapEventsActivity.class);
                 viewPublicEventsMap.putExtra("uid", uid);
-                viewPublicEventsMap.putExtra("hosting", -1);
-                viewPublicEventsMap.putExtra("attending", -1);
-                viewPublicEventsMap.putExtra("invited", 0);
+                viewPublicEventsMap.putExtra("event_type", "public");
                 startActivity(viewPublicEventsMap);
             }
         });
 
+        //public events in a list
         public_events_list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 loadingBar.setVisibility(View.VISIBLE);
                 Intent viewPublicEventsList = new Intent(ViewProfileActivity.this, ViewListEventsActivity.class);
                 viewPublicEventsList.putExtra("uid", uid);
-                viewPublicEventsList.putExtra("hosting", false);
-                viewPublicEventsList.putExtra("attending", -1);
-                viewPublicEventsList.putExtra("invited", 0);
+                viewPublicEventsList.putExtra("event_type", "public");
                 startActivity(viewPublicEventsList);
             }
         });
 
+        //RSVPd events on the map
         attending_map.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 loadingBar.setVisibility(View.VISIBLE);
                 Intent viewAttendingEventsMap = new Intent(ViewProfileActivity.this, ViewMapEventsActivity.class);
                 viewAttendingEventsMap.putExtra("uid", uid);
-                viewAttendingEventsMap.putExtra("hosting", false);
-                viewAttendingEventsMap.putExtra("attending", 1);
-                viewAttendingEventsMap.putExtra("invited", -1);
+                viewAttendingEventsMap.putExtra("event_type", "attending");
                 startActivity(viewAttendingEventsMap);
             }
         });
 
+        //RSVPd events in a list
         attending_list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 loadingBar.setVisibility(View.VISIBLE);
                 Intent viewAttendingEventsList = new Intent(ViewProfileActivity.this, ViewListEventsActivity.class);
                 viewAttendingEventsList.putExtra("uid", uid);
-                viewAttendingEventsList.putExtra("hosting", false);
-                viewAttendingEventsList.putExtra("attending", 1);
-                viewAttendingEventsList.putExtra("invited", -1);
+                viewAttendingEventsList.putExtra("event_type", "attending");
                 startActivity(viewAttendingEventsList);
             }
         });
 
+        //hosted events on the map
         hosting_map.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 loadingBar.setVisibility(View.VISIBLE);
                 Intent viewHostedEventsMap = new Intent(ViewProfileActivity.this, ViewMapEventsActivity.class);
                 viewHostedEventsMap.putExtra("uid", uid);
-                viewHostedEventsMap.putExtra("hosting", true);
-                viewHostedEventsMap.putExtra("attending", -1);
-                viewHostedEventsMap.putExtra("invited", -1);
+                viewHostedEventsMap.putExtra("event_type", "hosting");
                 startActivity(viewHostedEventsMap);
             }
         });
 
+        //hosted events in a list
         hosting_list.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 loadingBar.setVisibility(View.VISIBLE);
                 Intent viewHostedEventsList = new Intent(ViewProfileActivity.this, ViewListEventsActivity.class);
                 viewHostedEventsList.putExtra("uid", uid);
-                viewHostedEventsList.putExtra("hosting", true);
-                viewHostedEventsList.putExtra("attending", -1);
-                viewHostedEventsList.putExtra("invited", -1);
+                viewHostedEventsList.putExtra("event_type", "hosting");
                 startActivity(viewHostedEventsList);
-
             }
         });
 
+        //create an event
         create_event.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -192,6 +184,7 @@ public class ViewProfileActivity extends AppCompatActivity implements SnackBarIn
             }
         });
 
+        //view event analytics
         event_history.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -202,6 +195,7 @@ public class ViewProfileActivity extends AppCompatActivity implements SnackBarIn
             }
         });
 
+        //update profile
         update_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -217,9 +211,7 @@ public class ViewProfileActivity extends AppCompatActivity implements SnackBarIn
         loadingBar.setVisibility(View.VISIBLE);
         Intent viewPublicEventsMap = new Intent(ViewProfileActivity.this, ViewMapEventsActivity.class);
         viewPublicEventsMap.putExtra("uid", uid);
-        viewPublicEventsMap.putExtra("hosting", -1);
-        viewPublicEventsMap.putExtra("attending", -1);
-        viewPublicEventsMap.putExtra("invited", 0);
+        viewPublicEventsMap.putExtra("event_type", "public");
         startActivity(viewPublicEventsMap);
     }
 
@@ -227,9 +219,7 @@ public class ViewProfileActivity extends AppCompatActivity implements SnackBarIn
         loadingBar.setVisibility(View.VISIBLE);
         Intent viewPublicEventsList = new Intent(ViewProfileActivity.this, ViewListEventsActivity.class);
         viewPublicEventsList.putExtra("uid", uid);
-        viewPublicEventsList.putExtra("hosting", false);
-        viewPublicEventsList.putExtra("attending", -1);
-        viewPublicEventsList.putExtra("invited", 0);
+        viewPublicEventsList.putExtra("event_type", "public");
         startActivity(viewPublicEventsList);
     }
 

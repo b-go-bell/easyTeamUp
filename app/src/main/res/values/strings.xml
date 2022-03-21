@@ -34,8 +34,8 @@
     <string name="invitations">My Active Invitations</string>
     <string name="upcoming">My Upcoming Events</string>
     <string name="profile">My Profile Information</string>
-    <string name="private_events_map">View my Private Event Invitations on the Map</string>
-    <string name="private_events_list">View my Private Event Invitations in a List</string>
+    <string name="private_events_map">View my Event Invitations on the Map</string>
+    <string name="private_events_list">View my Event Invitations in a List</string>
     <string name="public_events_map">View Public Events on the Map</string>
     <string name="public_events_list">View Public Events in a List</string>
     <string name="attending_events_map">View my RSVP\'d Events on the Map</string>
@@ -45,7 +45,19 @@
     <string name="host_event">Host an Event</string>
     <string name="view_history">View my Event History</string>
     <string name="update_profile">Update my Profile</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <!-- Strings related to No Events Fragment -->
+    <string name="no_events_general">Oh no! It looks like no events matched your search…</string>
+    <string name="no_invitations">Oh no! It looks like you have no event invitations…</string>
+    <string name="no_rsvps">Oh no! It looks like you have no upcoming events…</string>
+    <string name="no_public_events">Oh no! It looks like no public events matched your search parameters…</string>
+    <string name="no_hosting">Oh no! It looks like you aren\'t hosting any upcoming events…</string>
+    <string name="view_profile">View my User Profile</string>
+    <string name="browse_public_events_general">Browse Public Events</string>
+    <string name="browse_public_events_list">Browse Public Events in a List</string>
+    <string name="browse_public_events_map">Browse Public Events on the Map</string>
+    <string name="view_invited_events_general">View my Current Invitations</string>
+    <string name="view_invited_events_list">View my Invitations in a List</string>
+    <string name="view_invited_events_map">View my Invitations on the Map</string>
+    <string name="create_event">Create a New Event</string>
 </resources>
