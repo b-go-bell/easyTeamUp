@@ -60,4 +60,6 @@
     <string name="view_invited_events_list">View my Invitations in a List</string>
     <string name="view_invited_events_map">View my Invitations on the Map</string>
     <string name="create_event">Create a New Event</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

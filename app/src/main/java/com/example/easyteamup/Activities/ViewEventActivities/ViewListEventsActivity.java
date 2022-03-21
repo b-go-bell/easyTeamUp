@@ -2,11 +2,14 @@ package com.example.easyteamup.Activities.ViewEventActivities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
+import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.easyteamup.Activities.CreateEventActivities.CreateEventActivity;
@@ -32,16 +35,16 @@ public class ViewListEventsActivity extends AppCompatActivity implements ViewEve
 
     private GeoLocation geolocation = new GeoLocation(34.0224, 118.2851); //defaults to USC
     private int radius = 10; //defaults to 10 mile radius
-    private int numResults = 50; //defaults to 50 events being displayed
+
+    // feature to add
     private String sortBy = "proximity"; //defaults to events listed in order of closeness to geolocation
 
     private String uid; //uid
     private String event_type;
-    private boolean hosting; //either hosting or not hosting event
-    private int attending; //1 means attending, 0 means not RSVPd, -1 means either
-    private int invited; //1 means public, 0 means private, -1 means either
 
-    List<Event> eventList = new ArrayList<>(); //list of events
+    private EventAdapter adapter;
+    private ListView listEvents;
+    private FragmentContainerView noEvents;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +65,9 @@ public class ViewListEventsActivity extends AppCompatActivity implements ViewEve
         uid = getIntent.getStringExtra("uid");
         event_type = getIntent.getStringExtra("event_type");
 
+        listEvents = (ListView) findViewById(R.id.events_list);
+        noEvents = (FragmentContainerView) findViewById(R.id.no_events_container);
+
         getEvents();
     }
 
@@ -70,77 +76,146 @@ public class ViewListEventsActivity extends AppCompatActivity implements ViewEve
         if(event_type.equals("invited")) { //displays events user is invited to, regardless of status
             fops.getInvitedEvents(uid, listObject -> {
                 try{
+                    listEvents.setVisibility(View.VISIBLE);
+                    noEvents.setVisibility(View.INVISIBLE);
+
                     Map<String, String> mapEvents = (Map<String, String>) listObject;
-                    ArrayList<Pair<String, String>> events = new ArrayList<>();
+                    ArrayList<String> events = new ArrayList<>();
+                    ArrayList<String> events_status = new ArrayList<>();
 
                     Iterator<Map.Entry<String, String>> it = mapEvents.entrySet().iterator();
                     while (it.hasNext()) {
                         Map.Entry<String, String> event = it.next();
                         String eid = event.getKey();
                         String status = event.getValue();
-                        events.add(new Pair(eid, status));
+                        events.add(eid);
+                        events_status.add(status);
                     }
-                    Log.d("location", "invited has items");
-                    Bundle bundle = new Bundle();
-                    fragmentManager.beginTransaction()
-                            .setReorderingAllowed(true)
-                            .add(R.id.list_container, EventsListFragment.class, bundle)
-                            .addToBackStack("invited_list")
-                            .commit();
+                    adapter = new EventAdapter(this, events, events_status);
+                    listEvents.setAdapter(adapter);
                 }
                 catch(NullPointerException npe) {
+                    listEvents.setVisibility(View.INVISIBLE);
+                    noEvents.setVisibility(View.VISIBLE);
+
                     Bundle bundle = new Bundle();
                     bundle.putString("uid", uid);
                     bundle.putBoolean("map", false);
                     bundle.putString("none", event_type);
-                    Log.d("location", "NPE for invited");
                     fragmentManager.beginTransaction()
                             .setReorderingAllowed(true)
-                            .add(R.id.list_container, NoEventsFragment.class, bundle)
+                            .add(R.id.no_events_container, NoEventsFragment.class, bundle)
                             .addToBackStack("none_invited_list")
                             .commit();
                 }
             });
         } else if (event_type.equals("public")) { //displays public events
-            /*
-                TO DO
-             */
-        } else if (event_type.equals("attending")) { //displays events user is registered to attend
-            fops.getRSVPedEvents(uid, listObject -> {
+            fops.getPublicEvents(geolocation, radius, listObject ->{
                 try {
-                    List<String> events = (List<String>) listObject;
+                    listEvents.setVisibility(View.VISIBLE);
+                    noEvents.setVisibility(View.INVISIBLE);
+
+                    ArrayList<String> events = (ArrayList<String>) listObject;
+                    ArrayList<String> events_status = new ArrayList<>();
+
                     for (int i = 0; i < events.size(); i++) {
                         String eid = events.get(i);
-                        Log.d("location", "attending has items");
-                        Bundle bundle = new Bundle();
-                        fragmentManager.beginTransaction()
-                                .setReorderingAllowed(true)
-                                .add(R.id.list_container, EventsListFragment.class, bundle)
-                                .addToBackStack("attending_list")
-                                .commit();
+                        events.add(eid);
+                        events_status.add("pending");
                     }
+
+                    adapter = new EventAdapter(this, events, events_status);
+                    listEvents.setAdapter(adapter);
+
+                    showPublicEventsDialog();
                 }
                 catch(NullPointerException npe) {
+                    listEvents.setVisibility(View.INVISIBLE);
+                    noEvents.setVisibility(View.VISIBLE);
+
                     Bundle bundle = new Bundle();
                     bundle.putString("uid", uid);
                     bundle.putBoolean("map", false);
                     bundle.putString("none", event_type);
-                    Log.d("location", "NPE for attending");
                     fragmentManager.beginTransaction()
                             .setReorderingAllowed(true)
-                            .add(R.id.list_container, NoEventsFragment.class, bundle)
+                            .add(R.id.no_events_container, NoEventsFragment.class, bundle)
+                            .addToBackStack("none_public_list")
+                            .commit();
+                }
+            });
+        } else if (event_type.equals("attending")) { //displays events user is registered to attend
+            fops.getRSVPedEvents(uid, listObject -> {
+                try {
+                    listEvents.setVisibility(View.VISIBLE);
+                    noEvents.setVisibility(View.INVISIBLE);
+
+                    ArrayList<String> events = (ArrayList<String>) listObject;
+                    ArrayList<String> events_status = new ArrayList<>();
+                    for (int i = 0; i < events.size(); i++) {
+                        String eid = events.get(i);
+                        events.add(eid);
+                        events_status.add("attending");
+                    }
+
+                    adapter = new EventAdapter(this, events, events_status);
+                    listEvents.setAdapter(adapter);
+                }
+                catch(NullPointerException npe) {
+                    listEvents.setVisibility(View.INVISIBLE);
+                    noEvents.setVisibility(View.VISIBLE);
+
+                    Bundle bundle = new Bundle();
+                    bundle.putString("uid", uid);
+                    bundle.putBoolean("map", false);
+                    bundle.putString("none", event_type);
+                    fragmentManager.beginTransaction()
+                            .setReorderingAllowed(true)
+                            .add(R.id.no_events_container, NoEventsFragment.class, bundle)
                             .addToBackStack("none_attending_list")
                             .commit();
                 }
             });
         } else if (event_type.equals("hosting")) { //displays events user is hosting
-            /*
-                TO DO
-             */
+            fops.getHostedEvents(uid, listObject -> {
+                try {
+                    listEvents.setVisibility(View.VISIBLE);
+                    noEvents.setVisibility(View.INVISIBLE);
+
+                    ArrayList<String> events = (ArrayList<String>) listObject;
+                    ArrayList<String> events_status = new ArrayList<>();
+                    for (int i = 0; i < events.size(); i++) {
+                        String eid = events.get(i);
+                        events.add(eid);
+                        events_status.add("hosting");
+                    }
+
+                    adapter = new EventAdapter(this, events, events_status);
+                    listEvents.setAdapter(adapter);
+                }
+                catch (NullPointerException npe) {
+                    listEvents.setVisibility(View.INVISIBLE);
+                    noEvents.setVisibility(View.VISIBLE);
+
+                    Bundle bundle = new Bundle();
+                    bundle.putString("uid", uid);
+                    bundle.putBoolean("map", false);
+                    bundle.putString("none", event_type);
+                    fragmentManager.beginTransaction()
+                            .setReorderingAllowed(true)
+                            .add(R.id.no_events_container, NoEventsFragment.class, bundle)
+                            .addToBackStack("none_hosting_list")
+                            .commit();
+                }
+            });
         }
     }
 
-    public void viewPublicMapEvents(){ ;
+    public void showPublicEventsDialog() {
+        
+    }
+
+    public void viewPublicMapEvents(){
         Intent viewPublicEventsMap = new Intent(ViewListEventsActivity.this, ViewMapEventsActivity.class);
         viewPublicEventsMap.putExtra("uid", uid);
         viewPublicEventsMap.putExtra("event_type", "public");
