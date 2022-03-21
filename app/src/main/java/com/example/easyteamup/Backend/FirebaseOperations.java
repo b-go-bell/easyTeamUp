@@ -1,7 +1,12 @@
 package com.example.easyteamup.Backend;
 
+import android.content.Context;
 import android.net.Uri;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.firebase.geofire.GeoFireUtils;
 import com.firebase.geofire.GeoLocation;
@@ -21,6 +26,8 @@ import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,11 +39,13 @@ public class FirebaseOperations {
     FirebaseFirestore db;
     StorageReference storage;
     FirebaseUser authenticatedUser;
+    RequestQueue requestQueue;
 
-    public FirebaseOperations() {
+    public FirebaseOperations(Context context) {
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         storage = FirebaseStorage.getInstance().getReference();
+        requestQueue = Volley.newRequestQueue(context);
     }
 
     /**
@@ -566,6 +575,9 @@ public class FirebaseOperations {
                                 && updateEventRSVP.isSuccessful()
                                 && addAvailabilities.isSuccessful());
                     }
+                })
+                .addOnFailureListener(e -> {
+                    bc.isTrue(false);
                 });
 
     }
@@ -693,6 +705,48 @@ public class FirebaseOperations {
             listObject.result(eventIds);
 
         });
+    }
+
+    /**
+     * Checks if an email address has already been registered with a user
+     * @param email The email address being checked
+     * @returns bc will contain True if the email address is already in
+     * use, false otherwise
+     */
+    public void checkIfEmailInUse(String email, BooleanCallback bc){
+        JsonObjectRequest request = new JsonObjectRequest( "https://easy-team-up.uc.r.appspot.com/checkEmailInUse?email=" + email,
+                response -> {
+                    try {
+                        bc.isTrue(response.getBoolean("inUse"));
+                    } catch (JSONException e) {
+                        bc.isTrue(null);
+                    }
+                },
+                error -> {
+                    bc.isTrue(null);
+                });
+
+        requestQueue.add(request);
+    }
+
+    /**
+     * Checks if a user has RSVPed for an event
+     * @param uid
+     * @param eventId
+     * @returns bc contains true if the user has rsvped for the event, false otherwise
+     */
+    public void checkIfUserRSVPedForEvent(String uid, String eventId, BooleanCallback bc){
+        db.collection("events")
+                .document(eventId)
+                .collection("rsvpedUsers")
+                .document(uid)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        bc.isTrue(task.getResult().exists());
+                    }
+                    else bc.isTrue(null);
+                });
     }
 
     //to be deleted - this is just for debugging purposes
