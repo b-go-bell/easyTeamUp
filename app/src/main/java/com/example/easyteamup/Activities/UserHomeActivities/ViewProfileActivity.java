@@ -29,9 +29,9 @@ public class ViewProfileActivity extends AppCompatActivity implements SnackBarIn
 
     private TextView welcome;
     private ProgressBar loadingBar;
-    private Button invited_events_map, invited_events_list, public_events_map, public_events_list;
-    private Button attending_map, attending_list, hosting_map, hosting_list;
-    private Button create_event, event_history, update_profile;
+    private Button invited_events,  public_events;
+    private Button attending, hosting, create_event;
+    private Button event_history, update_profile;
 
 
 
@@ -47,15 +47,11 @@ public class ViewProfileActivity extends AppCompatActivity implements SnackBarIn
         loadingBar = (ProgressBar)  findViewById(R.id.loading);
         loadingBar.setVisibility(View.INVISIBLE);
 
-        invited_events_map = (Button) findViewById(R.id.private_events_map_button);
-        invited_events_list = (Button) findViewById(R.id.private_events_list_button);
-        public_events_map = (Button) findViewById(R.id.public_events_map_button);
-        public_events_list = (Button) findViewById(R.id.public_events_list_button);
+        invited_events = (Button) findViewById(R.id.invited_events_button);
+        public_events = (Button) findViewById(R.id.public_events_button);
 
-        attending_map = (Button) findViewById(R.id.attending_map_button);
-        attending_list = (Button) findViewById(R.id.attending_list_button);
-        hosting_map = (Button) findViewById(R.id.hosting_map_button);
-        hosting_list = (Button) findViewById(R.id.hosting_list_button);
+        attending = (Button) findViewById(R.id.attending_button);
+        hosting = (Button) findViewById(R.id.hosting_button);
 
         create_event = (Button) findViewById(R.id.create_event_button);
         event_history = (Button) findViewById(R.id.event_history_button);
@@ -77,101 +73,55 @@ public class ViewProfileActivity extends AppCompatActivity implements SnackBarIn
             welcome.setText(formatted_welcome);
         });
 
-        //invitations on the map
-        invited_events_map.setOnClickListener(new View.OnClickListener() {
+        //invitations, default to list
+        invited_events.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 loadingBar.setVisibility(View.VISIBLE);
-                Intent viewPrivateEventsMap = new Intent(ViewProfileActivity.this, ViewMapEventsActivity.class);
+                Intent viewPrivateEventsMap = new Intent(ViewProfileActivity.this, ViewListEventsActivity.class);
                 viewPrivateEventsMap.putExtra("uid", uid);
                 viewPrivateEventsMap.putExtra("event_type", "invited");
                 startActivity(viewPrivateEventsMap);
             }
         });
 
-        //invitations in a list
-        invited_events_list.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                loadingBar.setVisibility(View.VISIBLE);
-                Intent viewPrivateEventsList = new Intent(ViewProfileActivity.this, ViewListEventsActivity.class);
-                viewPrivateEventsList.putExtra("uid", uid);
-                viewPrivateEventsList.putExtra("event_type", "invited");
-                startActivity(viewPrivateEventsList);
-            }
-        });
 
-        //public events on the map
-        public_events_map.setOnClickListener(new View.OnClickListener() {
+        //public events, default to list
+        public_events.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 loadingBar.setVisibility(View.VISIBLE);
-                Intent viewPublicEventsMap = new Intent(ViewProfileActivity.this, ViewMapEventsActivity.class);
+                Intent viewPublicEventsMap = new Intent(ViewProfileActivity.this, ViewListEventsActivity.class);
                 viewPublicEventsMap.putExtra("uid", uid);
                 viewPublicEventsMap.putExtra("event_type", "public");
                 startActivity(viewPublicEventsMap);
             }
         });
 
-        //public events in a list
-        public_events_list.setOnClickListener(new View.OnClickListener() {
+        //RSVPd events, default to list
+        attending.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 loadingBar.setVisibility(View.VISIBLE);
-                Intent viewPublicEventsList = new Intent(ViewProfileActivity.this, ViewListEventsActivity.class);
-                viewPublicEventsList.putExtra("uid", uid);
-                viewPublicEventsList.putExtra("event_type", "public");
-                startActivity(viewPublicEventsList);
-            }
-        });
-
-        //RSVPd events on the map
-        attending_map.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                loadingBar.setVisibility(View.VISIBLE);
-                Intent viewAttendingEventsMap = new Intent(ViewProfileActivity.this, ViewMapEventsActivity.class);
+                Intent viewAttendingEventsMap = new Intent(ViewProfileActivity.this, ViewListEventsActivity.class);
                 viewAttendingEventsMap.putExtra("uid", uid);
                 viewAttendingEventsMap.putExtra("event_type", "attending");
                 startActivity(viewAttendingEventsMap);
             }
         });
 
-        //RSVPd events in a list
-        attending_list.setOnClickListener(new View.OnClickListener() {
+        //hosted events, default to list
+        hosting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 loadingBar.setVisibility(View.VISIBLE);
-                Intent viewAttendingEventsList = new Intent(ViewProfileActivity.this, ViewListEventsActivity.class);
-                viewAttendingEventsList.putExtra("uid", uid);
-                viewAttendingEventsList.putExtra("event_type", "attending");
-                startActivity(viewAttendingEventsList);
-            }
-        });
-
-        //hosted events on the map
-        hosting_map.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                loadingBar.setVisibility(View.VISIBLE);
-                Intent viewHostedEventsMap = new Intent(ViewProfileActivity.this, ViewMapEventsActivity.class);
+                Intent viewHostedEventsMap = new Intent(ViewProfileActivity.this, ViewListEventsActivity.class);
                 viewHostedEventsMap.putExtra("uid", uid);
                 viewHostedEventsMap.putExtra("event_type", "hosting");
                 startActivity(viewHostedEventsMap);
             }
         });
 
-        //hosted events in a list
-        hosting_list.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                loadingBar.setVisibility(View.VISIBLE);
-                Intent viewHostedEventsList = new Intent(ViewProfileActivity.this, ViewListEventsActivity.class);
-                viewHostedEventsList.putExtra("uid", uid);
-                viewHostedEventsList.putExtra("event_type", "hosting");
-                startActivity(viewHostedEventsList);
-            }
-        });
 
         //create an event
         create_event.setOnClickListener(new View.OnClickListener() {

@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
         <Button
-            android:id="@+id/private_events_map_button"
+            android:id="@+id/invited_events_button"
             android:textAllCaps="false"
             android:layout_width="160dp"
             android:layout_height="112dp"
@@ -57,31 +57,13 @@
             android:backgroundTint="@color/coral"
             android:enabled="true"
             android:fontFamily="@font/rubik_medium_italic"
-            android:textSize="12dp"
-            android:text="@string/private_events_map"
+            android:textSize="15sp"
+            android:text="@string/invited_events"
             android:textColor="@color/white"
             />
 
             <Button
-                android:id="@+id/private_events_list_button"
-                android:layout_width="160dp"
-                android:layout_height="112dp"
-                android:layout_gravity="start"
-                android:layout_marginLeft="20dp"
-                android:backgroundTint="@color/coral"
-                android:enabled="true"
-                android:fontFamily="@font/rubik_medium_italic"
-                android:paddingLeft="14dp"
-                android:paddingTop="28dp"
-                android:paddingRight="14dp"
-                android:paddingBottom="28dp"
-                android:text="@string/private_events_list"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:textSize="12dp" />
-
-            <Button
-                android:id="@+id/public_events_map_button"
+                android:id="@+id/public_events_button"
                 android:textAllCaps="false"
                 android:layout_width="160dp"
                 android:layout_height="112dp"
@@ -94,27 +76,8 @@
                 android:backgroundTint="@color/coral"
                 android:enabled="true"
                 android:fontFamily="@font/rubik_medium_italic"
-                android:textSize="12dp"
-                android:text="@string/public_events_map"
-                android:textColor="@color/white"
-                />
-            <Button
-                android:id="@+id/public_events_list_button"
-                android:textAllCaps="false"
-                android:layout_width="160dp"
-                android:layout_height="112dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:paddingTop="28dp"
-                android:paddingLeft="14dp"
-                android:paddingRight="14dp"
-                android:paddingBottom="28dp"
-                android:layout_gravity="start"
-                android:backgroundTint="@color/coral"
-                android:enabled="true"
-                android:fontFamily="@font/rubik_medium_italic"
-                android:textSize="12dp"
-                android:text="@string/public_events_list"
+                android:textSize="15sp"
+                android:text="@string/public_events"
                 android:textColor="@color/white"
                 />
         </LinearLayout>
@@ -145,7 +108,7 @@
             android:orientation="horizontal"
             >
             <Button
-                android:id="@+id/attending_map_button"
+                android:id="@+id/attending_button"
                 android:textAllCaps="false"
                 android:layout_width="160dp"
                 android:layout_height="112dp"
@@ -158,17 +121,36 @@
                 android:backgroundTint="@color/orange"
                 android:enabled="true"
                 android:fontFamily="@font/rubik_medium_italic"
-                android:textSize="12dp"
-                android:text="@string/attending_events_map"
+                android:textSize="15sp"
+                android:text="@string/attending_events"
                 android:textColor="@color/white"
                 />
+
             <Button
-                android:id="@+id/attending_list_button"
+                android:id="@+id/hosting_button"
+                android:layout_width="160dp"
+                android:layout_height="112dp"
+                android:layout_gravity="start"
+                android:layout_marginLeft="20dp"
+                android:backgroundTint="@color/orange"
+                android:enabled="true"
+                android:fontFamily="@font/rubik_medium_italic"
+                android:paddingLeft="14dp"
+                android:paddingTop="28dp"
+                android:paddingRight="14dp"
+                android:paddingBottom="28dp"
+                android:text="@string/hosted_events"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+
+            <Button
+                android:id="@+id/create_event_button"
                 android:textAllCaps="false"
                 android:layout_width="160dp"
                 android:layout_height="112dp"
-                android:layout_marginLeft="20dp"
                 android:paddingTop="28dp"
+                android:layout_marginLeft="20dp"
                 android:paddingLeft="14dp"
                 android:paddingRight="14dp"
                 android:paddingBottom="28dp"
@@ -176,47 +158,11 @@
                 android:backgroundTint="@color/orange"
                 android:enabled="true"
                 android:fontFamily="@font/rubik_medium_italic"
-                android:textSize="12dp"
-                android:text="@string/attending_events_list"
+                android:textSize="15sp"
+                android:text="@string/host_event"
                 android:textColor="@color/white"
                 />
-            <Button
-                android:id="@+id/hosting_map_button"
-                android:textAllCaps="false"
-                android:layout_width="160dp"
-                android:layout_height="112dp"
-                android:layout_marginLeft="20dp"
-                android:paddingTop="28dp"
-                android:paddingLeft="14dp"
-                android:paddingRight="14dp"
-                android:paddingBottom="28dp"
-                android:layout_gravity="start"
-                android:backgroundTint="@color/orange"
-                android:enabled="true"
-                android:fontFamily="@font/rubik_medium_italic"
-                android:textSize="12dp"
-                android:text="@string/hosted_events_map"
-                android:textColor="@color/white"
-            />
-            <Button
-                android:id="@+id/hosting_list_button"
-                android:textAllCaps="false"
-                android:layout_width="160dp"
-                android:layout_height="112dp"
-                android:layout_marginLeft="20dp"
-                android:paddingTop="28dp"
-                android:layout_marginRight="20dp"
-                android:paddingLeft="14dp"
-                android:paddingRight="14dp"
-                android:paddingBottom="28dp"
-                android:layout_gravity="start"
-                android:backgroundTint="@color/orange"
-                android:enabled="true"
-                android:fontFamily="@font/rubik_medium_italic"
-                android:textSize="12dp"
-                android:text="@string/hosted_events_list"
-                android:textColor="@color/white"
-            />
+
         </LinearLayout>
     </HorizontalScrollView>
 
@@ -244,24 +190,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <Button
-                android:id="@+id/create_event_button"
-                android:textAllCaps="false"
-                android:layout_width="160dp"
-                android:layout_height="112dp"
-                android:paddingTop="28dp"
-                android:layout_marginLeft="20dp"
-                android:paddingLeft="14dp"
-                android:paddingRight="14dp"
-                android:paddingBottom="28dp"
-                android:layout_gravity="start"
-                android:backgroundTint="@color/green"
-                android:enabled="true"
-                android:fontFamily="@font/rubik_medium_italic"
-                android:textSize="12dp"
-                android:text="@string/host_event"
-                android:textColor="@color/white"
-                />
-            <Button
                 android:id="@+id/event_history_button"
                 android:textAllCaps="false"
                 android:layout_width="160dp"
@@ -275,7 +203,7 @@
                 android:backgroundTint="@color/green"
                 android:enabled="true"
                 android:fontFamily="@font/rubik_medium_italic"
-                android:textSize="12dp"
+                android:textSize="15sp"
                 android:text="@string/view_history"
                 android:textColor="@color/white"
                 />
@@ -294,7 +222,7 @@
                 android:backgroundTint="@color/green"
                 android:enabled="true"
                 android:fontFamily="@font/rubik_medium_italic"
-                android:textSize="12dp"
+                android:textSize="15sp"
                 android:text="@string/update_profile"
                 android:textColor="@color/white"
                 />
