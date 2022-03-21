@@ -10,11 +10,7 @@ import android.widget.ProgressBar;
 
 import com.example.easyteamup.Activities.UserAuthActivities.SignUpActivityFolder.SignUpActivity;
 import com.example.easyteamup.Backend.FirebaseOperations;
-import com.example.easyteamup.Backend.ObjectCallback;
 import com.example.easyteamup.R;
-import com.firebase.geofire.GeoLocation;
-
-import java.util.List;
 
 public class StartActivity extends AppCompatActivity {
 

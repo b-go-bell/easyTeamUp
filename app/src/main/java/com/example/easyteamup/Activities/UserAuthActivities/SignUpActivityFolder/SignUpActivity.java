@@ -56,7 +56,7 @@ public class SignUpActivity extends AppCompatActivity implements SignUpInterface
         invalidPhoto.setVisibility(View.INVISIBLE);
 
         user = new User();
-        fops = new FirebaseOperations();
+        fops = new FirebaseOperations(this);
         fragmentManager = getSupportFragmentManager();
 
             Bundle bundle = new Bundle();
@@ -89,7 +89,7 @@ public class SignUpActivity extends AppCompatActivity implements SignUpInterface
 
         fops.registerUser(user, password, new BooleanCallback() {
             @Override
-            public void isTrue(boolean bool) {
+            public void isTrue(Boolean bool) {
                 if (bool) {
                     uid = user.getUid();
                     fragmentManager.beginTransaction()

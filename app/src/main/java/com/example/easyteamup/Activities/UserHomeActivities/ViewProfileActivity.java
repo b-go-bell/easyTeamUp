@@ -41,7 +41,7 @@ public class ViewProfileActivity extends AppCompatActivity implements SnackBarIn
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_profile);
         getSupportActionBar().hide();
-        fops = new FirebaseOperations();
+        fops = new FirebaseOperations(this);
 
         welcome = (TextView) findViewById(R.id.welcome);
         loadingBar = (ProgressBar)  findViewById(R.id.loading);

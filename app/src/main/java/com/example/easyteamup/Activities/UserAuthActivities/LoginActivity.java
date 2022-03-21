@@ -22,13 +22,15 @@ public class LoginActivity extends AppCompatActivity {
     private ProgressBar loadingBar;
     private TextView invalid;
 
-    FirebaseOperations fops = new FirebaseOperations();
+    FirebaseOperations fops;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         getSupportActionBar().hide();
+
+        fops = new FirebaseOperations(this);
 
         usernameText = (EditText) findViewById(R.id.username_text);
         passwordText = (EditText) findViewById(R.id.password_text);

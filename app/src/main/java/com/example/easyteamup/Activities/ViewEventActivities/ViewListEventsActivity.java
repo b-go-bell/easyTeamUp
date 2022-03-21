@@ -51,7 +51,7 @@ public class ViewListEventsActivity extends AppCompatActivity implements ViewEve
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_list_events);
         getSupportActionBar().hide();
-        fops = new FirebaseOperations();
+        fops = new FirebaseOperations(this);
 
         fragmentManager = getSupportFragmentManager();
         Bundle bundle = new Bundle();
