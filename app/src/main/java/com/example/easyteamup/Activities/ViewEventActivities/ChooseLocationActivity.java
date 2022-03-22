@@ -52,7 +52,6 @@ public class ChooseLocationActivity extends AppCompatActivity implements OnMapRe
     private GoogleMap mMap;
     // New variables for Current Place Picker
     private static final String TAG = "MapsActivity";
-    private PlacesClient mPlacesClient;
     private FusedLocationProviderClient mFusedLocationProviderClient;
 
     // The geographical location where the device is currently located. That is, the last-known
@@ -86,9 +85,6 @@ public class ChooseLocationActivity extends AppCompatActivity implements OnMapRe
         currentLoc = (Button) findViewById(R.id.current_location_button);
 
         // Initialize the Places client
-        String apiKey = getString(R.string.google_maps_key);
-        Places.initialize(getApplicationContext(), apiKey);
-        mPlacesClient = Places.createClient(this);
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
         autocompleteFragment = (AutocompleteSupportFragment)
@@ -201,7 +197,7 @@ public class ChooseLocationActivity extends AppCompatActivity implements OnMapRe
         try {
             if (mLocationPermissionGranted) {
                 try {
-                    Task<Location> locationResult = locationResult = mFusedLocationProviderClient.getLastLocation();
+                    Task<Location> locationResult = mFusedLocationProviderClient.getLastLocation();
                     Log.d("FUSED", "HAPPENED");
 
                     locationResult.addOnSuccessListener(this, new OnSuccessListener<Location>() {
