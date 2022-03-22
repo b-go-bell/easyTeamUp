@@ -27,14 +27,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-public class ViewListEventsActivity extends AppCompatActivity implements ViewEventsActivity, SnackBarInterface {
+public class ViewListEventsActivity extends AppCompatActivity implements ViewEventsActivity, SnackBarInterface, PublicEventsDialogInterface {
 
     private Intent getIntent;
     private FirebaseOperations fops;
     private FragmentManager fragmentManager;
 
     private GeoLocation geolocation = new GeoLocation(34.0224, 118.2851); //defaults to USC
-    private int radius = 10; //defaults to 10 mile radius
+    private double radius = 10; //defaults to 10 mile radius
 
     // feature to add
     private String sortBy = "proximity"; //defaults to events listed in order of closeness to geolocation
@@ -45,6 +45,9 @@ public class ViewListEventsActivity extends AppCompatActivity implements ViewEve
     private EventAdapter adapter;
     private ListView listEvents;
     private FragmentContainerView noEvents;
+
+    private ArrayList<String> events;
+    private ArrayList<String> events_status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +71,9 @@ public class ViewListEventsActivity extends AppCompatActivity implements ViewEve
         listEvents = (ListView) findViewById(R.id.events_list);
         noEvents = (FragmentContainerView) findViewById(R.id.no_events_container);
 
+        events = new ArrayList<>();
+        events_status = new ArrayList<>();
+
         getEvents();
     }
 
@@ -80,8 +86,6 @@ public class ViewListEventsActivity extends AppCompatActivity implements ViewEve
                     noEvents.setVisibility(View.INVISIBLE);
 
                     Map<String, String> mapEvents = (Map<String, String>) listObject;
-                    ArrayList<String> events = new ArrayList<>();
-                    ArrayList<String> events_status = new ArrayList<>();
 
                     Iterator<Map.Entry<String, String>> it = mapEvents.entrySet().iterator();
                     while (it.hasNext()) {
@@ -95,63 +99,19 @@ public class ViewListEventsActivity extends AppCompatActivity implements ViewEve
                     listEvents.setAdapter(adapter);
                 }
                 catch(NullPointerException npe) {
-                    listEvents.setVisibility(View.INVISIBLE);
-                    noEvents.setVisibility(View.VISIBLE);
-
-                    Bundle bundle = new Bundle();
-                    bundle.putString("uid", uid);
-                    bundle.putBoolean("map", false);
-                    bundle.putString("none", event_type);
-                    fragmentManager.beginTransaction()
-                            .setReorderingAllowed(true)
-                            .add(R.id.no_events_container, NoEventsFragment.class, bundle)
-                            .addToBackStack("none_invited_list")
-                            .commit();
+                    showNoEvents();
                 }
             });
         } else if (event_type.equals("public")) { //displays public events
-            fops.getPublicEvents(geolocation, radius, listObject ->{
-                try {
-                    listEvents.setVisibility(View.VISIBLE);
-                    noEvents.setVisibility(View.INVISIBLE);
-
-                    ArrayList<String> events = (ArrayList<String>) listObject;
-                    ArrayList<String> events_status = new ArrayList<>();
-
-                    for (int i = 0; i < events.size(); i++) {
-                        String eid = events.get(i);
-                        events.add(eid);
-                        events_status.add("pending");
-                    }
-
-                    adapter = new EventAdapter(this, events, events_status);
-                    listEvents.setAdapter(adapter);
-
-                    showPublicEventsDialog();
-                }
-                catch(NullPointerException npe) {
-                    listEvents.setVisibility(View.INVISIBLE);
-                    noEvents.setVisibility(View.VISIBLE);
-
-                    Bundle bundle = new Bundle();
-                    bundle.putString("uid", uid);
-                    bundle.putBoolean("map", false);
-                    bundle.putString("none", event_type);
-                    fragmentManager.beginTransaction()
-                            .setReorderingAllowed(true)
-                            .add(R.id.no_events_container, NoEventsFragment.class, bundle)
-                            .addToBackStack("none_public_list")
-                            .commit();
-                }
-            });
+            listEvents.setVisibility(View.INVISIBLE);
+            noEvents.setVisibility(View.INVISIBLE);
+            showPublicEventsDialog();
         } else if (event_type.equals("attending")) { //displays events user is registered to attend
             fops.getRSVPedEvents(uid, listObject -> {
                 try {
                     listEvents.setVisibility(View.VISIBLE);
                     noEvents.setVisibility(View.INVISIBLE);
 
-                    ArrayList<String> events = (ArrayList<String>) listObject;
-                    ArrayList<String> events_status = new ArrayList<>();
                     for (int i = 0; i < events.size(); i++) {
                         String eid = events.get(i);
                         events.add(eid);
@@ -162,18 +122,7 @@ public class ViewListEventsActivity extends AppCompatActivity implements ViewEve
                     listEvents.setAdapter(adapter);
                 }
                 catch(NullPointerException npe) {
-                    listEvents.setVisibility(View.INVISIBLE);
-                    noEvents.setVisibility(View.VISIBLE);
-
-                    Bundle bundle = new Bundle();
-                    bundle.putString("uid", uid);
-                    bundle.putBoolean("map", false);
-                    bundle.putString("none", event_type);
-                    fragmentManager.beginTransaction()
-                            .setReorderingAllowed(true)
-                            .add(R.id.no_events_container, NoEventsFragment.class, bundle)
-                            .addToBackStack("none_attending_list")
-                            .commit();
+                    showNoEvents();
                 }
             });
         } else if (event_type.equals("hosting")) { //displays events user is hosting
@@ -182,8 +131,6 @@ public class ViewListEventsActivity extends AppCompatActivity implements ViewEve
                     listEvents.setVisibility(View.VISIBLE);
                     noEvents.setVisibility(View.INVISIBLE);
 
-                    ArrayList<String> events = (ArrayList<String>) listObject;
-                    ArrayList<String> events_status = new ArrayList<>();
                     for (int i = 0; i < events.size(); i++) {
                         String eid = events.get(i);
                         events.add(eid);
@@ -194,25 +141,30 @@ public class ViewListEventsActivity extends AppCompatActivity implements ViewEve
                     listEvents.setAdapter(adapter);
                 }
                 catch (NullPointerException npe) {
-                    listEvents.setVisibility(View.INVISIBLE);
-                    noEvents.setVisibility(View.VISIBLE);
-
-                    Bundle bundle = new Bundle();
-                    bundle.putString("uid", uid);
-                    bundle.putBoolean("map", false);
-                    bundle.putString("none", event_type);
-                    fragmentManager.beginTransaction()
-                            .setReorderingAllowed(true)
-                            .add(R.id.no_events_container, NoEventsFragment.class, bundle)
-                            .addToBackStack("none_hosting_list")
-                            .commit();
+                    showNoEvents();
                 }
             });
         }
     }
 
+    public void showNoEvents() {
+        listEvents.setVisibility(View.INVISIBLE);
+        noEvents.setVisibility(View.VISIBLE);
+
+        Bundle bundle = new Bundle();
+        bundle.putString("uid", uid);
+        bundle.putBoolean("map", false);
+        bundle.putString("none", event_type);
+        fragmentManager.beginTransaction()
+                .setReorderingAllowed(true)
+                .add(R.id.no_events_container, NoEventsFragment.class, bundle)
+                .addToBackStack("none_list")
+                .commit();
+    }
+
     public void showPublicEventsDialog() {
-        
+        PublicEventsDialogFragment publicEventsDialogFragment = PublicEventsDialogFragment.newInstance();
+        publicEventsDialogFragment.show(fragmentManager, "fragment_public_events_dialog");
     }
 
     public void viewPublicMapEvents(){
@@ -245,5 +197,31 @@ public class ViewListEventsActivity extends AppCompatActivity implements ViewEve
         Intent viewEventHistory = new Intent(ViewListEventsActivity.this, ViewEventAnalyticsActivity.class);
         viewEventHistory.putExtra("uid", uid);
         startActivity(viewEventHistory);
+    }
+
+    public void onSubmit(GeoLocation location, double rad) {
+        if(location != null){
+            geolocation = location;
+            radius = rad;
+        }
+        fops.getPublicEvents(geolocation, radius, listObject -> {
+            try {
+                listEvents.setVisibility(View.VISIBLE);
+                noEvents.setVisibility(View.INVISIBLE);
+
+                ArrayList<String> events = (ArrayList<String>) listObject;
+                ArrayList<String> events_status = new ArrayList<>();
+
+                for (int i = 0; i < events.size(); i++) {
+                    String eid = events.get(i);
+                    events.add(eid);
+                    events_status.add("pending");
+                }
+
+                adapter = new EventAdapter(this, events, events_status);
+                listEvents.setAdapter(adapter);
+            } catch (NullPointerException npe) {
+            }
+        });
     }
 }
