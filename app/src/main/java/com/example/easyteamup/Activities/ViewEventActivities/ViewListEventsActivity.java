@@ -14,16 +14,13 @@ import com.example.easyteamup.Activities.SnackBarActivity.SnackBarFragment;
 import com.example.easyteamup.Activities.SnackBarActivity.SnackBarInterface;
 import com.example.easyteamup.Activities.UserHomeActivities.ViewEventAnalyticsActivity;
 import com.example.easyteamup.Activities.UserHomeActivities.ViewProfileActivity;
-import com.example.easyteamup.Activities.ViewEventActivities.DisplayEvents.EventAdapter;
-import com.example.easyteamup.Activities.ViewEventActivities.DisplayEvents.NoEventsFragment;
-import com.example.easyteamup.Activities.ViewEventActivities.FilterEvents.PublicEventsDialogFragment;
+import com.example.easyteamup.Activities.ViewEventActivities.DisplayEventHelpers.EventAdapter;
+import com.example.easyteamup.Activities.ViewEventActivities.DisplayEventHelpers.NoEventsFragment;
 import com.example.easyteamup.Backend.FirebaseOperations;
 import com.example.easyteamup.R;
 import com.firebase.geofire.GeoLocation;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Map;
 
 public class ViewListEventsActivity extends AppCompatActivity implements SnackBarInterface {
 

@@ -1,4 +1,4 @@
-package com.example.easyteamup.Activities.ViewEventActivities.DisplayEvents;
+package com.example.easyteamup.Activities.ViewEventActivities.DisplayEventHelpers;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,7 +14,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.easyteamup.Activities.CreateEventActivities.CreateEventActivity;
-import com.example.easyteamup.Activities.UserAuthActivities.SignUpActivityFolder.SignUpInterface;
 import com.example.easyteamup.Activities.UserHomeActivities.ViewProfileActivity;
 import com.example.easyteamup.Activities.ViewEventActivities.ViewListEventsActivity;
 import com.example.easyteamup.Activities.ViewEventActivities.ViewMapEventsActivity;

@@ -1,6 +1,5 @@
-package com.example.easyteamup.Activities.ViewEventActivities.DisplayEvents;
+package com.example.easyteamup.Activities.ViewEventActivities.DisplayEventHelpers;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,11 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import androidx.annotation.LayoutRes;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import com.example.easyteamup.R;
-import com.example.easyteamup.Backend.Event;
 
 import java.util.ArrayList;
 

@@ -77,4 +77,8 @@
     <string name="usc">University of Southern California</string>
     <string name="use_usc">Search for events around University of Southern California</string>
     <string name="button_loc">Search for events around %1$s</string>
+
+    <string name="no_location">No location currently selected.</string>
+    <string name="selected_location">Searching for events around %1$s.</string>
+    <string name="selection_error">Please make sure that you have entered a location and radius.</string>
 </resources>

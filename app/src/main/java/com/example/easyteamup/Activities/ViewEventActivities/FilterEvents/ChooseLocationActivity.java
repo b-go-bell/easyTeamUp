@@ -33,6 +33,7 @@ import com.example.easyteamup.Activities.SnackBarActivity.SnackBarFragment;
 import com.example.easyteamup.Activities.SnackBarActivity.SnackBarInterface;
 import com.example.easyteamup.Activities.UserHomeActivities.ViewEventAnalyticsActivity;
 import com.example.easyteamup.Activities.UserHomeActivities.ViewProfileActivity;
+import com.example.easyteamup.Activities.ViewEventActivities.EventDispatcherActivity;
 import com.example.easyteamup.Activities.ViewEventActivities.ViewListEventsActivity;
 import com.example.easyteamup.Activities.ViewEventActivities.ViewMapEventsActivity;
 import com.google.android.gms.common.api.ApiException;
@@ -69,7 +70,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class ChooseLocationActivity extends AppCompatActivity implements OnMapReadyCallback, SnackBarInterface, GoogleMap.OnMarkerClickListener {
+public class ChooseLocationActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     private GoogleMap mMap;
     private static final String TAG = "MapsActivity";
@@ -87,6 +88,7 @@ public class ChooseLocationActivity extends AppCompatActivity implements OnMapRe
     private Button pickLocation;
     private String uid;
 
+    private FragmentManager fragmentManager;
     private String locationNameSend;
     private double locationLatitudeSend;
     private double locationLongitudeSend;
@@ -96,13 +98,14 @@ public class ChooseLocationActivity extends AppCompatActivity implements OnMapRe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_location);
         getSupportActionBar().hide();
+        fragmentManager = getSupportFragmentManager();
 
         getIntent = getIntent();
         uid = getIntent.getStringExtra("uid");
 
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+        SupportMapFragment mapFragment = (SupportMapFragment) fragmentManager
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
@@ -116,7 +119,7 @@ public class ChooseLocationActivity extends AppCompatActivity implements OnMapRe
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         // Initialize the AutocompleteSupportFragment.
         autocompleteFragment = (AutocompleteSupportFragment)
-                getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
+                fragmentManager.findFragmentById(R.id.autocomplete_fragment);
 
         // Specify the types of place data to return.
         autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.LAT_LNG, Place.Field.NAME));
@@ -132,7 +135,13 @@ public class ChooseLocationActivity extends AppCompatActivity implements OnMapRe
         pickLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //do something
+                Intent publicEventsDialog = new Intent(ChooseLocationActivity.this, PublicEventsDialogActivity.class);
+                publicEventsDialog.putExtra("uid", uid);
+                publicEventsDialog.putExtra("locName", locationNameSend);
+                publicEventsDialog.putExtra("lat", locationLatitudeSend);
+                publicEventsDialog.putExtra("lon", locationLongitudeSend);
+
+                startActivity(publicEventsDialog);
             }
         });
 
@@ -362,24 +371,5 @@ public class ChooseLocationActivity extends AppCompatActivity implements OnMapRe
                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                     PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
         }
-    }
-
-
-    public void viewPublicEvents(){}
-
-    public void viewInvitations(){}
-
-    public void createEvent(){
-        Intent createEvent = new Intent(ChooseLocationActivity.this, CreateEventActivity.class);
-        createEvent.putExtra("uid", uid);
-        startActivity(createEvent);
-    }
-
-    public void viewUserProfile(){}
-
-    public void viewUserHistory(){
-        Intent viewEventHistory = new Intent(ChooseLocationActivity.this, ViewEventAnalyticsActivity.class);
-        viewEventHistory.putExtra("uid", uid);
-        startActivity(viewEventHistory);
     }
 }

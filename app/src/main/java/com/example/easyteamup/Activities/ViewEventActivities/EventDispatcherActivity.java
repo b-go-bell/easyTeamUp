@@ -9,13 +9,15 @@ import android.os.Bundle;
 import com.example.easyteamup.Activities.SnackBarActivity.SnackBarFragment;
 import com.example.easyteamup.Activities.SnackBarActivity.SnackBarInterface;
 import com.example.easyteamup.Activities.UserAuthActivities.SignUpActivityFolder.SignUpInterface;
+import com.example.easyteamup.Activities.UserHomeActivities.ViewEventAnalyticsActivity;
+import com.example.easyteamup.Activities.UserHomeActivities.ViewProfileActivity;
+import com.example.easyteamup.Activities.ViewEventActivities.FilterEvents.PublicEventsDialogActivity;
 import com.example.easyteamup.Activities.ViewEventActivities.FilterEvents.PublicEventsDialogFragment;
 import com.example.easyteamup.R;
 
 public class EventDispatcherActivity extends AppCompatActivity {
 
     private Intent getIntent;
-    private FragmentManager fragmentManager;
 
     private String uid; //uid
     private String event_type;
@@ -27,7 +29,6 @@ public class EventDispatcherActivity extends AppCompatActivity {
         setContentView(R.layout.activity_event_dispatcher);
         getSupportActionBar().hide();
 
-        fragmentManager = getSupportFragmentManager();
 
         getIntent = getIntent();
         uid = getIntent.getStringExtra("uid");
@@ -52,8 +53,13 @@ public class EventDispatcherActivity extends AppCompatActivity {
     }
 
     private void showPublicEventsDialog() {
-        PublicEventsDialogFragment publicEventsDialogFragment = PublicEventsDialogFragment.newInstance(uid, null, 0, 0);
-        publicEventsDialogFragment.show(fragmentManager, "fragment_public_events_dialog");
+        Intent publicEventsDialog = new Intent(EventDispatcherActivity.this, PublicEventsDialogActivity.class);
+        publicEventsDialog.putExtra("uid", uid);
+        publicEventsDialog.putExtra("locName", (String)null);
+        publicEventsDialog.putExtra("lat", 0);
+        publicEventsDialog.putExtra("lon", 0);
+
+        startActivity(publicEventsDialog);
     }
 
     private void showSpecialEventsDialog() {

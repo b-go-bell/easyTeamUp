@@ -13,6 +13,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EasyTeamUp">
         <activity
+            android:name=".Activities.ViewEventActivities.FilterEvents.PublicEventsDialogActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.ViewEventActivities.ViewPublicEventsActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.ViewEventActivities.EventDispatcherActivity"
             android:exported="false" />
         <activity

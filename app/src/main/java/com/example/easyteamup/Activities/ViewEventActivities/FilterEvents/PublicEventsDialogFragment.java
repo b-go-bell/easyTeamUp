@@ -16,7 +16,9 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Switch;
+import android.widget.TextView;
 
+import com.example.easyteamup.Activities.UserHomeActivities.ViewProfileActivity;
 import com.example.easyteamup.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 
@@ -25,11 +27,15 @@ public class PublicEventsDialogFragment extends DialogFragment {
 
     private FusedLocationProviderClient client;
 
-    private double latitude;
-    private double longitude;
-    private double radius = 0;
+    private String uid;
+    private String locName;
+    private double lat;
+    private double lon;
+    private int radius = 0;
+    private boolean map = false;
 
     private ImageButton close;
+    private TextView locationText, invalidText;
     private Button mapLocation, submit;
     private SwitchCompat mapOrList;
     private EditText radiusText;
@@ -54,22 +60,29 @@ public class PublicEventsDialogFragment extends DialogFragment {
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_public_events_dialog, container);
 
+        uid = getArguments().getString("uid");
+        locName = getArguments().getString("locName");
+        lat = getArguments().getDouble("lat");
+        lon = getArguments().getDouble("lon");
+
         close = (ImageButton) v.findViewById(R.id.close);
+        locationText = (TextView)  v.findViewById(R.id.where_search);
+        invalidText = (TextView) v.findViewById(R.id.error);
         mapLocation = (Button) v.findViewById(R.id.other_loc);
         radiusText = (EditText) v.findViewById(R.id.distance_input);
         mapOrList = (SwitchCompat)  v.findViewById(R.id.map_toggle);
         submit = (Button) v.findViewById(R.id.submit);
 
+        if(locName == null){
+            locationText.setText(R.string.no_location);
+        } else {
+            String picked  = getString(R.string.selected_location, locName);
+            locationText.setText(picked);
+        }
 
         close.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -91,14 +104,27 @@ public class PublicEventsDialogFragment extends DialogFragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     //map
+                    map = true;
                 } else {
                     //list
+                    map = false;
                 }
             }
         });
 
+
         submit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                invalidText.setText("");
+                String rad = radiusText.getText().toString();
+                int rad_len = rad.trim().length();
+                if(rad_len == 0 || locName == null){
+                    invalidText.setText(R.string.selection_error);
+                }
+                else {
+                    radius = Integer.parseInt(rad);
+                    //send off to view public events activity
+                }
             }
         });
 
@@ -107,11 +133,9 @@ public class PublicEventsDialogFragment extends DialogFragment {
 
     @Override
     public void onCancel(DialogInterface dialog) {
-        super.onCancel(dialog);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
+        //go back to the user home
+        Intent goHome = new Intent(getActivity(), ViewProfileActivity.class);
+        goHome.putExtra("uid", uid);
+        startActivity(goHome);
     }
 }
