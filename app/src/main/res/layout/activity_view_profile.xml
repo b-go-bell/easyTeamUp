@@ -229,20 +229,6 @@
         </LinearLayout>
     </HorizontalScrollView>
 
-    <ProgressBar
-        android:id="@+id/loading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:indeterminateTint="@color/gray"
-        app:layout_constraintTop_toBottomOf="@+id/profile"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/snackbar_container"/>
-
-
     <androidx.fragment.app.FragmentContainerView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/snackbar_container"

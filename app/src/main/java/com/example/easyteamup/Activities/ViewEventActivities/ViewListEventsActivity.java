@@ -2,9 +2,6 @@ package com.example.easyteamup.Activities.ViewEventActivities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.util.Log;
-import android.util.Pair;
 import android.view.View;
 import android.widget.ListView;
 
@@ -17,17 +14,18 @@ import com.example.easyteamup.Activities.SnackBarActivity.SnackBarFragment;
 import com.example.easyteamup.Activities.SnackBarActivity.SnackBarInterface;
 import com.example.easyteamup.Activities.UserHomeActivities.ViewEventAnalyticsActivity;
 import com.example.easyteamup.Activities.UserHomeActivities.ViewProfileActivity;
-import com.example.easyteamup.Backend.Event;
+import com.example.easyteamup.Activities.ViewEventActivities.DisplayEvents.EventAdapter;
+import com.example.easyteamup.Activities.ViewEventActivities.DisplayEvents.NoEventsFragment;
+import com.example.easyteamup.Activities.ViewEventActivities.FilterEvents.PublicEventsDialogFragment;
 import com.example.easyteamup.Backend.FirebaseOperations;
 import com.example.easyteamup.R;
 import com.firebase.geofire.GeoLocation;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
-public class ViewListEventsActivity extends AppCompatActivity implements ViewEventsActivity, SnackBarInterface, PublicEventsDialogInterface {
+public class ViewListEventsActivity extends AppCompatActivity implements SnackBarInterface {
 
     private Intent getIntent;
     private FirebaseOperations fops;
@@ -74,10 +72,10 @@ public class ViewListEventsActivity extends AppCompatActivity implements ViewEve
         events = new ArrayList<>();
         events_status = new ArrayList<>();
 
-        getEvents();
+        //getEvents();
     }
 
-    @Override
+    /*
     public void getEvents() {
         if(event_type.equals("invited")) { //displays events user is invited to, regardless of status
             fops.getInvitedEvents(uid, listObject -> {
@@ -105,7 +103,6 @@ public class ViewListEventsActivity extends AppCompatActivity implements ViewEve
         } else if (event_type.equals("public")) { //displays public events
             listEvents.setVisibility(View.INVISIBLE);
             noEvents.setVisibility(View.INVISIBLE);
-            showPublicEventsDialog();
         } else if (event_type.equals("attending")) { //displays events user is registered to attend
             fops.getRSVPedEvents(uid, listObject -> {
                 try {
@@ -147,6 +144,8 @@ public class ViewListEventsActivity extends AppCompatActivity implements ViewEve
         }
     }
 
+     */
+
     public void showNoEvents() {
         listEvents.setVisibility(View.INVISIBLE);
         noEvents.setVisibility(View.VISIBLE);
@@ -162,23 +161,18 @@ public class ViewListEventsActivity extends AppCompatActivity implements ViewEve
                 .commit();
     }
 
-    public void showPublicEventsDialog() {
-        PublicEventsDialogFragment publicEventsDialogFragment = PublicEventsDialogFragment.newInstance();
-        publicEventsDialogFragment.show(fragmentManager, "fragment_public_events_dialog");
+    public void viewPublicEvents(){
+        Intent viewPublicEvents = new Intent(ViewListEventsActivity.this, EventDispatcherActivity.class);
+        viewPublicEvents.putExtra("uid", uid);
+        viewPublicEvents.putExtra("event_type", "public");
+        startActivity(viewPublicEvents);
     }
 
-    public void viewPublicMapEvents(){
-        Intent viewPublicEventsMap = new Intent(ViewListEventsActivity.this, ViewMapEventsActivity.class);
-        viewPublicEventsMap.putExtra("uid", uid);
-        viewPublicEventsMap.putExtra("event_type", "public");
-        startActivity(viewPublicEventsMap);
-    }
-
-    public void viewPublicListEvents(){
-        Intent viewPublicEventsList = new Intent(ViewListEventsActivity.this, ViewListEventsActivity.class);
-        viewPublicEventsList.putExtra("uid", uid);
-        viewPublicEventsList.putExtra("event_type", "public");
-        startActivity(viewPublicEventsList);
+    public void viewInvitations(){
+        Intent viewInvitations = new Intent(ViewListEventsActivity.this, EventDispatcherActivity.class);
+        viewInvitations.putExtra("uid", uid);
+        viewInvitations.putExtra("event_type", "invited");
+        startActivity(viewInvitations);
     }
 
     public void createEvent(){

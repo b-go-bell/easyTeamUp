@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.easyteamup">
 
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
@@ -13,7 +13,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EasyTeamUp">
         <activity
-            android:name=".Activities.ViewEventActivities.ChooseLocationActivity"
+            android:name=".Activities.ViewEventActivities.EventDispatcherActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.ViewEventActivities.FilterEvents.ChooseLocationActivity"
             android:exported="false" />
         <activity
             android:name=".Activities.UserHomeActivities.UpdateProfileActivity"
@@ -29,8 +32,8 @@
             android:exported="false" />
         <activity
             android:name=".Activities.ViewEventActivities.ViewListEventsActivity"
-            android:windowSoftInputMode="adjustPan"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".Activities.UserHomeActivities.ViewProfileActivity"
             android:exported="false" />
@@ -53,7 +56,9 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyC2LTXdp_6XbtLGhbf1FAAhDzk6iRJMe-Y"/>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyC2LTXdp_6XbtLGhbf1FAAhDzk6iRJMe-Y" />
     </application>
 
 </manifest>

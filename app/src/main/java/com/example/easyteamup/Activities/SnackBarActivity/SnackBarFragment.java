@@ -14,7 +14,7 @@ import com.example.easyteamup.R;
 public class SnackBarFragment extends Fragment {
 
     private SnackBarInterface mCallback;
-    private ImageButton viewMap, viewList, createEvent, viewProfile, viewHistory;
+    private ImageButton viewPublic, viewInvitations, createEvent, viewProfile, viewHistory;
 
     @Override
     public void onAttach(Context context) {
@@ -30,21 +30,21 @@ public class SnackBarFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_snackbar, container, false);
 
-        viewMap = (ImageButton) v.findViewById(R.id.public_map);
-        viewList = (ImageButton) v.findViewById(R.id.public_list);
+        viewPublic = (ImageButton) v.findViewById(R.id.public_events);
+        viewInvitations = (ImageButton) v.findViewById(R.id.invitations);
         createEvent = (ImageButton) v.findViewById(R.id.create_event);
         viewProfile = (ImageButton) v.findViewById(R.id.user_profile);
         viewHistory = (ImageButton) v.findViewById(R.id.user_history);
 
-        viewMap.setOnClickListener(new View.OnClickListener() {
+        viewPublic.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                mCallback.viewPublicMapEvents();
+                mCallback.viewPublicEvents();
             }
         });
 
-        viewList.setOnClickListener(new View.OnClickListener() {
+        viewInvitations.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                mCallback.viewPublicListEvents();
+                mCallback.viewInvitations();
             }
         });
 

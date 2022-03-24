@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.example.easyteamup.Activities.CreateEventActivities.CreateEventActivity;
 import com.example.easyteamup.Activities.SnackBarActivity.SnackBarFragment;
 import com.example.easyteamup.Activities.SnackBarActivity.SnackBarInterface;
+import com.example.easyteamup.Activities.ViewEventActivities.EventDispatcherActivity;
 import com.example.easyteamup.Activities.ViewEventActivities.ViewListEventsActivity;
 import com.example.easyteamup.Activities.ViewEventActivities.ViewMapEventsActivity;
 import com.example.easyteamup.Backend.FirebaseOperations;
@@ -28,7 +29,6 @@ public class ViewProfileActivity extends AppCompatActivity implements SnackBarIn
     FragmentManager fragmentManager;
 
     private TextView welcome;
-    private ProgressBar loadingBar;
     private Button invited_events,  public_events;
     private Button attending, hosting, create_event;
     private Button event_history, update_profile;
@@ -44,8 +44,6 @@ public class ViewProfileActivity extends AppCompatActivity implements SnackBarIn
         fops = new FirebaseOperations(this);
 
         welcome = (TextView) findViewById(R.id.welcome);
-        loadingBar = (ProgressBar)  findViewById(R.id.loading);
-        loadingBar.setVisibility(View.INVISIBLE);
 
         invited_events = (Button) findViewById(R.id.invited_events_button);
         public_events = (Button) findViewById(R.id.public_events_button);
@@ -77,8 +75,7 @@ public class ViewProfileActivity extends AppCompatActivity implements SnackBarIn
         invited_events.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loadingBar.setVisibility(View.VISIBLE);
-                Intent viewPrivateEventsMap = new Intent(ViewProfileActivity.this, ViewListEventsActivity.class);
+                Intent viewPrivateEventsMap = new Intent(ViewProfileActivity.this, EventDispatcherActivity.class);
                 viewPrivateEventsMap.putExtra("uid", uid);
                 viewPrivateEventsMap.putExtra("event_type", "invited");
                 startActivity(viewPrivateEventsMap);
@@ -90,8 +87,7 @@ public class ViewProfileActivity extends AppCompatActivity implements SnackBarIn
         public_events.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loadingBar.setVisibility(View.VISIBLE);
-                Intent viewPublicEventsMap = new Intent(ViewProfileActivity.this, ViewListEventsActivity.class);
+                Intent viewPublicEventsMap = new Intent(ViewProfileActivity.this, EventDispatcherActivity.class);
                 viewPublicEventsMap.putExtra("uid", uid);
                 viewPublicEventsMap.putExtra("event_type", "public");
                 startActivity(viewPublicEventsMap);
@@ -102,8 +98,7 @@ public class ViewProfileActivity extends AppCompatActivity implements SnackBarIn
         attending.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loadingBar.setVisibility(View.VISIBLE);
-                Intent viewAttendingEventsMap = new Intent(ViewProfileActivity.this, ViewListEventsActivity.class);
+                Intent viewAttendingEventsMap = new Intent(ViewProfileActivity.this, EventDispatcherActivity.class);
                 viewAttendingEventsMap.putExtra("uid", uid);
                 viewAttendingEventsMap.putExtra("event_type", "attending");
                 startActivity(viewAttendingEventsMap);
@@ -114,8 +109,7 @@ public class ViewProfileActivity extends AppCompatActivity implements SnackBarIn
         hosting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loadingBar.setVisibility(View.VISIBLE);
-                Intent viewHostedEventsMap = new Intent(ViewProfileActivity.this, ViewListEventsActivity.class);
+                Intent viewHostedEventsMap = new Intent(ViewProfileActivity.this, EventDispatcherActivity.class);
                 viewHostedEventsMap.putExtra("uid", uid);
                 viewHostedEventsMap.putExtra("event_type", "hosting");
                 startActivity(viewHostedEventsMap);
@@ -127,7 +121,6 @@ public class ViewProfileActivity extends AppCompatActivity implements SnackBarIn
         create_event.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loadingBar.setVisibility(View.VISIBLE);
                 Intent createEvent = new Intent(ViewProfileActivity.this, CreateEventActivity.class);
                 createEvent.putExtra("uid", uid);
                 startActivity(createEvent);
@@ -138,7 +131,6 @@ public class ViewProfileActivity extends AppCompatActivity implements SnackBarIn
         event_history.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loadingBar.setVisibility(View.VISIBLE);
                 Intent viewEventHistory = new Intent(ViewProfileActivity.this, ViewEventAnalyticsActivity.class);
                 viewEventHistory.putExtra("uid", uid);
                 startActivity(viewEventHistory);
@@ -149,7 +141,6 @@ public class ViewProfileActivity extends AppCompatActivity implements SnackBarIn
         update_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loadingBar.setVisibility(View.VISIBLE);
                 Intent updateProfile = new Intent(ViewProfileActivity.this, UpdateProfileActivity.class);
                 updateProfile.putExtra("uid", uid);
                 startActivity(updateProfile);
@@ -157,24 +148,21 @@ public class ViewProfileActivity extends AppCompatActivity implements SnackBarIn
         });
     }
 
-    public void viewPublicMapEvents(){
-        loadingBar.setVisibility(View.VISIBLE);
-        Intent viewPublicEventsMap = new Intent(ViewProfileActivity.this, ViewMapEventsActivity.class);
-        viewPublicEventsMap.putExtra("uid", uid);
-        viewPublicEventsMap.putExtra("event_type", "public");
-        startActivity(viewPublicEventsMap);
+    public void viewPublicEvents(){
+        Intent viewPublicEvents = new Intent(ViewProfileActivity.this, EventDispatcherActivity.class);
+        viewPublicEvents.putExtra("uid", uid);
+        viewPublicEvents.putExtra("event_type", "public");
+        startActivity(viewPublicEvents);
     }
 
-    public void viewPublicListEvents(){
-        loadingBar.setVisibility(View.VISIBLE);
-        Intent viewPublicEventsList = new Intent(ViewProfileActivity.this, ViewListEventsActivity.class);
-        viewPublicEventsList.putExtra("uid", uid);
-        viewPublicEventsList.putExtra("event_type", "public");
-        startActivity(viewPublicEventsList);
+    public void viewInvitations(){
+        Intent viewInvitations = new Intent(ViewProfileActivity.this, EventDispatcherActivity.class);
+        viewInvitations.putExtra("uid", uid);
+        viewInvitations.putExtra("event_type", "invited");
+        startActivity(viewInvitations);
     }
 
     public void createEvent(){
-        loadingBar.setVisibility(View.VISIBLE);
         Intent createEvent = new Intent(ViewProfileActivity.this, CreateEventActivity.class);
         createEvent.putExtra("uid", uid);
         startActivity(createEvent);
@@ -183,7 +171,6 @@ public class ViewProfileActivity extends AppCompatActivity implements SnackBarIn
     public void viewUserProfile(){}
 
     public void viewUserHistory(){
-        loadingBar.setVisibility(View.VISIBLE);
         Intent viewEventHistory = new Intent(ViewProfileActivity.this, ViewEventAnalyticsActivity.class);
         viewEventHistory.putExtra("uid", uid);
         startActivity(viewEventHistory);
