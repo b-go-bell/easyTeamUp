@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:text="Invitation Pending"
             android:fontFamily="@font/rubik_bold"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="6dp"
             android:textColor="@color/orange"
             />
         <TextView
@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:text="Due at this time"
             android:fontFamily="@font/rubik_bold_italic"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="6dp"
             android:textColor="@color/gray"
             />
     </LinearLayout>

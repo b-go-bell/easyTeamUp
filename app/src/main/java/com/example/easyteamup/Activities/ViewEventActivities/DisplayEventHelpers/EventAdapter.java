@@ -54,15 +54,12 @@ public class EventAdapter extends ArrayAdapter<Event> {
         eventHostLoc.setText(formattedHostLoc);
 
         TextView eventStatus = (TextView) listItem.findViewById(R.id.event_invitation);
-        String status;
+        String status = "";
         try{
             status = eventsStatuses.get(position);
         }
         catch(NullPointerException npe){
-            status = "pending";
-        }
-        catch(ArrayIndexOutOfBoundsException aie){
-            status = "pending";
+            eventStatus.setVisibility(View.GONE);
         }
 
         String formattedInvite = "";
@@ -75,7 +72,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
             eventStatus.setTextColor(ContextCompat.getColor(mContext, R.color.coral));
         }
         else if(status.equals("pending")){
-            formattedInvite = mContext.getString(R.string.invitation_status, status);
+            formattedInvite = mContext.getString(R.string.invitation_status, "awaiting response");
             eventStatus.setTextColor(ContextCompat.getColor(mContext, R.color.orange));
         }
         else if(status.equals("Hosting")){
