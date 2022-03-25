@@ -86,5 +86,10 @@
     <string name="event_location">%1$s</string>
     <string name="invitation_status">Invitation %1$s</string>
     <string name="due_time">Due on %1$s</string>
+    <string name="viewing_public">Viewing public events near %1$s</string>
+    <string name="viewing_invitations">Viewing my invited events</string>
+    <string name="viewing_rsvp">Viewing events I\'m attending</string>
+    <string name="viewing_hosting">Viewing events I\'m hosting</string>
+    <string name="view_map">View on the map</string>
 
 </resources>

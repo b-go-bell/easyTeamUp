@@ -16,6 +16,7 @@ import com.example.easyteamup.R;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.easyteamup.Backend.FirebaseOperations;
@@ -29,9 +30,9 @@ public class ViewHostedEventsActivity extends AppCompatActivity implements Snack
     private FragmentManager fragmentManager;
 
     private String uid;
-    private boolean map;
 
     private ListView listEvents;
+    private Button mapButton;
     private FragmentContainerView noEvents;
     private EventAdapter eventAdapter;
 
@@ -54,16 +55,17 @@ public class ViewHostedEventsActivity extends AppCompatActivity implements Snack
 
         listEvents = (ListView) findViewById(R.id.events_list);
         noEvents = (FragmentContainerView) findViewById(R.id.no_events_container);
+        mapButton = (Button) findViewById(R.id.map_button);
 
         uid = getIntent.getStringExtra("uid");
-        map = false;
 
-        if(map){
-            viewEventsOnMap();
-        }
-        else {
-            viewEventsInList();
-        }
+        mapButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                viewEventsOnMap();
+            }
+        });
+
+        viewEventsInList();
     }
 
     private void viewEventsOnMap() {

@@ -21,7 +21,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -39,6 +41,8 @@ public class ViewPublicEventsActivity extends AppCompatActivity implements Snack
     private boolean map;
 
     private ListView listEvents;
+    private TextView topDisplay;
+    private Button mapButton;
     private FragmentContainerView noEvents;
     private EventAdapter eventAdapter;
 
@@ -70,6 +74,17 @@ public class ViewPublicEventsActivity extends AppCompatActivity implements Snack
         //set up views
         listEvents = (ListView) findViewById(R.id.events_list);
         noEvents = (FragmentContainerView) findViewById(R.id.no_events_container);
+        topDisplay = (TextView) findViewById(R.id.display_text);
+        mapButton = (Button) findViewById(R.id.map_button);
+
+        String formatted = getString(R.string.viewing_public, locationName);
+        topDisplay.setText(formatted);
+
+        mapButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                viewEventsOnMap();
+            }
+        });
 
         if(map){
             viewEventsOnMap();

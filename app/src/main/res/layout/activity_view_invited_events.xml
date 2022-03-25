@@ -6,21 +6,58 @@
     android:layout_height="match_parent"
     tools:context=".Activities.ViewEventActivities.ViewPublicEventsActivity">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/topbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/blue"
+        android:padding="4dp"
+        >
+        <TextView
+            android:id="@+id/display_text"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:fontFamily="@font/rubik_regular"
+            android:text="@string/viewing_invitations"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/map_button"
+            app:layout_constraintTop_toTopOf ="parent"
+            app:layout_constraintBottom_toBottomOf ="parent"
+            />
+        <Button
+            android:id="@+id/map_button"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:text="@string/view_map"
+            android:textAllCaps="false"
+            android:textSize="10sp"
+            android:backgroundTint="@color/gray"
+            android:fontFamily="@font/rubik_bold_italic"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/display_text"
+            app:layout_constraintTop_toTopOf ="parent"
+            app:layout_constraintBottom_toBottomOf ="parent"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="parent"
+        android:layout_marginTop="60dp">
+
         <ListView
             android:id="@+id/events_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:dividerHeight="14.0sp"
+            android:layout_marginVertical="30dp"
             android:divider="@color/transparent"
-            android:layout_marginVertical="10dp"
-            android:paddingBottom="110dp"
-            />
+            android:dividerHeight="14.0sp"
+            android:paddingBottom="90dp"
+            android:clickable="true"/>
     </LinearLayout>
 
     <androidx.fragment.app.FragmentContainerView

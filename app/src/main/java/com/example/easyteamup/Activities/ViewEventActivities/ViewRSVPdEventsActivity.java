@@ -18,6 +18,7 @@ import com.example.easyteamup.R;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -29,9 +30,9 @@ public class ViewRSVPdEventsActivity extends AppCompatActivity implements SnackB
     private FragmentManager fragmentManager;
 
     private String uid;
-    private boolean map;
 
     private ListView listEvents;
+    private Button mapButton;
     private FragmentContainerView noEvents;
     private EventAdapter eventAdapter;
 
@@ -53,18 +54,19 @@ public class ViewRSVPdEventsActivity extends AppCompatActivity implements SnackB
                 .commit();
 
         uid = getIntent.getStringExtra("uid");
-        map = false;
 
         //set up views
         listEvents = (ListView) findViewById(R.id.events_list);
         noEvents = (FragmentContainerView) findViewById(R.id.no_events_container);
+        mapButton = (Button) findViewById(R.id.map_button);
 
-        if(map){
-            viewEventsOnMap();
-        }
-        else {
-            viewEventsInList();
-        }
+        mapButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                viewEventsOnMap();
+            }
+        });
+
+        viewEventsInList();
     }
 
     private void viewEventsOnMap() {
