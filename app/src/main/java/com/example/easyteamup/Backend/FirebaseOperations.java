@@ -1,6 +1,5 @@
 package com.example.easyteamup.Backend;
 
-import android.app.DownloadManager;
 import android.content.Context;
 import android.net.Uri;
 
@@ -51,6 +50,7 @@ public class FirebaseOperations {
         db = FirebaseFirestore.getInstance();
         storage = FirebaseStorage.getInstance().getReference();
         requestQueue = Volley.newRequestQueue(context);
+        authenticatedUser = auth.getCurrentUser();
     }
 
     /**
