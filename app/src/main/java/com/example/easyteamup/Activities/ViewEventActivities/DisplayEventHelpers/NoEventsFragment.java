@@ -15,8 +15,7 @@ import android.widget.TextView;
 
 import com.example.easyteamup.Activities.CreateEventActivities.CreateEventActivity;
 import com.example.easyteamup.Activities.UserHomeActivities.ViewProfileActivity;
-import com.example.easyteamup.Activities.ViewEventActivities.ViewListEventsActivity;
-import com.example.easyteamup.Activities.ViewEventActivities.ViewMapEventsActivity;
+import com.example.easyteamup.Activities.ViewEventActivities.EventDispatcherActivity;
 import com.example.easyteamup.R;
 
 public class NoEventsFragment extends Fragment {
@@ -59,10 +58,6 @@ public class NoEventsFragment extends Fragment {
         if(none.equals("invited")) { //shows browse public events button
             noEvents.setText(R.string.no_invitations);
             browsePublicCenter.setVisibility(View.VISIBLE);
-            if(map)
-                browsePublicCenter.setText(R.string.browse_public_events_map);
-            else
-                browsePublicCenter.setText(R.string.browse_public_events_list);
             browsePublicCenter.setEnabled(true);
 
             createEvent.setVisibility(View.INVISIBLE);
@@ -78,13 +73,6 @@ public class NoEventsFragment extends Fragment {
                 noEvents.setText(R.string.no_rsvps);
             browsePublicLeft.setVisibility(View.VISIBLE);
             viewInvitationsRight.setVisibility(View.VISIBLE);
-            if(map){
-                browsePublicLeft.setText(R.string.browse_public_events_map);
-                viewInvitationsRight.setText(R.string.view_invited_events_map);
-            } else{
-                browsePublicLeft.setText(R.string.browse_public_events_list);
-                viewInvitationsRight.setText(R.string.view_invited_events_list);
-            }
             browsePublicLeft.setEnabled(true);
             viewInvitationsRight.setEnabled(true);
 
@@ -107,55 +95,31 @@ public class NoEventsFragment extends Fragment {
 
         browsePublicCenter.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if(map){
-                    loading.setVisibility(View.VISIBLE);
-                    Intent viewPublicEventsMap = new Intent(getActivity(), ViewMapEventsActivity.class);
-                    viewPublicEventsMap.putExtra("uid", uid);
-                    viewPublicEventsMap.putExtra("event_type", "public");
-                    startActivity(viewPublicEventsMap);
-                } else {
-                    loading.setVisibility(View.VISIBLE);
-                    Intent viewPublicEventsList = new Intent(getActivity(), ViewListEventsActivity.class);
-                    viewPublicEventsList.putExtra("uid", uid);
-                    viewPublicEventsList.putExtra("event_type", "public");
-                    startActivity(viewPublicEventsList);
-                }
+                loading.setVisibility(View.VISIBLE);
+                Intent viewPublicEventsList = new Intent(getActivity(), EventDispatcherActivity.class);
+                viewPublicEventsList.putExtra("uid", uid);
+                viewPublicEventsList.putExtra("event_type", "public");
+                startActivity(viewPublicEventsList);
             }
         });
 
         browsePublicLeft.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if(map){
-                    loading.setVisibility(View.VISIBLE);
-                    Intent viewPublicEventsMap = new Intent(getActivity(), ViewMapEventsActivity.class);
-                    viewPublicEventsMap.putExtra("uid", uid);
-                    viewPublicEventsMap.putExtra("event_type", "public");
-                    startActivity(viewPublicEventsMap);
-                } else {
-                    loading.setVisibility(View.VISIBLE);
-                    Intent viewPublicEventsList = new Intent(getActivity(), ViewListEventsActivity.class);
-                    viewPublicEventsList.putExtra("uid", uid);
-                    viewPublicEventsList.putExtra("event_type", "public");
-                    startActivity(viewPublicEventsList);
-                }
+                loading.setVisibility(View.VISIBLE);
+                Intent viewPublicEventsList = new Intent(getActivity(), EventDispatcherActivity.class);
+                viewPublicEventsList.putExtra("uid", uid);
+                viewPublicEventsList.putExtra("event_type", "public");
+                startActivity(viewPublicEventsList);
             }
         });
 
         viewInvitationsRight.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if(map){
-                    loading.setVisibility(View.VISIBLE);
-                    Intent viewInvitationsMap = new Intent(getActivity(), ViewMapEventsActivity.class);
-                    viewInvitationsMap.putExtra("uid", uid);
-                    viewInvitationsMap.putExtra("event_type", "invited");
-                    startActivity(viewInvitationsMap);
-                } else {
-                    loading.setVisibility(View.VISIBLE);
-                    Intent viewPublicEventsList = new Intent(getActivity(), ViewListEventsActivity.class);
-                    viewPublicEventsList.putExtra("uid", uid);
-                    viewPublicEventsList.putExtra("event_type", "invited");
-                    startActivity(viewPublicEventsList);
-                }
+                loading.setVisibility(View.VISIBLE);
+                Intent viewPublicEventsList = new Intent(getActivity(), EventDispatcherActivity.class);
+                viewPublicEventsList.putExtra("uid", uid);
+                viewPublicEventsList.putExtra("event_type", "invited");
+                startActivity(viewPublicEventsList);
             }
         });
 

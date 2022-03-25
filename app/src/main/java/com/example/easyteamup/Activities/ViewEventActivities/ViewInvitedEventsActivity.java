@@ -9,33 +9,27 @@ import com.example.easyteamup.Activities.SnackBarActivity.SnackBarFragment;
 import com.example.easyteamup.Activities.SnackBarActivity.SnackBarInterface;
 import com.example.easyteamup.Activities.UserHomeActivities.ViewEventAnalyticsActivity;
 import com.example.easyteamup.Activities.UserHomeActivities.ViewProfileActivity;
-import com.example.easyteamup.Activities.ViewEventActivities.DisplayEventHelpers.EventAdapter;
 import com.example.easyteamup.Activities.ViewEventActivities.DisplayEventHelpers.NoEventsFragment;
-import com.example.easyteamup.Backend.Event;
-import com.example.easyteamup.Backend.FirebaseOperations;
 import com.example.easyteamup.R;
-import com.firebase.geofire.GeoLocation;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import java.util.ArrayList;
+import com.example.easyteamup.Activities.ViewEventActivities.DisplayEventHelpers.EventAdapter;
+import com.example.easyteamup.Backend.FirebaseOperations;
 
-public class ViewPublicEventsActivity extends AppCompatActivity implements SnackBarInterface {
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
+
+public class ViewInvitedEventsActivity extends AppCompatActivity implements SnackBarInterface {
 
     private Intent getIntent;
     private FirebaseOperations fops;
     private FragmentManager fragmentManager;
 
     private String uid;
-    private String locationName;
-    private double latitude;
-    private double longitude;
-    private double radius;
     private boolean map;
 
     private ListView listEvents;
@@ -45,7 +39,7 @@ public class ViewPublicEventsActivity extends AppCompatActivity implements Snack
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_public_events);
+        setContentView(R.layout.activity_view_invited_events);
         getSupportActionBar().hide();
 
         fops = new FirebaseOperations(this);
@@ -59,13 +53,8 @@ public class ViewPublicEventsActivity extends AppCompatActivity implements Snack
                 .addToBackStack("snackbar")
                 .commit();
 
-
         uid = getIntent.getStringExtra("uid");
-        locationName = getIntent.getStringExtra("locName");
-        latitude = getIntent.getDoubleExtra("lat", 34.0224);
-        longitude = getIntent.getDoubleExtra("lon", -118.2851);
-        radius = getIntent.getDoubleExtra("radius", 10);
-        map = getIntent.getBooleanExtra("map", false);
+        map = false;
 
         //set up views
         listEvents = (ListView) findViewById(R.id.events_list);
@@ -84,26 +73,28 @@ public class ViewPublicEventsActivity extends AppCompatActivity implements Snack
     }
 
     private void viewEventsInList() {
-        GeoLocation geoloc = new GeoLocation(latitude, longitude);
-        fops.getPublicEvents(geoloc, radius, listObject -> {
-            try {
-                ArrayList<String> eventIds = (ArrayList<String>) listObject;
+        fops.getInvitedEvents(uid, listObject -> {
+            try{
+                ArrayList<String> eventIds = new ArrayList<>();
+                ArrayList<String> eventStatuses = new ArrayList<>();
 
-                ArrayList<Event> eventsList = new ArrayList<>();
-                for(int i = 0; i < eventIds.size(); i++){
-                    fops.getEventByEventid(eventIds.get(i), eventObject -> {
-                        Event currEvent = (Event) eventObject;
-                        eventsList.add(currEvent);
-                    });
+                Map<String, String> mapEvents = (Map<String, String>) listObject;
+                Iterator<Map.Entry<String, String>> it = mapEvents.entrySet().iterator();
+
+                while (it.hasNext()) {
+                    Map.Entry<String, String> event = it.next();
+                    String eid = event.getKey();
+                    String status = event.getValue();
+                    eventIds.add(eid);
+                    eventStatuses.add(status);
                 }
 
-                eventAdapter  = new EventAdapter(this, eventsList);
-                listEvents.setAdapter(eventAdapter);
+                //format with eventAdapter
 
                 listEvents.setVisibility(View.VISIBLE);
                 noEvents.setVisibility(View.INVISIBLE);
             }
-            catch (NullPointerException npe){
+            catch(NullPointerException npe) {
                 showNoEvents();
             }
         });
@@ -125,33 +116,33 @@ public class ViewPublicEventsActivity extends AppCompatActivity implements Snack
     }
 
     public void viewPublicEvents(){
-        Intent viewPublicEvents = new Intent(ViewPublicEventsActivity.this, EventDispatcherActivity.class);
+        Intent viewPublicEvents = new Intent(ViewInvitedEventsActivity.this, EventDispatcherActivity.class);
         viewPublicEvents.putExtra("uid", uid);
         viewPublicEvents.putExtra("event_type", "public");
         startActivity(viewPublicEvents);
     }
 
     public void viewInvitations(){
-        Intent viewInvitations = new Intent(ViewPublicEventsActivity.this, EventDispatcherActivity.class);
+        Intent viewInvitations = new Intent(ViewInvitedEventsActivity.this, EventDispatcherActivity.class);
         viewInvitations.putExtra("uid", uid);
         viewInvitations.putExtra("event_type", "invited");
         startActivity(viewInvitations);
     }
 
     public void createEvent(){
-        Intent createEvent = new Intent(ViewPublicEventsActivity.this, CreateEventActivity.class);
+        Intent createEvent = new Intent(ViewInvitedEventsActivity.this, CreateEventActivity.class);
         createEvent.putExtra("uid", uid);
         startActivity(createEvent);
     }
 
     public void viewUserProfile(){
-        Intent viewUserProfile = new Intent(ViewPublicEventsActivity.this, ViewProfileActivity.class);
+        Intent viewUserProfile = new Intent(ViewInvitedEventsActivity.this, ViewProfileActivity.class);
         viewUserProfile.putExtra("uid", uid);
         startActivity(viewUserProfile);
     }
 
     public void viewUserHistory(){
-        Intent viewEventHistory = new Intent(ViewPublicEventsActivity.this, ViewEventAnalyticsActivity.class);
+        Intent viewEventHistory = new Intent(ViewInvitedEventsActivity.this, ViewEventAnalyticsActivity.class);
         viewEventHistory.putExtra("uid", uid);
         startActivity(viewEventHistory);
     }

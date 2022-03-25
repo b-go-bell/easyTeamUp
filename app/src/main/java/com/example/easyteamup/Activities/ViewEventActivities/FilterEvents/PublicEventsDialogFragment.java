@@ -18,7 +18,9 @@ import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.example.easyteamup.Activities.CreateEventActivities.CreateEventActivity;
 import com.example.easyteamup.Activities.UserHomeActivities.ViewProfileActivity;
+import com.example.easyteamup.Activities.ViewEventActivities.ViewPublicEventsActivity;
 import com.example.easyteamup.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 
@@ -31,7 +33,7 @@ public class PublicEventsDialogFragment extends DialogFragment {
     private String locName;
     private double lat;
     private double lon;
-    private int radius = 0;
+    private double radius = 0;
     private boolean map = false;
 
     private ImageButton close;
@@ -122,8 +124,17 @@ public class PublicEventsDialogFragment extends DialogFragment {
                     invalidText.setText(R.string.selection_error);
                 }
                 else {
-                    radius = Integer.parseInt(rad);
+                    radius = Double.parseDouble(rad);
+
                     //send off to view public events activity
+                    Intent viewPublicEvents = new Intent(getActivity(), ViewPublicEventsActivity.class);
+                    viewPublicEvents.putExtra("uid", uid);
+                    viewPublicEvents.putExtra("locName", locName);
+                    viewPublicEvents.putExtra("lat", lat);
+                    viewPublicEvents.putExtra("lon", lon);
+                    viewPublicEvents.putExtra("radius", radius);
+                    viewPublicEvents.putExtra("map", map);
+                    startActivity(viewPublicEvents);
                 }
             }
         });
