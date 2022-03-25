@@ -11,12 +11,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/snackbar_container">
+        app:layout_constraintTop_toTopOf="parent">
         <ListView
             android:id="@+id/events_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:dividerHeight="14.0sp"
+            android:divider="@color/transparent"
+            android:layout_marginVertical="10dp"
+            android:paddingBottom="110dp"
+            />
     </LinearLayout>
 
     <androidx.fragment.app.FragmentContainerView

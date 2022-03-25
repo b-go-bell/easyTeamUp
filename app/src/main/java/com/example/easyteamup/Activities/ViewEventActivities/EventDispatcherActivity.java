@@ -39,16 +39,22 @@ public class EventDispatcherActivity extends AppCompatActivity {
 
     private void dispatch(){
         if(event_type.equals("invited")) {
-            showSpecialEventsDialog();
+            Intent viewInvitedEvents = new Intent(EventDispatcherActivity.this, ViewInvitedEventsActivity.class);
+            viewInvitedEvents.putExtra("uid", uid);
+            startActivity(viewInvitedEvents);
         }
         else if (event_type.equals("public")) {
             showPublicEventsDialog();
         }
         else if (event_type.equals("attending")) {
-            showSpecialEventsDialog();
+            Intent viewRSVPdEvents = new Intent(EventDispatcherActivity.this, ViewRSVPdEventsActivity.class);
+            viewRSVPdEvents.putExtra("uid", uid);
+            startActivity(viewRSVPdEvents);
         }
         else if (event_type.equals("hosting")) {
-            showSpecialEventsDialog();
+            Intent viewHostedEvents = new Intent(EventDispatcherActivity.this, ViewHostedEventsActivity.class);
+            viewHostedEvents.putExtra("uid", uid);
+            startActivity(viewHostedEvents);
         }
     }
 
@@ -60,9 +66,5 @@ public class EventDispatcherActivity extends AppCompatActivity {
         publicEventsDialog.putExtra("lon", 0);
 
         startActivity(publicEventsDialog);
-    }
-
-    private void showSpecialEventsDialog() {
-        // FILL IN
     }
 }

@@ -11,6 +11,7 @@ import com.example.easyteamup.Activities.UserHomeActivities.ViewEventAnalyticsAc
 import com.example.easyteamup.Activities.UserHomeActivities.ViewProfileActivity;
 import com.example.easyteamup.Activities.ViewEventActivities.DisplayEventHelpers.EventAdapter;
 import com.example.easyteamup.Activities.ViewEventActivities.DisplayEventHelpers.NoEventsFragment;
+import com.example.easyteamup.Backend.Event;
 import com.example.easyteamup.Backend.FirebaseOperations;
 import com.example.easyteamup.R;
 
@@ -18,6 +19,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
+
+import java.util.ArrayList;
 
 public class ViewRSVPdEventsActivity extends AppCompatActivity implements SnackBarInterface {
 
@@ -70,7 +73,34 @@ public class ViewRSVPdEventsActivity extends AppCompatActivity implements SnackB
 
     private void viewEventsInList() {
         fops.getRSVPedEvents(uid, listObject -> {
-            //do something
+            try {
+                ArrayList<String> eventIds = (ArrayList<String>) listObject;
+                if(eventIds.size() == 0){
+                    throw new NullPointerException();
+                }
+                ArrayList<String> eventStatuses = new ArrayList<>();
+                for(int i = 0; i < eventIds.size(); i++){
+                    eventStatuses.add("attending");
+                }
+
+                fops.getEventsByEventId(eventIds, eventList -> {
+                    try {
+                        ArrayList<Event> events = (ArrayList<Event>) eventList;
+                        eventAdapter = new EventAdapter(this, events, eventStatuses);
+
+                        listEvents.setAdapter(eventAdapter);
+
+                        listEvents.setVisibility(View.VISIBLE);
+                        noEvents.setVisibility(View.INVISIBLE);
+                    }
+                    catch(NullPointerException npe){
+                        showNoEvents();
+                    }
+                });
+            }
+            catch (NullPointerException npe){
+                showNoEvents();
+            }
         });
     }
 
@@ -80,8 +110,7 @@ public class ViewRSVPdEventsActivity extends AppCompatActivity implements SnackB
 
         Bundle bundle = new Bundle();
         bundle.putString("uid", uid);
-        bundle.putBoolean("map", false);
-        bundle.putString("none", "public");
+        bundle.putString("none", "attending");
         fragmentManager.beginTransaction()
                 .setReorderingAllowed(true)
                 .add(R.id.no_events_container, NoEventsFragment.class, bundle)

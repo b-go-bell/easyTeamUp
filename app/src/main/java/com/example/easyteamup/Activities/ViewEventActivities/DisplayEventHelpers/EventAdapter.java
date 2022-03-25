@@ -21,14 +21,20 @@ import java.util.Date;
 
 public class EventAdapter extends ArrayAdapter<Event> {
     private Context mContext;
-    private FirebaseOperations fops;
     private ArrayList<Event> eventsList;
+    private ArrayList<String> eventsStatuses;
 
     public EventAdapter(Context context, ArrayList<Event> events) {
         super(context, 0, events);
         mContext = context;
         eventsList = events;
-        fops = new FirebaseOperations(mContext);
+    }
+
+    public EventAdapter(Context context, ArrayList<Event> events, ArrayList<String> statuses) {
+        super(context, 0, events);
+        mContext = context;
+        eventsList = events;
+        eventsStatuses = statuses;
     }
 
     @NonNull
@@ -48,15 +54,35 @@ public class EventAdapter extends ArrayAdapter<Event> {
         eventHostLoc.setText(formattedHostLoc);
 
         TextView eventStatus = (TextView) listItem.findViewById(R.id.event_invitation);
-        //modify
-        String status = "pending";
-        String formattedInvite = mContext.getString(R.string.invitation_status, status);
-        eventStatus.setText(formattedInvite);
-        if(status.equals("accepted")){
+        String status;
+        try{
+            status = eventsStatuses.get(position);
+        }
+        catch(NullPointerException npe){
+            status = "pending";
+        }
+        catch(ArrayIndexOutOfBoundsException aie){
+            status = "pending";
+        }
+
+        String formattedInvite = "";
+        if(status.equals("attending")){
+            formattedInvite = mContext.getString(R.string.invitation_status, "accepted");
             eventStatus.setTextColor(ContextCompat.getColor(mContext, R.color.green));
         }
-        else if(status.equals("rejected"))
+        else if(status.equals("rejected")) {
+            formattedInvite = mContext.getString(R.string.invitation_status, status);
             eventStatus.setTextColor(ContextCompat.getColor(mContext, R.color.coral));
+        }
+        else if(status.equals("pending")){
+            formattedInvite = mContext.getString(R.string.invitation_status, status);
+            eventStatus.setTextColor(ContextCompat.getColor(mContext, R.color.orange));
+        }
+        else if(status.equals("Hosting")){
+            formattedInvite = status;
+            eventStatus.setTextColor(ContextCompat.getColor(mContext, R.color.blue));
+        }
+        eventStatus.setText(formattedInvite);
 
         TextView dueTime = (TextView) listItem.findViewById(R.id.event_due);
         Date time = new Date(currentEvent.getDueDate().getSeconds()*1000);

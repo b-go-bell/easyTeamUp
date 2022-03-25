@@ -119,7 +119,6 @@ public class ViewPublicEventsActivity extends AppCompatActivity implements Snack
 
         Bundle bundle = new Bundle();
         bundle.putString("uid", uid);
-        bundle.putBoolean("map", false);
         bundle.putString("none", "public");
         fragmentManager.beginTransaction()
                 .setReorderingAllowed(true)

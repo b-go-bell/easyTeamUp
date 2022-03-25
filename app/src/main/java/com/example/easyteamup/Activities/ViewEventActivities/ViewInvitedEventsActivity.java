@@ -10,6 +10,7 @@ import com.example.easyteamup.Activities.SnackBarActivity.SnackBarInterface;
 import com.example.easyteamup.Activities.UserHomeActivities.ViewEventAnalyticsActivity;
 import com.example.easyteamup.Activities.UserHomeActivities.ViewProfileActivity;
 import com.example.easyteamup.Activities.ViewEventActivities.DisplayEventHelpers.NoEventsFragment;
+import com.example.easyteamup.Backend.Event;
 import com.example.easyteamup.R;
 import android.content.Intent;
 import android.os.Bundle;
@@ -79,6 +80,9 @@ public class ViewInvitedEventsActivity extends AppCompatActivity implements Snac
                 ArrayList<String> eventStatuses = new ArrayList<>();
 
                 Map<String, String> mapEvents = (Map<String, String>) listObject;
+                if(mapEvents.isEmpty()){
+                    throw new NullPointerException();
+                }
                 Iterator<Map.Entry<String, String>> it = mapEvents.entrySet().iterator();
 
                 while (it.hasNext()) {
@@ -89,10 +93,20 @@ public class ViewInvitedEventsActivity extends AppCompatActivity implements Snac
                     eventStatuses.add(status);
                 }
 
-                //format with eventAdapter
+                fops.getEventsByEventId(eventIds, eventList -> {
+                    try {
+                        ArrayList<Event> events = (ArrayList<Event>) eventList;
+                        eventAdapter = new EventAdapter(this, events, eventStatuses);
 
-                listEvents.setVisibility(View.VISIBLE);
-                noEvents.setVisibility(View.INVISIBLE);
+                        listEvents.setAdapter(eventAdapter);
+
+                        listEvents.setVisibility(View.VISIBLE);
+                        noEvents.setVisibility(View.INVISIBLE);
+                    }
+                    catch(NullPointerException npe){
+                        showNoEvents();
+                    }
+                });
             }
             catch(NullPointerException npe) {
                 showNoEvents();
@@ -106,8 +120,7 @@ public class ViewInvitedEventsActivity extends AppCompatActivity implements Snac
 
         Bundle bundle = new Bundle();
         bundle.putString("uid", uid);
-        bundle.putBoolean("map", false);
-        bundle.putString("none", "public");
+        bundle.putString("none", "invited");
         fragmentManager.beginTransaction()
                 .setReorderingAllowed(true)
                 .add(R.id.no_events_container, NoEventsFragment.class, bundle)

@@ -44,7 +44,6 @@ public class NoEventsFragment extends Fragment {
         Bundle bundleArgs = getArguments();
         uid = bundleArgs.getString("uid");
         String none = bundleArgs.getString("none");
-        boolean map = bundleArgs.getBoolean("map");
 
         noEvents = (TextView) v.findViewById(R.id.no_events);
         browsePublicCenter = (Button) v.findViewById(R.id.browse_public_events);

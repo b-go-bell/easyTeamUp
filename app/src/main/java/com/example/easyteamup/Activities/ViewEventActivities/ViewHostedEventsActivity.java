@@ -11,6 +11,7 @@ import com.example.easyteamup.Activities.UserHomeActivities.ViewEventAnalyticsAc
 import com.example.easyteamup.Activities.UserHomeActivities.ViewProfileActivity;
 import com.example.easyteamup.Activities.ViewEventActivities.DisplayEventHelpers.EventAdapter;
 import com.example.easyteamup.Activities.ViewEventActivities.DisplayEventHelpers.NoEventsFragment;
+import com.example.easyteamup.Backend.Event;
 import com.example.easyteamup.R;
 import android.content.Intent;
 import android.os.Bundle;
@@ -73,11 +74,28 @@ public class ViewHostedEventsActivity extends AppCompatActivity implements Snack
         fops.getHostedEvents(uid, listObject -> {
             try {
                 ArrayList<String> eventIds = (ArrayList<String>) listObject;
+                if(eventIds.size() == 0){
+                    throw new NullPointerException();
+                }
+                ArrayList<String> eventStatuses = new ArrayList<>();
+                for(int i = 0; i < eventIds.size(); i++){
+                    eventStatuses.add("Hosting");
+                }
 
-                //use adapter
+                fops.getEventsByEventId(eventIds, eventList -> {
+                    try {
+                        ArrayList<Event> events = (ArrayList<Event>) eventList;
+                        eventAdapter = new EventAdapter(this, events, eventStatuses);
 
-                listEvents.setVisibility(View.VISIBLE);
-                noEvents.setVisibility(View.INVISIBLE);
+                        listEvents.setAdapter(eventAdapter);
+
+                        listEvents.setVisibility(View.VISIBLE);
+                        noEvents.setVisibility(View.INVISIBLE);
+                    }
+                    catch(NullPointerException npe){
+                        showNoEvents();
+                    }
+                });
             }
             catch (NullPointerException npe) {
                 showNoEvents();
@@ -91,8 +109,7 @@ public class ViewHostedEventsActivity extends AppCompatActivity implements Snack
 
         Bundle bundle = new Bundle();
         bundle.putString("uid", uid);
-        bundle.putBoolean("map", false);
-        bundle.putString("none", "public");
+        bundle.putString("none", "hosting");
         fragmentManager.beginTransaction()
                 .setReorderingAllowed(true)
                 .add(R.id.no_events_container, NoEventsFragment.class, bundle)
