@@ -106,7 +106,7 @@ public class MapPublicEventsActivity extends AppCompatActivity implements OnMapR
     }
 
     private void viewEventsInList(){
-        Intent viewPublicListEvents = new Intent(MapPublicEventsActivity.this, MapPublicEventsActivity.class);
+        Intent viewPublicListEvents = new Intent(MapPublicEventsActivity.this, ViewPublicEventsActivity.class);
         viewPublicListEvents.putExtra("uid", uid);
         viewPublicListEvents.putExtra("locName", locationName);
         viewPublicListEvents.putExtra("lat", latitude);

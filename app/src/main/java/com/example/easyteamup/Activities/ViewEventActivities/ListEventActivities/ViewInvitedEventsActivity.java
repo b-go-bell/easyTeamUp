@@ -11,6 +11,8 @@ import com.example.easyteamup.Activities.UserHomeActivities.ViewEventAnalyticsAc
 import com.example.easyteamup.Activities.UserHomeActivities.ViewProfileActivity;
 import com.example.easyteamup.Activities.ViewEventActivities.DisplayEventHelpers.NoEventsFragment;
 import com.example.easyteamup.Activities.ViewEventActivities.EventDispatcherActivity;
+import com.example.easyteamup.Activities.ViewEventActivities.MapEventActivities.MapInvitedEventsActivity;
+import com.example.easyteamup.Activities.ViewEventActivities.MapEventActivities.MapPublicEventsActivity;
 import com.example.easyteamup.Backend.Event;
 import com.example.easyteamup.R;
 import android.content.Intent;
@@ -72,7 +74,9 @@ public class ViewInvitedEventsActivity extends AppCompatActivity implements Snac
     }
 
     private void viewEventsOnMap() {
-        //Fill in
+        Intent viewInvitedMapEvents = new Intent(ViewInvitedEventsActivity.this, MapInvitedEventsActivity.class);
+        viewInvitedMapEvents.putExtra("uid", uid);
+        startActivity(viewInvitedMapEvents);
     }
 
     private void viewEventsInList() {
@@ -137,12 +141,7 @@ public class ViewInvitedEventsActivity extends AppCompatActivity implements Snac
         startActivity(viewPublicEvents);
     }
 
-    public void viewInvitations(){
-        Intent viewInvitations = new Intent(ViewInvitedEventsActivity.this, EventDispatcherActivity.class);
-        viewInvitations.putExtra("uid", uid);
-        viewInvitations.putExtra("event_type", "invited");
-        startActivity(viewInvitations);
-    }
+    public void viewInvitations(){}
 
     public void createEvent(){
         Intent createEvent = new Intent(ViewInvitedEventsActivity.this, CreateEventActivity.class);
