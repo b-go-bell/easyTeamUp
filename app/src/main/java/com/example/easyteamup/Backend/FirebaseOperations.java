@@ -385,15 +385,51 @@ public class FirebaseOperations {
             db.collection("events")
                     .whereIn(FieldPath.documentId(), eventIds)
                     .get()
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
+                    .addOnCompleteListener(task1 -> {
+                        if (task1.isSuccessful()) {
                             List<Event> events = new ArrayList<>();
-                            for (QueryDocumentSnapshot document : task.getResult()) {
+                            List<Task<?>> tasks = new ArrayList<>();
+
+                            for (QueryDocumentSnapshot document : task1.getResult()) {
                                 Event e = document.toObject(Event.class);
                                 e.setEventId(document.getId());
-                                events.add(e);
-                            }
-                            listObject.result(events);
+
+                                Task<DocumentSnapshot> checkRsvp = document
+                                        .getReference()
+                                        .collection("rsvpedUsers")
+                                        .document(authenticatedUser.getUid())
+                                        .get();
+                                Task<DocumentSnapshot> checkInvitation = document
+                                        .getReference()
+                                        .collection("invitedUsers")
+                                        .document(authenticatedUser.getUid())
+                                        .get();
+
+                                Task<Void> allTask = Tasks.whenAll(checkRsvp, checkInvitation);
+                                tasks.add(allTask);
+                                allTask.addOnCompleteListener(task2 -> {
+                                    if (task2.isSuccessful()) {
+                                        e.setIsRsvped(checkRsvp.getResult().exists());
+
+                                        DocumentSnapshot invitation = checkInvitation.getResult();
+                                        if (invitation.exists()) {
+                                            System.out.println("Exists!");
+                                            e.setInvitationStatus(invitation.getString("status"));
+                                        }
+                                        events.add(e);
+                                    }
+                                });
+                            }//end for
+
+                            Tasks.whenAll(tasks).addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                    listObject.result(events);
+                                }
+                                else {
+                                    listObject.result(null);
+                                }
+                            });
+
                         }
                         else {
                             listObject.result(null);
@@ -403,6 +439,7 @@ public class FirebaseOperations {
         catch (RuntimeException re) {
             listObject.result(null);
         }
+
     }
 
 

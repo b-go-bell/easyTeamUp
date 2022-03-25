@@ -19,6 +19,8 @@ public class Event {
     private Timestamp dueDate;
     private Timestamp finalTime;
     private boolean isPublic;
+    private boolean rsvped;
+    private String invitationStatus;
 
     public Event() {
         this.eventId = null;
@@ -31,12 +33,14 @@ public class Event {
         this.dueDate = null;
         this.finalTime = null;
         this.isPublic = false;
+        this.rsvped = false;
+        this.invitationStatus = null;
     }
 
 
     public Event(String eventId, String name, String host, String address,
                  String geohash, Double latitude, Double longitude, Timestamp dueDate,
-                 Timestamp finalTime, boolean isPublic) {
+                 Timestamp finalTime, boolean isPublic, boolean rsvped, String invitationStatus) {
         this.eventId = eventId;
         this.name = name;
         this.host = host;
@@ -47,6 +51,8 @@ public class Event {
         this.dueDate = dueDate;
         this.finalTime = finalTime;
         this.isPublic = isPublic;
+        this.rsvped = rsvped;
+        this.invitationStatus = invitationStatus;
     }
 
     public void setEventId(String eventId) {
@@ -142,9 +148,22 @@ public class Event {
         this.isPublic = isPublic;
     }
 
-    /*
-       For debugging - will probably want to delete
-    */
+    public boolean getIsRsvped() {
+        return rsvped;
+    }
+
+    public void setIsRsvped(boolean rsvped) {
+        this.rsvped = rsvped;
+    }
+
+    public String getInvitationStatus() {
+        return invitationStatus;
+    }
+
+    public void setInvitationStatus(String invitationStatus) {
+        this.invitationStatus = invitationStatus;
+    }
+
     @Override
     public String toString() {
         return "Event{" +
@@ -158,6 +177,8 @@ public class Event {
                 ", dueDate=" + dueDate +
                 ", finalTime=" + finalTime +
                 ", isPublic=" + isPublic +
+                ", rsvped=" + rsvped +
+                ", invitationStatus='" + invitationStatus + '\'' +
                 '}';
     }
 }
