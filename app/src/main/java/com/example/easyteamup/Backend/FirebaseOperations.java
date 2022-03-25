@@ -231,6 +231,33 @@ public class FirebaseOperations {
     }
 
     /**
+     * @param uids A List of uids corresponding to the User that
+     *                 will be returned
+     * @return listObject contains a List of user corresponding to
+     *         the specified ids, or an empty ArrayList if none exists.
+     */
+    public void getUsersByUid(List<String> uids, ObjectCallback listObject) {
+        try {
+            db.collection("users").whereIn(FieldPath.documentId(), uids).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    List<User> users = new ArrayList<>();
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        User u = document.toObject(User.class);
+                        u.setUid(document.getId());
+                        users.add(u);
+                    }
+                    listObject.result(users);
+                } else {
+                    listObject.result(null);
+                }
+            });
+        }
+        catch (RuntimeException re) {
+        listObject.result(null);
+        }
+    }
+
+    /**
      *
      * @param user a user object with all desired attributes already set
      * @param uid the uid that will correspond to the user
@@ -350,7 +377,7 @@ public class FirebaseOperations {
     /**
      * @param eventIds A List of eventIds corresponding to the Event that
      *                 will be returned
-     * @return ObjectCallback contains a List of events corresponding to
+     * @return listObject contains a List of events corresponding to
      *         the specified ids, or an empty ArrayList if none exists.
      */
     public void getEventsByEventId(List<String> eventIds, ObjectCallback listObject) {
