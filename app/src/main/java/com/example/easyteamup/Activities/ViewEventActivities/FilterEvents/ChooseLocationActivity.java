@@ -269,6 +269,9 @@ public class ChooseLocationActivity extends AppCompatActivity implements OnMapRe
                                 Log.d(TAG, "Current location is null. Using defaults.");
                                 mMap.moveCamera(CameraUpdateFactory
                                         .newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
+                                locationNameSend = getString(R.string.usc);
+                                locationLatitudeSend = mDefaultLocation.latitude;
+                                locationLongitudeSend = mDefaultLocation.longitude;
                             }
                         }
                     });

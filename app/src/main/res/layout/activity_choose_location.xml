@@ -33,23 +33,23 @@
         android:fontFamily="@font/rubik_medium"
         />
 
-        <LinearLayout
-            android:id="@+id/map_container"
+    <LinearLayout
+        android:id="@+id/map_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/text_description"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginHorizontal="40dp"
+        android:layout_marginTop="30dp"
+        android:background="@color/transparent_beige"
+        >
+        <fragment android:id="@+id/autocomplete_fragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/text_description"
+            android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginHorizontal="40dp"
-            android:layout_marginTop="30dp"
-            android:background="@color/transparent_beige"
-            >
-            <fragment android:id="@+id/autocomplete_fragment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
-                app:layout_constraintStart_toStartOf="parent"
-                />
-        </LinearLayout>
+            />
+    </LinearLayout>
 
 
     <fragment

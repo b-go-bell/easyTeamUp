@@ -22,7 +22,7 @@ public class SnackBarFragment extends Fragment {
         try {
             mCallback = (SnackBarInterface) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString()+ " must implement SignUpInterface");
+            throw new ClassCastException(context.toString()+ " must implement SnackBarInterface");
         }
     }
 

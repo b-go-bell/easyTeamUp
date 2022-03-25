@@ -1,18 +1,14 @@
 package com.example.easyteamup.Activities.ViewEventActivities;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.example.easyteamup.Activities.SnackBarActivity.SnackBarFragment;
-import com.example.easyteamup.Activities.SnackBarActivity.SnackBarInterface;
-import com.example.easyteamup.Activities.UserAuthActivities.SignUpActivityFolder.SignUpInterface;
-import com.example.easyteamup.Activities.UserHomeActivities.ViewEventAnalyticsActivity;
-import com.example.easyteamup.Activities.UserHomeActivities.ViewProfileActivity;
 import com.example.easyteamup.Activities.ViewEventActivities.FilterEvents.PublicEventsDialogActivity;
-import com.example.easyteamup.Activities.ViewEventActivities.FilterEvents.PublicEventsDialogFragment;
+import com.example.easyteamup.Activities.ViewEventActivities.ListEventActivities.ViewHostedEventsActivity;
+import com.example.easyteamup.Activities.ViewEventActivities.ListEventActivities.ViewInvitedEventsActivity;
+import com.example.easyteamup.Activities.ViewEventActivities.ListEventActivities.ViewRSVPdEventsActivity;
 import com.example.easyteamup.R;
 
 public class EventDispatcherActivity extends AppCompatActivity {

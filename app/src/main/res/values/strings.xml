@@ -72,7 +72,7 @@
     <string name="action_geolocate">Pick Place</string>
     <string name="default_info_title">Default Location</string>
     <string name="default_info_snippet">No places found, because location permission is disabled.</string>
-    <string name="location_picker_prompt">Search for a location, click the marker icon to use your current location, or pick a location by tapping on the map</string>
+    <string name="location_picker_prompt">Search for a location, click the dot icon to use your current location, or pick a location by tapping on the map</string>
 
     <string name="usc">University of Southern California</string>
     <string name="use_usc">Search for events around University of Southern California</string>
@@ -91,5 +91,6 @@
     <string name="viewing_rsvp">Viewing events I\'m attending</string>
     <string name="viewing_hosting">Viewing events I\'m hosting</string>
     <string name="view_map">View on the map</string>
+    <string name="view_list">View in a list</string>
 
 </resources>

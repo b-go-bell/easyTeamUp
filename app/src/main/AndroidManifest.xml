@@ -13,19 +13,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EasyTeamUp">
         <activity
-            android:name=".Activities.ViewEventActivities.ViewRSVPdEventsActivity"
+            android:name=".Activities.ViewEventActivities.MapEventActivities.MapPublicEventsActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.ViewEventActivities.ViewHostedEventsActivity"
+            android:name=".Activities.ViewEventActivities.ListEventActivities.ViewRSVPdEventsActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.ViewEventActivities.ViewInvitedEventsActivity"
+            android:name=".Activities.ViewEventActivities.ListEventActivities.ViewHostedEventsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.ViewEventActivities.ListEventActivities.ViewInvitedEventsActivity"
             android:exported="false" />
         <activity
             android:name=".Activities.ViewEventActivities.FilterEvents.PublicEventsDialogActivity"
             android:exported="false" />
         <activity
-            android:name=".Activities.ViewEventActivities.ViewPublicEventsActivity"
+            android:name=".Activities.ViewEventActivities.ListEventActivities.ViewPublicEventsActivity"
             android:exported="false" />
         <activity
             android:name=".Activities.ViewEventActivities.EventDispatcherActivity"

@@ -1,6 +1,5 @@
 package com.example.easyteamup.Activities.ViewEventActivities.FilterEvents;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,12 +14,10 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.Switch;
 import android.widget.TextView;
 
-import com.example.easyteamup.Activities.CreateEventActivities.CreateEventActivity;
 import com.example.easyteamup.Activities.UserHomeActivities.ViewProfileActivity;
-import com.example.easyteamup.Activities.ViewEventActivities.ViewPublicEventsActivity;
+import com.example.easyteamup.Activities.ViewEventActivities.ListEventActivities.ViewPublicEventsActivity;
 import com.example.easyteamup.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 
