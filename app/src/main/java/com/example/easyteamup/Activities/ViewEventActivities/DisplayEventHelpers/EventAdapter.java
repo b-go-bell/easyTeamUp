@@ -21,19 +21,24 @@ import java.util.Date;
 
 public class EventAdapter extends ArrayAdapter<Event> {
     private Context mContext;
+    private String eventType;
     private ArrayList<Event> eventsList;
     private ArrayList<String> eventsStatuses;
 
-    public EventAdapter(Context context, ArrayList<Event> events) {
+    private TextView eventStatus;
+
+    public EventAdapter(Context context, String eType, ArrayList<Event> events) {
         super(context, 0, events);
         mContext = context;
+        eventType = eType;
         eventsList = events;
     }
 
-    public EventAdapter(Context context, ArrayList<Event> events, ArrayList<String> statuses) {
+    public EventAdapter(Context context, String eType, ArrayList<Event> events, ArrayList<String> statuses) {
         super(context, 0, events);
         mContext = context;
         eventsList = events;
+        eventType = eType;
         eventsStatuses = statuses;
     }
 
@@ -53,15 +58,51 @@ public class EventAdapter extends ArrayAdapter<Event> {
         String formattedHostLoc = mContext.getString(R.string.event_location, currentEvent.getAddress());
         eventHostLoc.setText(formattedHostLoc);
 
-        TextView eventStatus = (TextView) listItem.findViewById(R.id.event_invitation);
-        String status = "";
-        try{
-            status = eventsStatuses.get(position);
-        }
-        catch(NullPointerException npe){
-            eventStatus.setVisibility(View.GONE);
-        }
+        TextView dueTime = (TextView) listItem.findViewById(R.id.event_due);
+        Date time = new Date(currentEvent.getDueDate().getSeconds()*1000);
+        String formattedTime = mContext.getString(R.string.due_time, time.toString());
+        dueTime.setText(formattedTime);
 
+        //showing status of the event for the logged in user
+        eventStatus = (TextView) listItem.findViewById(R.id.event_invitation);
+        if(eventType.equals("invited")){
+            String status = eventsStatuses.get(position);
+            formatInvite(status);
+        }
+        else if(eventType.equals("public")){
+            eventStatus.setVisibility(View.VISIBLE);
+            if(currentEvent.getInvitationStatus() != null){
+                String status = currentEvent.getInvitationStatus();
+                formatInvite(status);
+            }
+            else{
+                if(currentEvent.getIsRsvped()){
+                    String status = "Attending";
+                    formatGeneral(status);
+                }
+                else {
+                    eventStatus.setVisibility(View.GONE);
+                }
+            }
+        }
+        else if(eventType.equals("hosted")){
+            String status = "Hosting";
+            formatGeneral(status);
+        }
+        else{
+            //rsvpd
+            String status = "Attending";
+            formatGeneral(status);
+        }
+        return listItem;
+    }
+
+    private void formatGeneral(String status){
+        eventStatus.setTextColor(ContextCompat.getColor(mContext, R.color.green));
+        eventStatus.setText(status);
+    }
+
+    private void formatInvite(String status){
         String formattedInvite = "";
         if(status.equals("attending")){
             formattedInvite = mContext.getString(R.string.invitation_status, "accepted");
@@ -75,17 +116,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
             formattedInvite = mContext.getString(R.string.invitation_status, "awaiting response");
             eventStatus.setTextColor(ContextCompat.getColor(mContext, R.color.orange));
         }
-        else if(status.equals("Hosting")){
-            formattedInvite = status;
-            eventStatus.setTextColor(ContextCompat.getColor(mContext, R.color.blue));
-        }
         eventStatus.setText(formattedInvite);
-
-        TextView dueTime = (TextView) listItem.findViewById(R.id.event_due);
-        Date time = new Date(currentEvent.getDueDate().getSeconds()*1000);
-        String formattedTime = mContext.getString(R.string.due_time, time.toString());
-        dueTime.setText(formattedTime);
-
-        return listItem;
     }
+
 }

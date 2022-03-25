@@ -110,7 +110,7 @@ public class ViewPublicEventsActivity extends AppCompatActivity implements Snack
                 fops.getEventsByEventId(eventIds, eventList -> {
                     try {
                         ArrayList<Event> events = (ArrayList<Event>) eventList;
-                        eventAdapter = new EventAdapter(this, events);
+                        eventAdapter = new EventAdapter(this, "public", events);
 
                         listEvents.setAdapter(eventAdapter);
 
