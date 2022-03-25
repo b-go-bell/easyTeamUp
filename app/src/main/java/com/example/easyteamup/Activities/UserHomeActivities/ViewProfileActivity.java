@@ -8,15 +8,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.easyteamup.Activities.CreateEventActivities.CreateEventActivity;
 import com.example.easyteamup.Activities.SnackBarActivity.SnackBarFragment;
 import com.example.easyteamup.Activities.SnackBarActivity.SnackBarInterface;
 import com.example.easyteamup.Activities.ViewEventActivities.EventDispatcherActivity;
-import com.example.easyteamup.Activities.ViewEventActivities.ViewListEventsActivity;
-import com.example.easyteamup.Activities.ViewEventActivities.ViewMapEventsActivity;
 import com.example.easyteamup.Backend.FirebaseOperations;
 import com.example.easyteamup.R;
 import com.example.easyteamup.Backend.User;

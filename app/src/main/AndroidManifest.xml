@@ -13,6 +13,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EasyTeamUp">
         <activity
+            android:name=".Activities.ViewEventActivities.ViewRSVPdEventsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.ViewEventActivities.ViewHostedEventsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.ViewEventActivities.ViewInvitedEventsActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.ViewEventActivities.FilterEvents.PublicEventsDialogActivity"
             android:exported="false" />
         <activity
@@ -33,13 +42,6 @@
         <activity
             android:name=".Activities.CreateEventActivities.CreateEventActivity"
             android:exported="false" />
-        <activity
-            android:name=".Activities.ViewEventActivities.ViewMapEventsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Activities.ViewEventActivities.ViewListEventsActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".Activities.UserHomeActivities.ViewProfileActivity"
             android:exported="false" />
