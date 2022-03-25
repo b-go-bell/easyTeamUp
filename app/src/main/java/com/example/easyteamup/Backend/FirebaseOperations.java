@@ -1,11 +1,14 @@
 package com.example.easyteamup.Backend;
 
+import android.app.DownloadManager;
 import android.content.Context;
 import android.net.Uri;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.firebase.geofire.GeoFireUtils;
@@ -17,6 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -28,6 +32,7 @@ import com.google.firebase.storage.StorageReference;
 
 import org.json.JSONException;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -343,21 +348,34 @@ public class FirebaseOperations {
     }
 
     /**
-     * @param eventId A eventId corresponding to the Event that will be returned
-     * @return ObjectCallback contains a Event corresponding to eventId, or
-     * null if none exists.
+     * @param eventIds A List of eventIds corresponding to the Event that
+     *                 will be returned
+     * @return ObjectCallback contains a List of events corresponding to
+     *         the specified ids, or an empty ArrayList if none exists.
      */
-    public void getEventByEventid(String eventId, ObjectCallback eventObject) {
-        db.collection("events").document(eventId).get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                Event event = task.getResult().toObject(Event.class);
-                event.setEventId(eventId);
-                eventObject.result(event);
-            }
-            else {
-                eventObject.result(null);
-            }
-        });
+    public void getEventsByEventId(List<String> eventIds, ObjectCallback listObject) {
+        try {
+            db.collection("events")
+                    .whereIn(FieldPath.documentId(), eventIds)
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            List<Event> events = new ArrayList<>();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Event e = document.toObject(Event.class);
+                                e.setEventId(document.getId());
+                                events.add(e);
+                            }
+                            listObject.result(events);
+                        }
+                        else {
+                            listObject.result(null);
+                        }
+                    });
+        }
+        catch (RuntimeException re) {
+            listObject.result(null);
+        }
     }
 
 
@@ -611,7 +629,6 @@ public class FirebaseOperations {
                             });
                 })
                 .addOnFailureListener(e -> {
-                    System.out.println("ERROR!: " + e);
                     bc.isTrue(false);
                     throw new ArrayIndexOutOfBoundsException("User invitation does not exits");
                 });
@@ -625,19 +642,60 @@ public class FirebaseOperations {
      * @param bc returns true is conversion was successful, false otherwise
      */
     public void convertPrivateToPublic(String eventId, BooleanCallback bc){
-        getEventByEventid(eventId, eventObject -> {
-            Event event = (Event) eventObject;
-            if (!event.getIsPublic()){
-                db.collection("events")
-                        .document(eventId)
-                        .update("isPublic", true)
-                        .addOnCompleteListener(task -> {
-                            bc.isTrue(task.isSuccessful());
-                        });
-            }
-            else {
-                throw new IllegalStateException("Event " + eventId + " is already public");
-            }
+        getEventsByEventId(new ArrayList<String>() {{ add(eventId); }},
+                res -> {
+                    db.collection("events")
+                            .document(eventId)
+                            .update("isPublic", true)
+                            .addOnCompleteListener(task -> {
+                                bc.isTrue(task.isSuccessful());
+                            });
+                });
+    }
+
+    //DONT USE ME YET I AM NOT FINSIHED OKAY? OKAY.
+    public void convertPublicToPrivate(String eventId, boolean keepRSVPedUsers, BooleanCallback bc) {
+        getEventsByEventId(new ArrayList<String>() {{add(eventId);}},
+                res -> {
+            db.collection("events")
+                    .document(eventId)
+                    .update("isPublic", false)
+                    .addOnCompleteListener(task -> {
+                       if (task.isSuccessful()){
+                            if (!keepRSVPedUsers) {
+                                StringRequest request = new StringRequest(Request.Method.DELETE, "http://10.0.2.2:8080/deleteSubcollection",
+                                        response -> {
+                                            System.out.println("Success: " + response);
+                                            bc.isTrue(true);
+                                        },
+                                        error -> {
+                                            try {
+                                                System.out.println("Failure: " + error + ", " +  new String(error.networkResponse.data,"UTF-8"));
+                                            } catch (UnsupportedEncodingException e) {
+                                                e.printStackTrace();
+                                            }
+                                            bc.isTrue(false);
+                                        })
+                                {
+                                    @Override
+                                    public Map<String, String> getHeaders() throws AuthFailureError {
+                                        Map<String, String> headers = new HashMap<>();
+                                        headers.put("parentCollection", "events");
+                                        headers.put("document", "test-event");
+                                        headers.put("subcollection", "rsvpedUsers");
+                                        return headers;
+                                    }
+                                };
+                                requestQueue.add(request);
+                            }
+                            else {
+                                bc.isTrue(true);
+                            }
+                       }
+                       else {
+                           bc.isTrue(false);
+                       }
+                    });
         });
     }
 
@@ -714,7 +772,8 @@ public class FirebaseOperations {
      * use, false otherwise
      */
     public void checkIfEmailInUse(String email, BooleanCallback bc){
-        JsonObjectRequest request = new JsonObjectRequest( "https://easy-team-up.uc.r.appspot.com/checkEmailInUse?email=" + email,
+
+        JsonObjectRequest request = new JsonObjectRequest("https://easy-team-up.uc.r.appspot.com/checkEmailInUse",
                 response -> {
                     try {
                         bc.isTrue(response.getBoolean("inUse"));
@@ -724,7 +783,15 @@ public class FirebaseOperations {
                 },
                 error -> {
                     bc.isTrue(null);
-                });
+                })
+                {
+                    @Override
+                    public Map<String, String> getHeaders() throws AuthFailureError {
+                        HashMap<String, String> headers = new HashMap<String, String>();
+                        headers.put("email", email);
+                        return headers;
+                    }
+                };
 
         requestQueue.add(request);
     }
