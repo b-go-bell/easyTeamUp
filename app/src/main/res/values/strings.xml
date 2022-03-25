@@ -81,4 +81,10 @@
     <string name="no_location">No location currently selected.</string>
     <string name="selected_location">Searching for events around %1$s.</string>
     <string name="selection_error">Please make sure that you have entered a location and radius.</string>
+
+    <!-- Strings related to Listing Events -->
+    <string name="event_location">%1$s</string>
+    <string name="invitation_status">Invitation %1$s</string>
+    <string name="due_time">Due on %1$s</string>
+
 </resources>

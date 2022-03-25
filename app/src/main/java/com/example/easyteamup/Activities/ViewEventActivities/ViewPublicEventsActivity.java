@@ -85,15 +85,27 @@ public class ViewPublicEventsActivity extends AppCompatActivity implements Snack
 
     private void viewEventsInList() {
         GeoLocation geoloc = new GeoLocation(latitude, longitude);
-        fops.getPublicEvents(geoloc, radius, listObject -> {
+        fops.getPublicEvents(geoloc, radius, eventIdList -> {
             try {
-                ArrayList<String> eventIds = (ArrayList<String>) listObject;
+                ArrayList<String> eventIds = (ArrayList<String>) eventIdList;
                 if(eventIds.size() == 0){
                     throw new NullPointerException();
                 }
 
-                listEvents.setVisibility(View.VISIBLE);
-                noEvents.setVisibility(View.INVISIBLE);
+                fops.getEventsByEventId(eventIds, eventList -> {
+                    try {
+                        ArrayList<Event> events = (ArrayList<Event>) eventList;
+                        eventAdapter = new EventAdapter(this, events);
+
+                        listEvents.setAdapter(eventAdapter);
+
+                        listEvents.setVisibility(View.VISIBLE);
+                        noEvents.setVisibility(View.INVISIBLE);
+                    }
+                    catch(NullPointerException npe){
+                        showNoEvents();
+                    }
+                });
             }
             catch (NullPointerException npe){
                 showNoEvents();
