@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.easyteamup.Activities.UserAuthActivities.SignUpActivityFolder.SignUpActivity;
 import com.example.easyteamup.Activities.UserHomeActivities.ViewProfileActivity;
+import com.example.easyteamup.Backend.EtuFirebaseInstanceIDService;
 import com.example.easyteamup.Backend.FirebaseOperations;
 import com.example.easyteamup.R;
 
@@ -55,6 +56,7 @@ public class LoginActivity extends AppCompatActivity {
                     fops.loginUser(username, password, bool -> {
                         if (bool){
 
+                            EtuFirebaseInstanceIDService.getToken(getApplicationContext());
                             invalid.setVisibility(View.INVISIBLE);
                             Intent viewProfile = new Intent(LoginActivity.this, ViewProfileActivity.class);
                             String uid = fops.getLoggedInUserId();

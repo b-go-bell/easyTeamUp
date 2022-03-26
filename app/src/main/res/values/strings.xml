@@ -92,5 +92,8 @@
     <string name="viewing_hosting">Viewing events I\'m hosting</string>
     <string name="view_map">View on the map</string>
     <string name="view_list">View in a list</string>
+    <string name="title">Title</string>
+    <string name="todo">TODO</string>
+    <string name="message">Message</string>
 
 </resources>
