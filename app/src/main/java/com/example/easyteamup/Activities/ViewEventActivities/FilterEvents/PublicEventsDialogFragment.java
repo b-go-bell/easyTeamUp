@@ -19,12 +19,9 @@ import android.widget.TextView;
 import com.example.easyteamup.Activities.UserHomeActivities.ViewProfileActivity;
 import com.example.easyteamup.Activities.ViewEventActivities.ListEventActivities.ViewPublicEventsActivity;
 import com.example.easyteamup.R;
-import com.google.android.gms.location.FusedLocationProviderClient;
 
 
 public class PublicEventsDialogFragment extends DialogFragment {
-
-    private FusedLocationProviderClient client;
 
     private String uid;
     private String locName;

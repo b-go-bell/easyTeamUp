@@ -84,7 +84,7 @@ public class ViewHostedEventsActivity extends AppCompatActivity implements Snack
                 fops.getEventsByEventId(eventIds, eventList -> {
                     try {
                         ArrayList<Event> events = (ArrayList<Event>) eventList;
-                        eventAdapter = new EventAdapter(this, "hosted", events);
+                        eventAdapter = new EventAdapter(this, uid, "hosted", events);
 
                         listEvents.setAdapter(eventAdapter);
 

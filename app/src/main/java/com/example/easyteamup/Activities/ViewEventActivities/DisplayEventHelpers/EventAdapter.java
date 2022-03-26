@@ -1,6 +1,8 @@
 package com.example.easyteamup.Activities.ViewEventActivities.DisplayEventHelpers;
 
+import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +11,11 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 
+import com.example.easyteamup.Activities.ViewEventActivities.EventDetailsActivities.EventDetailsDialogFragment;
+import com.example.easyteamup.Activities.ViewEventActivities.FilterEvents.PublicEventsDialogFragment;
 import com.example.easyteamup.Backend.Event;
 import com.example.easyteamup.Backend.FirebaseOperations;
 import com.example.easyteamup.Backend.User;
@@ -21,22 +27,29 @@ import java.util.Date;
 
 public class EventAdapter extends ArrayAdapter<Event> {
     private Context mContext;
+    private FragmentManager fragmentManager;
+
+    private String uid;
     private String eventType;
     private ArrayList<Event> eventsList;
     private ArrayList<String> eventsStatuses;
 
     private TextView eventStatus;
 
-    public EventAdapter(Context context, String eType, ArrayList<Event> events) {
+    public EventAdapter(Context context, String id, String eType, ArrayList<Event> events) {
         super(context, 0, events);
         mContext = context;
+        fragmentManager = ((FragmentActivity)mContext).getSupportFragmentManager();
+        uid = id;
         eventType = eType;
         eventsList = events;
     }
 
-    public EventAdapter(Context context, String eType, ArrayList<Event> events, ArrayList<String> statuses) {
+    public EventAdapter(Context context, String id, String eType, ArrayList<Event> events, ArrayList<String> statuses) {
         super(context, 0, events);
         mContext = context;
+        fragmentManager = ((FragmentActivity)mContext).getSupportFragmentManager();
+        uid = id;
         eventsList = events;
         eventType = eType;
         eventsStatuses = statuses;
@@ -66,7 +79,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
         //showing status of the event for the logged in user
         eventStatus = (TextView) listItem.findViewById(R.id.event_invitation);
         if(eventType.equals("invited")){
-            String status = eventsStatuses.get(position);
+            String status = currentEvent.getInvitationStatus();
             formatInvite(status);
         }
         else if(eventType.equals("public")){
@@ -102,6 +115,22 @@ public class EventAdapter extends ArrayAdapter<Event> {
             String status = "Attending";
             formatGeneral(status);
         }
+
+        listItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(eventType.equals("hosted")){
+                    /*
+                        FILL IN
+                     */
+                }
+                else {
+                    EventDetailsDialogFragment viewEventDetails = EventDetailsDialogFragment.newInstance(uid, eventType, currentEvent);
+                    viewEventDetails.show(fragmentManager, "fragment_event_details_dialog");
+                }
+            }
+        });
+
         return listItem;
     }
 

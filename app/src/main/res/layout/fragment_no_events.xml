@@ -6,6 +6,7 @@
     android:layout_height="wrap_content"
     tools:context=".Activities.UserAuthActivities.SignUpActivityFolder.FirstSignUpFragment"
     android:orientation="vertical"
+    android:layout_marginTop="60dp"
     >
 
     <TextView

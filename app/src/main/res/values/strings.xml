@@ -92,6 +92,18 @@
     <string name="viewing_hosting">Viewing events I\'m hosting</string>
     <string name="view_map">View on the map</string>
     <string name="view_list">View in a list</string>
+
+    <!-- Strings related to Event Details Dialog -->
+    <string name="accept_invite">Accept this Invitation</string>
+    <string name="reject_invite">Reject this Invitation</string>
+    <string name="accept_public">Attend this Public Event</string>
+    <string name="cancel">Cancel RSVP</string>
+    <string name="reject_invite_dialog">Are you sure you want to reject this invitation?</string>
+    <string name="reject_rsvp_dialog">Are you sure you don\'t want to attend %1$s anymore?</string>
+    <string name="sure">Yes, I\'m sure</string>
+    <string name="no">No, go back</string>
+
+    <!-- Notification Strings -->
     <string name="title">Title</string>
     <string name="todo">TODO</string>
     <string name="message">Message</string>

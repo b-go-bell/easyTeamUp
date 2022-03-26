@@ -85,7 +85,7 @@ public class ViewRSVPdEventsActivity extends AppCompatActivity implements SnackB
                 fops.getEventsByEventId(eventIds, eventList -> {
                     try {
                         ArrayList<Event> events = (ArrayList<Event>) eventList;
-                        eventAdapter = new EventAdapter(this, "attending", events);
+                        eventAdapter = new EventAdapter(this, uid, "attending", events);
 
                         listEvents.setAdapter(eventAdapter);
 
