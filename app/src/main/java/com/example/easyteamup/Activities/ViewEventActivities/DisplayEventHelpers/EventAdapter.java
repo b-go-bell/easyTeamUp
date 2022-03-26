@@ -86,8 +86,16 @@ public class EventAdapter extends ArrayAdapter<Event> {
             }
         }
         else if(eventType.equals("hosted")){
-            String status = "Hosting";
-            formatGeneral(status);
+            String status;
+            if(!currentEvent.getIsPublic()){
+                status = "Private";
+                eventStatus.setTextColor(ContextCompat.getColor(mContext, R.color.coral));
+            }
+            else {
+                status = "Public";
+                eventStatus.setTextColor(ContextCompat.getColor(mContext, R.color.green));
+            }
+            eventStatus.setText(status);
         }
         else{
             //rsvpd

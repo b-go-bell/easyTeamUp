@@ -46,7 +46,7 @@
     <!-- Strings related to No Events Fragment -->
     <string name="no_events_general">Oh no! It looks like no events matched your search…</string>
     <string name="no_invitations">Oh no! It looks like you have no event invitations…</string>
-    <string name="no_rsvps">Oh no! It looks like you have no upcoming events…</string>
+    <string name="no_rsvps">Oh no! It looks like you aren\'t attending any upcoming events…</string>
     <string name="no_public_events">Oh no! It looks like no public events matched your search parameters…</string>
     <string name="no_hosting">Oh no! It looks like you aren\'t hosting any upcoming events…</string>
     <string name="view_profile">View my User Profile</string>
