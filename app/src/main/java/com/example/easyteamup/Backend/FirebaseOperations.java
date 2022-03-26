@@ -48,8 +48,8 @@ public class FirebaseOperations {
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         storage = FirebaseStorage.getInstance().getReference();
-        requestQueue = Volley.newRequestQueue(context);
         authenticatedUser = auth.getCurrentUser();
+        requestQueue = Volley.newRequestQueue(context);
     }
 
     /**
@@ -136,7 +136,7 @@ public class FirebaseOperations {
     }
 
     /**
-     * Gets the download link to a user's profile photo
+     * Gets the download link to a user's profile pho!to
      * @param uid
      * @return uriObject is a Uri containing the download url for the
      * profile photo with corresponding userId, or will throw a
@@ -412,7 +412,6 @@ public class FirebaseOperations {
 
                                         DocumentSnapshot invitation = checkInvitation.getResult();
                                         if (invitation.exists()) {
-                                            System.out.println("Exists!");
                                             e.setInvitationStatus(invitation.getString("status"));
                                         }
                                         events.add(e);
@@ -701,7 +700,8 @@ public class FirebaseOperations {
 
     /**
      * Takes a private event, and makes it public. All invitations and RSVPs
-     * will remain unchanged.
+     * will remain unchanged. NOTE: Does not check if the event is already
+     * public.
      * @param eventId
      * @throws IllegalStateException when the event is already public
      * @param bc returns true is conversion was successful, false otherwise
@@ -719,7 +719,8 @@ public class FirebaseOperations {
     }
 
     /**
-     * Converts an event from public to private
+     * Converts an event from public to private. NOTE: Does not check if the function
+     * is already private.
      * @param eventId The event being converted
      * @param keepRSVPedUsers If true, all user rsvps, availabilities, and invitations
      *                        will be deleted.
@@ -734,7 +735,8 @@ public class FirebaseOperations {
                     .addOnCompleteListener(task -> {
                        if (task.isSuccessful()){
                             if (!keepRSVPedUsers) {
-                                StringRequest request = new StringRequest(Request.Method.DELETE, "https://easy-team-up.uc.r.appspot.com/deleteInvitationsAndRsvps",
+                                StringRequest request = new StringRequest(Request.Method.DELETE,
+                                        "https://easy-team-up.uc.r.appspot.com/deleteInvitationsAndRsvps",
                                         response -> {
                                             bc.isTrue(true);
                                         },
@@ -827,6 +829,58 @@ public class FirebaseOperations {
 
         });
     }
+
+
+    /**
+     * Deletes an Event, including all user rsvps, invitations,
+     * and user availabilities. THIS COMMAND IS FINAL AND THERE
+     * IS NO GOING BACK!!! NOTE: This command can only be executed
+     * when the currently logged in user is the host of the event.
+     * @param eventId The event being deleted.
+     * @param bc
+     */
+    public void deleteEvent(String eventId, BooleanCallback bc) {
+        //check to make sure the host is deleting the event
+        DocumentReference eventRef = db.collection("events").document(eventId);
+        eventRef.get().addOnSuccessListener(result -> {
+            if (result.getString("host").equals(authenticatedUser.getUid())) {
+                JsonObjectRequest request = new JsonObjectRequest(Request.Method.DELETE,
+                        "https://easy-team-up.uc.r.appspot.com/deleteInvitationsAndRsvps",
+                        null,
+                        response -> {
+
+                            Task<Void> deleteEvent = eventRef.delete();
+                            Task<Void> removeFromHost = db.collection("users")
+                                    .document(authenticatedUser.getUid())
+                                    .update("hostedEvents", FieldValue.arrayRemove(eventId));
+
+                            Tasks.whenAll(deleteEvent, removeFromHost)
+                                    .addOnSuccessListener(unused -> {
+                                        bc.isTrue(true);
+                                    })
+                                    .addOnFailureListener(error -> {
+                                        bc.isTrue(false);
+                                    });
+                        },
+                        error -> {
+                            bc.isTrue(false);
+                        }) {
+                            @Override
+                            public Map<String, String> getHeaders() throws AuthFailureError {
+                                HashMap<String, String> headers = new HashMap<String, String>();
+                                headers.put("eventId", eventId);
+                                return headers;
+                            }
+                };
+                requestQueue.add(request);
+            } else {
+                bc.isTrue(false);
+            }
+        });
+
+    }
+
+
 
     /**
      * Checks if an email address has already been registered with a user
