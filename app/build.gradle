@@ -62,4 +62,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore'
     implementation 'com.google.firebase:firebase-storage'
     implementation 'com.firebase:geofire-android-common:3.1.0'
+    implementation 'com.google.firebase:firebase-messaging:23.0.2'
+
+    implementation 'com.google.firebase:firebase-core:20.1.2'
 }
+apply plugin: 'com.google.gms.google-services'
