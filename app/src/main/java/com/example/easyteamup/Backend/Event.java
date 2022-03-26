@@ -1,5 +1,8 @@
 package com.example.easyteamup.Backend;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.firebase.geofire.GeoFireUtils;
 import com.firebase.geofire.GeoLocation;
 import com.google.firebase.Timestamp;
@@ -8,12 +11,13 @@ import com.google.firebase.firestore.Exclude;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Event {
+public class Event implements Parcelable {
     private String eventId;
     private String name;
     private String host;
     private String address;
     private String geohash;
+    private String description;
     private Double latitude;
     private Double longitude;
     private Timestamp dueDate;
@@ -28,6 +32,7 @@ public class Event {
         this.host = null;
         this.address = null;
         this.geohash = null;
+        this.description = null;
         this.latitude = null;
         this.longitude = null;
         this.dueDate = null;
@@ -37,15 +42,16 @@ public class Event {
         this.invitationStatus = null;
     }
 
-
     public Event(String eventId, String name, String host, String address,
-                 String geohash, Double latitude, Double longitude, Timestamp dueDate,
-                 Timestamp finalTime, boolean isPublic, boolean rsvped, String invitationStatus) {
+                 String geohash, String description, Double latitude, Double longitude,
+                 Timestamp dueDate, Timestamp finalTime, boolean isPublic, boolean rsvped,
+                 String invitationStatus) {
         this.eventId = eventId;
         this.name = name;
         this.host = host;
         this.address = address;
         this.geohash = geohash;
+        this.description = description;
         this.latitude = latitude;
         this.longitude = longitude;
         this.dueDate = dueDate;
@@ -54,6 +60,60 @@ public class Event {
         this.rsvped = rsvped;
         this.invitationStatus = invitationStatus;
     }
+
+
+    /* Begin Parcelable Implementation */
+
+    public int describeContents() {
+        return 0;
+    }
+
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeString(eventId);
+        out.writeString(name);
+        out.writeString(host);
+        out.writeString(address);
+        out.writeString(geohash);
+        out.writeString(description);
+        out.writeDouble(latitude);
+        out.writeDouble(longitude);
+        out.writeParcelable(dueDate, 0);
+        out.writeParcelable(finalTime, 0);
+        out.writeByte((byte) (isPublic ? 1 : 0));
+        out.writeByte((byte) (rsvped ? 1 : 0));
+        out.writeString(invitationStatus);
+
+    }
+
+    private Event(Parcel in) {
+        eventId = in.readString();
+        name = in.readString();
+        host = in.readString();
+        address = in.readString();
+        geohash = in.readString();
+        description = in.readString();
+        latitude = in.readDouble();
+        longitude = in.readDouble();
+        dueDate = in.readParcelable(Timestamp.class.getClassLoader());
+        finalTime = in.readParcelable(Timestamp.class.getClassLoader());
+        isPublic = in.readByte() != 0;
+        rsvped = in.readByte() != 0;
+        invitationStatus = in.readString();
+    }
+
+    public static final Parcelable.Creator<Event> CREATOR = new Parcelable.Creator<Event>() {
+        @Override
+        public Event createFromParcel(Parcel in) {
+            return new Event(in);
+        }
+
+        @Override
+        public Event[] newArray(int size) {
+            return new Event[size];
+        }
+    };
+    /* End Parcelable Implementation */
+
 
     public void setEventId(String eventId) {
         this.eventId = (this.eventId == null) ? eventId : throw_changeEventIdException();
@@ -164,6 +224,14 @@ public class Event {
         this.invitationStatus = invitationStatus;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     @Override
     public String toString() {
         return "Event{" +
@@ -172,6 +240,7 @@ public class Event {
                 ", host='" + host + '\'' +
                 ", address='" + address + '\'' +
                 ", geohash='" + geohash + '\'' +
+                ", description='" + description + '\'' +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
                 ", dueDate=" + dueDate +
