@@ -7,17 +7,19 @@ import com.google.firebase.Timestamp;
 public class EventDetails {
     private String name;
     private String address;
+    private String geohash;
+    private String description;
     private Double latitude;
     private Double longitude;
-    private String geohash;
     private Timestamp dueDate;
 
     public EventDetails() {
         this.name = null;
         this.address = null;
+        this.description = null;
+        this.geohash = null;
         this.latitude = null;
         this.longitude = null;
-        this.geohash = null;
         this.dueDate = null;
     }
 
@@ -26,6 +28,7 @@ public class EventDetails {
         this.address = event.getAddress();
         this.latitude = event.getLatitude();
         this.longitude = event.getLongitude();
+        this.description = event.getDescription();
         this.dueDate = event.getDueDate();
         generateGeohash();
     }
@@ -86,5 +89,13 @@ public class EventDetails {
 
     public void setDueDate(Timestamp dueDate) {
         this.dueDate = dueDate;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

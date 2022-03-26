@@ -31,7 +31,6 @@ import com.google.firebase.storage.StorageReference;
 
 import org.json.JSONException;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -442,8 +441,6 @@ public class FirebaseOperations {
 
     }
 
-
-
     /**
      * Gets a list of uids of all users that have RSVPed for an event.
      * NOTE: Do not use this functions to add or remove RSVPs, instead use
@@ -664,6 +661,10 @@ public class FirebaseOperations {
 
     }
 
+    public void removeRSVPFromEvent(String uid, String eventID, BooleanCallback bc) {
+
+    }
+
 
     /**
      * Serves as a method for a user to reject an invitation they have received
@@ -717,7 +718,13 @@ public class FirebaseOperations {
                 });
     }
 
-    //DONT USE ME YET I AM NOT FINSIHED OKAY? OKAY.
+    /**
+     * Converts an event from public to private
+     * @param eventId The event being converted
+     * @param keepRSVPedUsers If true, all user rsvps, availabilities, and invitations
+     *                        will be deleted.
+     * @param bc will contain true if the conversion was a success
+     */
     public void convertPublicToPrivate(String eventId, boolean keepRSVPedUsers, BooleanCallback bc) {
         getEventsByEventId(new ArrayList<String>() {{add(eventId);}},
                 res -> {
@@ -727,26 +734,18 @@ public class FirebaseOperations {
                     .addOnCompleteListener(task -> {
                        if (task.isSuccessful()){
                             if (!keepRSVPedUsers) {
-                                StringRequest request = new StringRequest(Request.Method.DELETE, "http://10.0.2.2:8080/deleteSubcollection",
+                                StringRequest request = new StringRequest(Request.Method.DELETE, "https://easy-team-up.uc.r.appspot.com/deleteInvitationsAndRsvps",
                                         response -> {
-                                            System.out.println("Success: " + response);
                                             bc.isTrue(true);
                                         },
                                         error -> {
-                                            try {
-                                                System.out.println("Failure: " + error + ", " +  new String(error.networkResponse.data,"UTF-8"));
-                                            } catch (UnsupportedEncodingException e) {
-                                                e.printStackTrace();
-                                            }
                                             bc.isTrue(false);
                                         })
                                 {
                                     @Override
                                     public Map<String, String> getHeaders() throws AuthFailureError {
                                         Map<String, String> headers = new HashMap<>();
-                                        headers.put("parentCollection", "events");
-                                        headers.put("document", "test-event");
-                                        headers.put("subcollection", "rsvpedUsers");
+                                        headers.put("eventId", eventId);
                                         return headers;
                                     }
                                 };
