@@ -11,6 +11,7 @@ import com.example.easyteamup.Activities.SnackBarActivity.SnackBarInterface;
 import com.example.easyteamup.Activities.UserHomeActivities.ViewEventAnalyticsActivity;
 import com.example.easyteamup.Activities.UserHomeActivities.ViewProfileActivity;
 import com.example.easyteamup.Activities.ViewEventActivities.DisplayEventHelpers.NoEventsFragment;
+import com.example.easyteamup.Activities.ViewEventActivities.EventDetailsActivities.EventDetailsDialogFragment;
 import com.example.easyteamup.Activities.ViewEventActivities.EventDispatcherActivity;
 import com.example.easyteamup.Activities.ViewEventActivities.ListEventActivities.ViewHostedEventsActivity;
 import com.example.easyteamup.Activities.ViewEventActivities.ListEventActivities.ViewRSVPdEventsActivity;
@@ -31,6 +32,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -93,6 +95,13 @@ public class MapRSVPdEventsActivity extends AppCompatActivity implements OnMapRe
 
     @Override
     public boolean onMarkerClick(@NonNull Marker marker) {
+        if(marker.getTag() != null) {
+            Log.d("MARKER CLICK", marker.getTitle());
+            Event e = (Event) marker.getTag();
+            Log.d("EVENT", String.valueOf(e));
+            EventDetailsDialogFragment viewEventDetails = EventDetailsDialogFragment.newInstance(uid, "attending", e);
+            viewEventDetails.show(fragmentManager, "fragment_event_details_dialog");
+        }
         return false;
     }
 
@@ -131,10 +140,11 @@ public class MapRSVPdEventsActivity extends AppCompatActivity implements OnMapRe
                             eventIcon = BitmapDescriptorFactory.fromBitmap(smallMarker);
 
                             //setting marker
-                            MarkerOptions event_marker = new MarkerOptions().position(eventLoc)
+                            Marker event_marker = mMap.addMarker(new MarkerOptions()
+                                    .position(eventLoc)
                                     .title(eventName)
-                                    .icon(eventIcon);
-                            mMap.addMarker(event_marker);
+                                    .icon(eventIcon));
+                            event_marker.setTag(currentEvent);
                         }
                     } catch (NullPointerException npe) {
                         showNoEvents();

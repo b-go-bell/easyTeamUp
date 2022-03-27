@@ -13,6 +13,7 @@ import com.example.easyteamup.Activities.UserHomeActivities.ViewEventAnalyticsAc
 import com.example.easyteamup.Activities.UserHomeActivities.ViewProfileActivity;
 import com.example.easyteamup.Activities.ViewEventActivities.DisplayEventHelpers.EventAdapter;
 import com.example.easyteamup.Activities.ViewEventActivities.DisplayEventHelpers.NoEventsFragment;
+import com.example.easyteamup.Activities.ViewEventActivities.EventDetailsActivities.EventDetailsDialogFragment;
 import com.example.easyteamup.Activities.ViewEventActivities.EventDispatcherActivity;
 import com.example.easyteamup.Activities.ViewEventActivities.ListEventActivities.ViewPublicEventsActivity;
 import com.example.easyteamup.Backend.Event;
@@ -118,6 +119,15 @@ public class MapPublicEventsActivity extends AppCompatActivity implements OnMapR
 
     @Override
     public boolean onMarkerClick(@NonNull Marker marker) {
+        if(marker.getSnippet() == null){
+            Event e = (Event) marker.getTag();
+            Log.d("EVENT", String.valueOf(e));
+            EventDetailsDialogFragment viewEventDetails = EventDetailsDialogFragment.newInstance(uid, "public", e);
+            viewEventDetails.show(fragmentManager, "fragment_event_details_dialog");
+        }
+        else {
+            marker.setSnippet(null);
+        }
         return false;
     }
 
@@ -159,11 +169,11 @@ public class MapPublicEventsActivity extends AppCompatActivity implements OnMapR
                 //setting marker
                 String markerTitle = "Searching for events around ";
                 markerTitle = markerTitle.concat(locationName);
-                MarkerOptions current_marker = new MarkerOptions().position(searchCenter)
+                Marker search_marker = mMap.addMarker(new MarkerOptions().position(searchCenter)
                         .title(markerTitle)
-                        .icon(searchCenterIcon);
+                        .icon(searchCenterIcon));;
+                search_marker.setSnippet("search");
 
-                mMap.addMarker(current_marker);
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(searchCenter, DEFAULT_ZOOM));
 
                 fops.getEventsByEventId(eventIds, eventList -> {
@@ -212,10 +222,11 @@ public class MapPublicEventsActivity extends AppCompatActivity implements OnMapR
                                 }
                             }
                             //setting marker
-                            MarkerOptions event_marker = new MarkerOptions().position(eventLoc)
+                            Marker event_marker = mMap.addMarker(new MarkerOptions()
+                                    .position(eventLoc)
                                     .title(eventName)
-                                    .icon(eventIcon);
-                            mMap.addMarker(event_marker);
+                                    .icon(eventIcon));
+                            event_marker.setTag(currentEvent);
                         }
                     }
                     catch(NullPointerException npe){
