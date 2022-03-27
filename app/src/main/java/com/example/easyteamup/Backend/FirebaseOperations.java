@@ -524,6 +524,26 @@ public class FirebaseOperations {
                 });
     }
 
+    public void getUserByEmail(String email, ObjectCallback stringObject) {
+        StringRequest request = new StringRequest(Request.Method.GET,
+                "http://10.0.2.2:8080/getUserByEmail",
+                response -> {
+                    stringObject.result(response);
+                },
+                error -> {
+                    stringObject.result(null);
+                }) {
+                    @Override
+                    public Map<String, String> getHeaders() throws AuthFailureError {
+                        Map<String, String> headers = new HashMap<>();
+                        headers.put("email", email);
+                        return headers;
+                    }
+                };
+
+        requestQueue.add(request);
+    }
+
     /**
      * Invite a user to an event (action initiated by event host). If the user
      * has already RSVPed for an event, the invitation status will be set to
