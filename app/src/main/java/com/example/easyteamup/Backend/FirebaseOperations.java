@@ -494,6 +494,37 @@ public class FirebaseOperations {
     }
 
     /**
+     * Get the host's available times for an event
+     * @param eventId The event
+     * @param mapObject contains a Map<String, List<Map<String, String>>> (can
+     *                  be shorted to (Map<String, Object>) when casting, that
+     *                  denotes a host's availability for the event corresponding
+     *                  to eventId.
+     */
+    public void getHostAvailability(String eventId, ObjectCallback mapObject) {
+        db.collection("events")
+                .document(eventId)
+                .get()
+                .addOnSuccessListener(result1 -> {
+                    String host = result1.getString("host");
+                    db.collection("events")
+                            .document(eventId)
+                            .collection("userAvailabilities")
+                            .document(host)
+                            .get()
+                            .addOnSuccessListener(result2 -> {
+                                mapObject.result(result2.getData());
+                            })
+                            .addOnFailureListener(error -> {
+                                mapObject.result(null);
+                            });
+                })
+                .addOnFailureListener(error -> {
+                    mapObject.result(null);
+                });
+    }
+
+    /**
      * Invite a user to an event (action initiated by event host). If the user
      * has already RSVPed for an event, the invitation status will be set to
      * "attending". Otherwise, the invitation will be set to "pending".
