@@ -14,6 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EasyTeamUp">
         <activity
+            android:name=".Activities.DatePickerActivities.MainActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.ViewEventActivities.MapEventActivities.MapRSVPdEventsActivity"
             android:exported="false" />
         <activity
@@ -74,18 +77,18 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".Backend.FirebaseMessageReceiver"
+        <service
+            android:name=".Backend.FirebaseMessageReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
         <service
             android:name=".Backend.EtuFirebaseInstanceIDService"
             android:exported="false">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
 
@@ -96,6 +99,5 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyC2LTXdp_6XbtLGhbf1FAAhDzk6iRJMe-Y" />
     </application>
-
 
 </manifest>

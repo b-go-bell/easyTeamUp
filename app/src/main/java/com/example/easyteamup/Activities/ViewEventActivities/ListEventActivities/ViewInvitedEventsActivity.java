@@ -3,6 +3,7 @@ package com.example.easyteamup.Activities.ViewEventActivities.ListEventActivitie
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.easyteamup.Activities.CreateEventActivities.CreateEventActivity;
 import com.example.easyteamup.Activities.SnackBarActivity.SnackBarFragment;
@@ -10,6 +11,7 @@ import com.example.easyteamup.Activities.SnackBarActivity.SnackBarInterface;
 import com.example.easyteamup.Activities.UserHomeActivities.ViewEventAnalyticsActivity;
 import com.example.easyteamup.Activities.UserHomeActivities.ViewProfileActivity;
 import com.example.easyteamup.Activities.ViewEventActivities.DisplayEventHelpers.NoEventsFragment;
+import com.example.easyteamup.Activities.ViewEventActivities.EventDetailsActivities.SelectedEventAvailableTimesViewModel;
 import com.example.easyteamup.Activities.ViewEventActivities.EventDispatcherActivity;
 import com.example.easyteamup.Activities.ViewEventActivities.MapEventActivities.MapInvitedEventsActivity;
 import com.example.easyteamup.Activities.ViewEventActivities.MapEventActivities.MapPublicEventsActivity;
@@ -40,12 +42,15 @@ public class ViewInvitedEventsActivity extends AppCompatActivity implements Snac
     private Button mapButton;
     private FragmentContainerView noEvents;
     private EventAdapter eventAdapter;
+    private SelectedEventAvailableTimesViewModel model;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_invited_events);
         getSupportActionBar().hide();
+
+        model = new ViewModelProvider(this).get(SelectedEventAvailableTimesViewModel.class);
 
         fops = new FirebaseOperations(this);
         fragmentManager = getSupportFragmentManager();

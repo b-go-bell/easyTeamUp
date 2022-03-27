@@ -3,6 +3,7 @@ package com.example.easyteamup.Activities.ViewEventActivities.ListEventActivitie
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.easyteamup.Activities.CreateEventActivities.CreateEventActivity;
 import com.example.easyteamup.Activities.SnackBarActivity.SnackBarFragment;
@@ -12,6 +13,7 @@ import com.example.easyteamup.Activities.UserHomeActivities.ViewProfileActivity;
 import com.example.easyteamup.Activities.ViewEventActivities.DisplayEventHelpers.EventAdapter;
 import com.example.easyteamup.Activities.ViewEventActivities.DisplayEventHelpers.NoEventsFragment;
 import com.example.easyteamup.Activities.ViewEventActivities.EventDetailsActivities.EventDetailsDialogFragment;
+import com.example.easyteamup.Activities.ViewEventActivities.EventDetailsActivities.SelectedEventAvailableTimesViewModel;
 import com.example.easyteamup.Activities.ViewEventActivities.EventDispatcherActivity;
 import com.example.easyteamup.Activities.ViewEventActivities.FilterEvents.PublicEventsDialogActivity;
 import com.example.easyteamup.Activities.ViewEventActivities.FilterEvents.PublicEventsDialogFragment;
@@ -49,6 +51,8 @@ public class ViewPublicEventsActivity extends AppCompatActivity implements Snack
     private FragmentContainerView noEvents;
     private EventAdapter eventAdapter;
 
+    private SelectedEventAvailableTimesViewModel model;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +62,8 @@ public class ViewPublicEventsActivity extends AppCompatActivity implements Snack
         fops = new FirebaseOperations(this);
         fragmentManager = getSupportFragmentManager();
         getIntent = getIntent();
+
+        model = new ViewModelProvider(this).get(SelectedEventAvailableTimesViewModel.class);
 
         Bundle bundle = new Bundle();
         fragmentManager.beginTransaction()

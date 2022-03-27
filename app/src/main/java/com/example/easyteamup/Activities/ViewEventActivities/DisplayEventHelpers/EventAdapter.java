@@ -112,6 +112,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
         }
         else{
             //rsvpd
+            Log.d("ATTENDING", currentEvent.getName());
             String status = "Attending";
             formatGeneral(status);
         }

@@ -102,7 +102,7 @@
                     android:id="@+id/event_descrip"
                     android:layout_width="334dp"
                     android:layout_height="wrap_content"
-                    android:text="Lorem ipsum"
+                    android:text=""
                     android:fontFamily="@font/rubik_medium"
                     android:textColor="@color/gray"
                     android:textSize="18sp"
