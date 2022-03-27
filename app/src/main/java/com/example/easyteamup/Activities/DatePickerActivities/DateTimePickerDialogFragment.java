@@ -1,20 +1,11 @@
 package com.example.easyteamup.Activities.DatePickerActivities;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.easyteamup.Activities.UserAuthActivities.SignUpActivityFolder.SignUpInterface;
-import com.example.easyteamup.Activities.ViewEventActivities.EventDetailsActivities.AcceptEventDialogFragment;
-import com.example.easyteamup.Activities.ViewEventActivities.EventDetailsActivities.SelectedEventAvailableTimesViewModel;
 import com.example.easyteamup.R;
 
-import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.content.Context;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;

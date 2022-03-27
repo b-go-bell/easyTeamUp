@@ -118,7 +118,29 @@
     <string name="todo">TODO</string>
     <string name="message">Message</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Create event Strings -->
+    <string name="create_new_event">Create a new event</string>
+    <string name="event_title">Event title</string>
+    <string name="event_address">Event address</string>
+    <string name="event_description">Event description</string>
+    <string name="public_or_private">Will your event be public or private?</string>
+    <string name="pub">Public</string>
+    <string name="priv">Private</string>
+    <string name="invite_users">Invite 0 or more users to your event by searching their user ID</string>
+    <string name="invite_user">Invite User</string>
+    <string name="user_email">User email address</string>
+    <string name="no_invited_users">No users have been invited to your event.</string>
+    <string name="add_availability">Add your event time availability</string>
+    <string name="add_due">Set this event\'s due time</string>
+    <string name="pick_due">Pick the due time</string>
+    <string name="submit_event">Create Event</string>
+    <string name="no_due_time">No due time currently selected</string>
+    <string name="pick_due_time">Pick a due tiem</string>
+    <string name="pick_due_date">Pick a due date</string>
+    <string name="submit_due_time">Submit due date</string>
+    <string name="stay_on_event">No, keep creating</string>
+    <string name="leave_event">Yes, please leave</string>
+    <string name="leave_event_prompt">Are you sure you want to abandon your new event?</string>
 
 </resources>
