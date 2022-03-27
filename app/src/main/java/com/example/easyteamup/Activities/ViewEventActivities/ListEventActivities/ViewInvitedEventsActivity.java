@@ -102,7 +102,7 @@ public class ViewInvitedEventsActivity extends AppCompatActivity implements Snac
                 fops.getEventsByEventId(eventIds, eventList -> {
                     try {
                         ArrayList<Event> events = (ArrayList<Event>) eventList;
-                        eventAdapter = new EventAdapter(this, "invited", events, eventStatuses);
+                        eventAdapter = new EventAdapter(this, uid, "invited", events, eventStatuses);
 
                         listEvents.setAdapter(eventAdapter);
 

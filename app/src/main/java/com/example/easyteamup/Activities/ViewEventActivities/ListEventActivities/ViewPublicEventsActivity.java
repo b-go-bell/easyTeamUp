@@ -11,8 +11,10 @@ import com.example.easyteamup.Activities.UserHomeActivities.ViewEventAnalyticsAc
 import com.example.easyteamup.Activities.UserHomeActivities.ViewProfileActivity;
 import com.example.easyteamup.Activities.ViewEventActivities.DisplayEventHelpers.EventAdapter;
 import com.example.easyteamup.Activities.ViewEventActivities.DisplayEventHelpers.NoEventsFragment;
+import com.example.easyteamup.Activities.ViewEventActivities.EventDetailsActivities.EventDetailsDialogFragment;
 import com.example.easyteamup.Activities.ViewEventActivities.EventDispatcherActivity;
 import com.example.easyteamup.Activities.ViewEventActivities.FilterEvents.PublicEventsDialogActivity;
+import com.example.easyteamup.Activities.ViewEventActivities.FilterEvents.PublicEventsDialogFragment;
 import com.example.easyteamup.Activities.ViewEventActivities.MapEventActivities.MapPublicEventsActivity;
 import com.example.easyteamup.Backend.Event;
 import com.example.easyteamup.Backend.FirebaseOperations;
@@ -118,7 +120,7 @@ public class ViewPublicEventsActivity extends AppCompatActivity implements Snack
                 fops.getEventsByEventId(eventIds, eventList -> {
                     try {
                         ArrayList<Event> events = (ArrayList<Event>) eventList;
-                        eventAdapter = new EventAdapter(this, "public", events);
+                        eventAdapter = new EventAdapter(this, uid, "public", events);
 
                         listEvents.setAdapter(eventAdapter);
 
