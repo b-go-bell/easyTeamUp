@@ -3,6 +3,7 @@ package com.example.easyteamup.Activities.ViewEventActivities.ListEventActivitie
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.easyteamup.Activities.CreateEventActivities.CreateEventActivity;
 import com.example.easyteamup.Activities.SnackBarActivity.SnackBarFragment;
@@ -11,6 +12,7 @@ import com.example.easyteamup.Activities.UserHomeActivities.ViewEventAnalyticsAc
 import com.example.easyteamup.Activities.UserHomeActivities.ViewProfileActivity;
 import com.example.easyteamup.Activities.ViewEventActivities.DisplayEventHelpers.EventAdapter;
 import com.example.easyteamup.Activities.ViewEventActivities.DisplayEventHelpers.NoEventsFragment;
+import com.example.easyteamup.Activities.ViewEventActivities.EventDetailsActivities.SelectedEventAvailableTimesViewModel;
 import com.example.easyteamup.Activities.ViewEventActivities.EventDispatcherActivity;
 import com.example.easyteamup.Backend.Event;
 import com.example.easyteamup.Backend.FirebaseOperations;
@@ -18,6 +20,7 @@ import com.example.easyteamup.R;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -37,11 +40,16 @@ public class ViewRSVPdEventsActivity extends AppCompatActivity implements SnackB
     private FragmentContainerView noEvents;
     private EventAdapter eventAdapter;
 
+    private SelectedEventAvailableTimesViewModel model;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_rsvpd_events);
         getSupportActionBar().hide();
+
+        model = new ViewModelProvider(this).get(SelectedEventAvailableTimesViewModel.class);
+
 
         fops = new FirebaseOperations(this);
         fragmentManager = getSupportFragmentManager();
@@ -78,6 +86,7 @@ public class ViewRSVPdEventsActivity extends AppCompatActivity implements SnackB
         fops.getRSVPedEvents(uid, listObject -> {
             try {
                 ArrayList<String> eventIds = (ArrayList<String>) listObject;
+                Log.d("EVENTS", String.valueOf(eventIds));
                 if(eventIds.size() == 0){
                     throw new NullPointerException();
                 }
@@ -85,6 +94,7 @@ public class ViewRSVPdEventsActivity extends AppCompatActivity implements SnackB
                 fops.getEventsByEventId(eventIds, eventList -> {
                     try {
                         ArrayList<Event> events = (ArrayList<Event>) eventList;
+                        Log.d("EVENTS", String.valueOf(events));
                         eventAdapter = new EventAdapter(this, uid, "attending", events);
 
                         listEvents.setAdapter(eventAdapter);

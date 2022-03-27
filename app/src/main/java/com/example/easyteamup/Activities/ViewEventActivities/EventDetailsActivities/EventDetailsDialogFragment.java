@@ -112,13 +112,15 @@ public class EventDetailsDialogFragment extends DialogFragment {
 
         acceptInvite.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                
+                AcceptEventDialogFragment rsvpEvent = AcceptEventDialogFragment.newInstance(uid, event.getEventId(), event.getName(), true);
+                rsvpEvent.show(getChildFragmentManager(), "fragment_rsvp_event");
             }
         });
 
         attendPublic.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
+                AcceptEventDialogFragment rsvpEvent = AcceptEventDialogFragment.newInstance(uid, event.getEventId(), event.getName(), true);
+                rsvpEvent.show(getChildFragmentManager(), "fragment_rsvp_event");
             }
         });
 
@@ -131,7 +133,8 @@ public class EventDetailsDialogFragment extends DialogFragment {
 
         acceptInviteFromReject.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
+                AcceptEventDialogFragment rsvpEvent = AcceptEventDialogFragment.newInstance(uid, event.getEventId(), event.getName(), true);
+                rsvpEvent.show(getChildFragmentManager(), "fragment_rsvp_event");
             }
         });
 
@@ -187,9 +190,9 @@ public class EventDetailsDialogFragment extends DialogFragment {
                }
                else {
                    inviteButtons.setVisibility(View.GONE);
-                   publicButton.setVisibility(View.GONE);
+                   publicButton.setVisibility(View.VISIBLE);
                    declineButton.setVisibility(View.GONE);
-                   acceptButton.setVisibility(View.VISIBLE);
+                   acceptButton.setVisibility(View.GONE);
                }
            }
         }

@@ -102,10 +102,23 @@
     <string name="reject_rsvp_dialog">Are you sure you don\'t want to attend %1$s anymore?</string>
     <string name="sure">Yes, I\'m sure</string>
     <string name="no">No, go back</string>
+    <string name="pick_times">Pick one or more time ranges that work for you.</string>
+    <string name="pick_range">Add a time range</string>
+    <string name="pick_start_date">Pick a start day for your available range</string>
+    <string name="pick_start_time">Pick a start time for your available range</string>
+    <string name="pick_end_date">Pick an end day for your available range</string>
+    <string name="pick_end_time">Pick an end time for your available range</string>
+    <string name="submit_range">Add available date range</string>
+    <string name="submit_times">Submit &amp; accept</string>
+    <string name="no_times">No time ranges currently selected.</string>
+    <string name="cncl">Cancel</string>
 
     <!-- Notification Strings -->
     <string name="title">Title</string>
     <string name="todo">TODO</string>
     <string name="message">Message</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
