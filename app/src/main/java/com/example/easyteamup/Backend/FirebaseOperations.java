@@ -678,11 +678,11 @@ public class FirebaseOperations {
                 .document(uid)
                 .get()
                 .addOnSuccessListener(documentSnapshot -> {
-                    if (documentSnapshot.exists()) {
+                    if (documentSnapshot.exists()) { //if user was invited
                         //change user invitation status
                         Task<Void> updateUserInvitation = db.collection("users")
                                 .document(uid)
-                                .update("invitedEvents." + eventId, "attending");
+                                .update(FieldPath.of("invitedEvents", eventId), "attending");
 
                         //change event invitation status
                         Task<Void> updateEventInvitation = db.collection("events")
@@ -691,26 +691,20 @@ public class FirebaseOperations {
                                 .document(uid)
                                 .update("status", "attending");
 
-                        while (!updateUserRSVP.isComplete()
-                                | !updateEventRSVP.isComplete()
-                                | !updateUserInvitation.isComplete()
-                                | !updateEventInvitation.isComplete()
-                                | !addAvailabilities.isComplete());
+                        Tasks.whenAll(updateUserRSVP, updateEventRSVP, addAvailabilities,
+                                updateUserInvitation, updateEventInvitation)
+                                .addOnCompleteListener(task -> {
+                                    bc.isTrue(task.isSuccessful());
+                                });
 
-                        bc.isTrue(updateUserRSVP.isSuccessful()
-                                && updateEventRSVP.isSuccessful()
-                                && updateUserInvitation.isSuccessful()
-                                && updateEventInvitation.isSuccessful()
-                                && addAvailabilities.isSuccessful());
                     }
-                    else {
-                        while (!updateUserRSVP.isComplete()
-                                | !updateEventRSVP.isComplete()
-                                | !addAvailabilities.isComplete()) ;
-                        bc.isTrue(updateUserRSVP.isSuccessful()
-                                && updateEventRSVP.isSuccessful()
-                                && addAvailabilities.isSuccessful());
+                    else {//if user wasn't invited
+                        Tasks.whenAll(updateUserRSVP, updateEventRSVP, addAvailabilities)
+                                .addOnCompleteListener(task -> {
+                                    bc.isTrue(task.isSuccessful());
+                                });
                     }
+
                 })
                 .addOnFailureListener(e -> {
                     bc.isTrue(false);
