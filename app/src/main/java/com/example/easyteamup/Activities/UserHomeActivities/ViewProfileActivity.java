@@ -11,9 +11,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.easyteamup.Activities.CreateEventActivities.CreateEventActivity;
-import com.example.easyteamup.Activities.CreateEventActivities.LeaveCreateEventDialogFragment;
 import com.example.easyteamup.Activities.SnackBarActivity.SnackBarFragment;
 import com.example.easyteamup.Activities.SnackBarActivity.SnackBarInterface;
+import com.example.easyteamup.Activities.UserAuthActivities.LogoutDialogFragment;
 import com.example.easyteamup.Activities.ViewEventActivities.EventDispatcherActivity;
 import com.example.easyteamup.Backend.FirebaseOperations;
 import com.example.easyteamup.R;
