@@ -718,8 +718,69 @@ public class FirebaseOperations {
 
     }
 
-    public void removeRSVPFromEvent(String uid, String eventID, BooleanCallback bc) {
 
+    /**
+     * Removes a user's RSVP from an event, and (if they are invited) change
+     * their invitation status to "rejected".
+     * @param uid
+     * @param eventId
+     * @param bc contains true if the operation was succesful, false otherwise
+     */
+    public void removeRSVPFromEvent(String uid, String eventId, BooleanCallback bc) {
+        //update RSVP status from user POV
+        Task<Void> updateUserRSVP = db.collection("users")
+                .document(uid)
+                .update("rsvpedEvents", FieldValue.arrayRemove(eventId));
+
+        //update RSVP status from event POV
+        Task<Void> updateEventRSVP = db.collection("events")
+                .document(eventId)
+                .collection("rsvpedUsers")
+                .document(uid)
+                .delete();
+
+        //remove user availabilities
+        Task<Void> removeAvailabilities = db.collection("events")
+                .document(eventId)
+                .collection("userAvailabilities")
+                .document(uid)
+                .delete();
+
+        //check if user has been invited
+        db.collection("events")
+                .document(eventId)
+                .collection("invitedUsers")
+                .document(uid)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {//if user was invited
+                        Task<Void> updateUserInvitation = db.collection("users")
+                                .document(uid)
+                                .update(FieldPath.of("invitedEvents", eventId), "rejected");
+
+                        Task<Void> updateEventInvitation = db.collection("events")
+                                .document(eventId)
+                                .collection("invitedUsers")
+                                .document(uid)
+                                .update("status", "rejected");
+
+                        Tasks.whenAll(updateUserRSVP, updateEventRSVP, removeAvailabilities,
+                                updateUserInvitation, updateEventInvitation)
+                                .addOnCompleteListener(task -> {
+                                    bc.isTrue(task.isSuccessful());
+                                });
+                    }
+                    else {//if user wasn't invited
+                        Tasks.whenAll(updateUserRSVP, updateEventRSVP, removeAvailabilities)
+                                .addOnCompleteListener(task -> {
+                                    bc.isTrue(task.isSuccessful());
+                                });
+
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    bc.isTrue(false);
+                });
     }
 
 
@@ -947,7 +1008,6 @@ public class FirebaseOperations {
      * use, false otherwise
      */
     public void checkIfEmailInUse(String email, BooleanCallback bc){
-
         JsonObjectRequest request = new JsonObjectRequest("https://easy-team-up.uc.r.appspot.com/checkEmailInUse",
                 response -> {
                     try {
