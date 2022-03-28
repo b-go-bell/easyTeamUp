@@ -87,6 +87,18 @@ public class EventAdapter extends ArrayAdapter<Event> {
         if(uid.equals(currentEvent.getHost())){
             showHosted(currentEvent);
         }
+        else if(eventType.equals("past")){
+            String status;
+            if(uid.equals(currentEvent.getHost())){
+                status = "Hosted";
+                eventStatus.setTextColor(ContextCompat.getColor(mContext, R.color.orange));
+                eventStatus.setText(status);
+            }
+            else {
+                status = "Attended";
+                formatGeneral(status);
+            }
+        }
         else if(eventType.equals("invited")){
 
             Log.d("INVITED", currentEvent.getName());
@@ -123,6 +135,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
                     HostEventDetailsDialogFragment hostDetails = HostEventDetailsDialogFragment.newInstance(uid, currentEvent);
                     hostDetails.show(fragmentManager, "fragment_event_details_dialog");
                 }
+                else if(eventType.equals("past")){}
                 else {
                     EventDetailsDialogFragment viewEventDetails = EventDetailsDialogFragment.newInstance(uid, eventType, currentEvent);
                     viewEventDetails.show(fragmentManager, "fragment_event_details_dialog");

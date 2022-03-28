@@ -51,6 +51,7 @@
     <string name="no_invitations">Oh no! It looks like you have no event invitations…</string>
     <string name="no_rsvps">Oh no! It looks like you aren\'t attending any upcoming events…</string>
     <string name="no_public_events">Oh no! It looks like no public events matched your search parameters…</string>
+    <string name="no_past_events">Oh no! It looks like you haven\'t attended any events yet…</string>
     <string name="no_hosting">Oh no! It looks like you aren\'t hosting any upcoming events…</string>
     <string name="view_profile">View my User Profile</string>
     <string name="browse_public_events_general">Browse Public Events</string>
@@ -93,6 +94,7 @@
     <string name="viewing_invitations">Viewing my invited events</string>
     <string name="viewing_rsvp">Viewing events I\'m attending</string>
     <string name="viewing_hosting">Viewing events I\'m hosting</string>
+    <string name="viewing_past">Viewing my past events</string>
     <string name="view_map">View on the map</string>
     <string name="view_list">View in a list</string>
 

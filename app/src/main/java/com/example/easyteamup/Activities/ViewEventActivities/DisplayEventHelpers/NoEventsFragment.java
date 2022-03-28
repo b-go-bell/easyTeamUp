@@ -91,6 +91,19 @@ public class NoEventsFragment extends Fragment {
             browsePublicLeft.setEnabled(false);
             viewInvitationsRight.setEnabled(false);
         }
+        else if(none.equals("past")){
+            noEvents.setText(R.string.no_past_events);
+
+            browsePublicLeft.setVisibility(View.VISIBLE);
+            viewInvitationsRight.setVisibility(View.VISIBLE);
+            browsePublicLeft.setEnabled(true);
+            viewInvitationsRight.setEnabled(true);
+
+            createEvent.setVisibility(View.INVISIBLE);
+            browsePublicCenter.setVisibility(View.INVISIBLE);
+            createEvent.setEnabled(false);
+            browsePublicCenter.setEnabled(false);
+        }
 
         browsePublicCenter.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
