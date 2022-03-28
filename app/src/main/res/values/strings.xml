@@ -115,6 +115,7 @@
     <string name="submit_times">Submit &amp; accept</string>
     <string name="no_times">No time ranges currently selected.</string>
     <string name="cncl">Cancel</string>
+    <string name="view_host_times">View host availability</string>
 
     <!-- Notification Strings -->
     <string name="title">Title</string>
@@ -152,6 +153,7 @@
     <string name="update_event">Update event</string>
     <string name="delete_event">Delete event</string>
     <string name="see_rsvps">View RSVPed Users</string>
+    <string name="see_invited">View Invited Users &amp; Status</string>
     <string name="go_back">Return to Event Details</string>
 
 </resources>

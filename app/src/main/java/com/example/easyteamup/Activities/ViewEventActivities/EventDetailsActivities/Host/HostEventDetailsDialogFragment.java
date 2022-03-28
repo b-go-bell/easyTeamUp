@@ -37,7 +37,7 @@ public class HostEventDetailsDialogFragment extends DialogFragment  {
     private ImageButton close;
     private TextView eventTitle, eventAddress, eventPublicity, eventDue, eventDescrip, eventLength;
     private ConstraintLayout descripLayout;
-    private Button viewRsvps, deleteEvent, updateEvent;
+    private Button viewRsvps, viewInvites, deleteEvent, updateEvent;
 
     public HostEventDetailsDialogFragment() {
         // Empty constructor is required for DialogFragment
@@ -74,6 +74,7 @@ public class HostEventDetailsDialogFragment extends DialogFragment  {
         eventDescrip = (TextView) v.findViewById(R.id.event_descrip);
         eventLength = (TextView) v.findViewById(R.id.event_length);
         viewRsvps = (Button) v.findViewById(R.id.see_rsvps);
+        viewInvites = (Button) v.findViewById(R.id.see_invited);
 
         descripLayout = (ConstraintLayout) v.findViewById(R.id.descrip_layout);
         deleteEvent = (Button) v.findViewById(R.id.delete_event);
@@ -88,8 +89,15 @@ public class HostEventDetailsDialogFragment extends DialogFragment  {
 
         viewRsvps.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                ViewRSVPsDialogFragment viewRSVPs = ViewRSVPsDialogFragment.newInstance(event.getEventId());
-                viewRSVPs.show(getChildFragmentManager(), "fragment_delete_event");
+                ViewRSVPsDialogFragment viewRSVPs = ViewRSVPsDialogFragment.newInstance(event.getEventId(), "rsvp");
+                viewRSVPs.show(getChildFragmentManager(), "fragment_view_rsvp_event");
+            }
+        });
+
+        viewInvites.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                ViewRSVPsDialogFragment viewInvites = ViewRSVPsDialogFragment.newInstance(event.getEventId(), "invite");
+                viewInvites.show(getChildFragmentManager(), "fragment_view_invite_event");
             }
         });
 

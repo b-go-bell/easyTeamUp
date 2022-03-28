@@ -113,6 +113,22 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <Button
+            android:id="@+id/see_invited"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:layout_marginHorizontal="10dp"
+            android:text="@string/see_invited"
+            android:fontFamily="@font/rubik_bold_italic"
+            android:backgroundTint="@color/blue"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textAllCaps="false"
+            android:layout_marginTop="10dp"
+            />
+
+        <Button
             android:id="@+id/see_rsvps"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -23,6 +23,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
     <Button
+        android:id="@+id/host_times"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_gravity="center"
+        android:text="@string/view_host_times"
+        android:layout_marginHorizontal="10dp"
+        android:fontFamily="@font/rubik_regular"
+        android:backgroundTint="@color/white"
+        android:textColor="@color/gray"
+        android:textSize="12sp"
+        android:textAllCaps="false"
+        android:layout_marginTop="10dp"
+        />
+    <Button
         android:id="@+id/times"
         android:layout_width="240dp"
         android:layout_height="wrap_content"

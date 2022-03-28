@@ -40,7 +40,7 @@ public class AcceptEventDialogFragment extends DialogFragment {
     private SelectedEventAvailableTimesViewModel model;
 
     private Button goBack;
-    private Button pickTime;
+    private Button hostTime, pickTime;
     private Button submit;
 
     private TextView timesSubmitted, error;
@@ -80,6 +80,7 @@ public class AcceptEventDialogFragment extends DialogFragment {
 
 
         goBack = (Button) v.findViewById(R.id.cancel);
+        hostTime = (Button) v.findViewById(R.id.host_times);
         pickTime = (Button) v.findViewById(R.id.times);
         submit = (Button) v.findViewById(R.id.submit);
         timesSubmitted = (TextView) v.findViewById(R.id.times_submitted);
@@ -89,6 +90,14 @@ public class AcceptEventDialogFragment extends DialogFragment {
             public void onClick(View v) {
                 onCancel(getDialog());
                 getDialog().cancel();
+            }
+        });
+
+        hostTime.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                HostTimesDialogFragment hostTimes = HostTimesDialogFragment.newInstance(eid);
+                hostTimes.show(fragmentManager, "see_host_times");
+
             }
         });
 
