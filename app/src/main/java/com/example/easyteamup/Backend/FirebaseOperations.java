@@ -70,13 +70,12 @@ public class FirebaseOperations {
                 fcm.getToken().addOnCompleteListener(task2 -> {
                         if (task2.isSuccessful()) {
                             updateAuthenticatedUserToken(task2.getResult());
+                            bc.isTrue(true);
                         }
                         else {
-                            logoutUser();
                             bc.isTrue(false);
                         }
                 });
-                bc.isTrue(true);
             }
             else {
                 bc.isTrue(false);
