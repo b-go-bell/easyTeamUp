@@ -1,4 +1,4 @@
-package com.example.easyteamup.Activities.ViewEventActivities.EventDetailsActivities;
+package com.example.easyteamup.Activities.DatePickerActivities;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
