@@ -1,6 +1,5 @@
-package com.example.easyteamup.Activities.ViewEventActivities.EventDetailsActivities;
+package com.example.easyteamup.Activities.ViewEventActivities.EventDetailsActivities.NonHost;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,7 +10,6 @@ import android.widget.TextView;
 
 import androidx.fragment.app.DialogFragment;
 
-import com.example.easyteamup.Activities.UserHomeActivities.ViewProfileActivity;
 import com.example.easyteamup.Activities.ViewEventActivities.ListEventActivities.ViewInvitedEventsActivity;
 import com.example.easyteamup.Backend.FirebaseOperations;
 import com.example.easyteamup.R;
@@ -71,14 +69,25 @@ public class DeclineInvitationDialogFragment extends DialogFragment {
 
         decline.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                fops.rejectEventInvitation(uid, eid, bc -> {
-                    if(bc){
-                        specialCancel();
-                    }
-                    else {
-                        type.setText(("There was an issue rejecting your invitation. Please try again."));
-                    }
-                });
+                if(invite){
+                    fops.rejectEventInvitation(uid, eid, bc -> {
+                        if (bc) {
+                            specialCancel();
+                        } else {
+                            type.setText(("There was an issue rejecting your invitation. Please try again."));
+                        }
+                    });
+                }
+                else {
+                    fops.removeRSVPFromEvent(uid, eid, bc -> {
+                        if(bc){
+                            specialCancel();
+                        }
+                        else {
+                            type.setText(("There was an issue removing your RSVP. Please try again."));
+                        }
+                    });
+                }
             }
         });
 

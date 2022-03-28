@@ -1,8 +1,5 @@
-package com.example.easyteamup.Activities.ViewEventActivities.EventDetailsActivities;
+package com.example.easyteamup.Activities.ViewEventActivities.EventDetailsActivities.NonHost;
 
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,14 +16,10 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
-import com.example.easyteamup.Activities.UserHomeActivities.ViewProfileActivity;
-import com.example.easyteamup.Activities.ViewEventActivities.FilterEvents.PublicEventsDialogFragment;
 import com.example.easyteamup.Backend.Event;
 import com.example.easyteamup.Backend.FirebaseOperations;
 import com.example.easyteamup.Backend.User;
 import com.example.easyteamup.R;
-
-import org.w3c.dom.Text;
 
 import java.util.Date;
 
@@ -151,7 +144,7 @@ public class EventDetailsDialogFragment extends DialogFragment {
             eventDescrip.setText(event.getDescription());
         }
 
-        Date time = new Date(event.getDueDate().getSeconds()*1000);
+        Date time = event.getDueDate().toDate();
         String formattedTime = this.getString(R.string.due_time, time.toString());
         eventDue.setText(formattedTime);
 
@@ -174,34 +167,27 @@ public class EventDetailsDialogFragment extends DialogFragment {
     }
 
     private void setButtons() {
-        if(eventType.equals("invited")){
-            setInvitedButtons();
-        }
-        else if(eventType.equals("public")){
-           if(event.getInvitationStatus() != null){
-               setInvitedButtons();
-           }
-           else {
-               if(event.getIsRsvped()){
-                   inviteButtons.setVisibility(View.GONE);
-                   publicButton.setVisibility(View.GONE);
-                   declineButton.setVisibility(View.VISIBLE);
-                   acceptButton.setVisibility(View.GONE);
-               }
-               else {
-                   inviteButtons.setVisibility(View.GONE);
-                   publicButton.setVisibility(View.VISIBLE);
-                   declineButton.setVisibility(View.GONE);
-                   acceptButton.setVisibility(View.GONE);
-               }
-           }
-        }
-        else{
-            //rsvpd
+        if(event.getIsRsvped()){
             inviteButtons.setVisibility(View.GONE);
             publicButton.setVisibility(View.GONE);
             declineButton.setVisibility(View.VISIBLE);
             acceptButton.setVisibility(View.GONE);
+        }
+        else {
+            if(eventType.equals("invited")){
+                setInvitedButtons();
+            }
+            else if(eventType.equals("public")){
+                if(event.getInvitationStatus() != null){
+                    setInvitedButtons();
+                }
+                else {
+                    inviteButtons.setVisibility(View.GONE);
+                    publicButton.setVisibility(View.VISIBLE);
+                    declineButton.setVisibility(View.GONE);
+                    acceptButton.setVisibility(View.GONE);
+                }
+            }
         }
     }
 

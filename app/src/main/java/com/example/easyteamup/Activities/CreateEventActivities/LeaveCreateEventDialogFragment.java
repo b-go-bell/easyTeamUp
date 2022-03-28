@@ -12,9 +12,7 @@ import androidx.fragment.app.DialogFragment;
 
 import com.example.easyteamup.Activities.UserHomeActivities.ViewEventAnalyticsActivity;
 import com.example.easyteamup.Activities.UserHomeActivities.ViewProfileActivity;
-import com.example.easyteamup.Activities.ViewEventActivities.EventDetailsActivities.EventDetailsDialogFragment;
 import com.example.easyteamup.Activities.ViewEventActivities.EventDispatcherActivity;
-import com.example.easyteamup.Backend.Event;
 import com.example.easyteamup.R;
 
 public class LeaveCreateEventDialogFragment extends DialogFragment {

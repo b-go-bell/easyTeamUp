@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.example.easyteamup.Activities.CreateEventActivities.CreateEventActivity;
 import com.example.easyteamup.Activities.SnackBarActivity.SnackBarFragment;
@@ -20,13 +19,12 @@ import com.example.easyteamup.Activities.SnackBarActivity.SnackBarInterface;
 import com.example.easyteamup.Activities.UserHomeActivities.ViewEventAnalyticsActivity;
 import com.example.easyteamup.Activities.UserHomeActivities.ViewProfileActivity;
 import com.example.easyteamup.Activities.ViewEventActivities.DisplayEventHelpers.NoEventsFragment;
-import com.example.easyteamup.Activities.ViewEventActivities.EventDetailsActivities.EventDetailsDialogFragment;
+import com.example.easyteamup.Activities.ViewEventActivities.EventDetailsActivities.NonHost.EventDetailsDialogFragment;
 import com.example.easyteamup.Activities.ViewEventActivities.EventDispatcherActivity;
 import com.example.easyteamup.Activities.ViewEventActivities.ListEventActivities.ViewInvitedEventsActivity;
 import com.example.easyteamup.Backend.Event;
 import com.example.easyteamup.Backend.FirebaseOperations;
 import com.example.easyteamup.R;
-import com.firebase.geofire.GeoLocation;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -40,7 +38,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.WeakHashMap;
 
 public class MapInvitedEventsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener, SnackBarInterface {
 

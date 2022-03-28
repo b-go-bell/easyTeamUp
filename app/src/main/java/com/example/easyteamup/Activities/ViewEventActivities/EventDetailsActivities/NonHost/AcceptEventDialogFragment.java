@@ -1,4 +1,4 @@
-package com.example.easyteamup.Activities.ViewEventActivities.EventDetailsActivities;
+package com.example.easyteamup.Activities.ViewEventActivities.EventDetailsActivities.NonHost;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,11 +15,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.easyteamup.Activities.CreateEventActivities.LeaveCreateEventDialogFragment;
 import com.example.easyteamup.Activities.DatePickerActivities.DateTimePickerDialogFragment;
 import com.example.easyteamup.Activities.DatePickerActivities.SelectedEventAvailableTimesViewModel;
 import com.example.easyteamup.Activities.UserAuthActivities.FailDialogFragment;
-import com.example.easyteamup.Activities.UserHomeActivities.ViewProfileActivity;
 import com.example.easyteamup.Activities.ViewEventActivities.EventDispatcherActivity;
 import com.example.easyteamup.Activities.ViewEventActivities.ListEventActivities.ViewInvitedEventsActivity;
 import com.example.easyteamup.Backend.FirebaseOperations;
@@ -28,10 +26,6 @@ import com.example.easyteamup.R;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.text.SimpleDateFormat;
 
 
 public class AcceptEventDialogFragment extends DialogFragment {

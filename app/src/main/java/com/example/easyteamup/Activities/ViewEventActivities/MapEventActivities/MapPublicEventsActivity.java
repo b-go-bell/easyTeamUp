@@ -2,7 +2,6 @@ package com.example.easyteamup.Activities.ViewEventActivities.MapEventActivities
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 
@@ -11,17 +10,14 @@ import com.example.easyteamup.Activities.SnackBarActivity.SnackBarFragment;
 import com.example.easyteamup.Activities.SnackBarActivity.SnackBarInterface;
 import com.example.easyteamup.Activities.UserHomeActivities.ViewEventAnalyticsActivity;
 import com.example.easyteamup.Activities.UserHomeActivities.ViewProfileActivity;
-import com.example.easyteamup.Activities.ViewEventActivities.DisplayEventHelpers.EventAdapter;
 import com.example.easyteamup.Activities.ViewEventActivities.DisplayEventHelpers.NoEventsFragment;
-import com.example.easyteamup.Activities.ViewEventActivities.EventDetailsActivities.EventDetailsDialogFragment;
+import com.example.easyteamup.Activities.ViewEventActivities.EventDetailsActivities.NonHost.EventDetailsDialogFragment;
 import com.example.easyteamup.Activities.ViewEventActivities.EventDispatcherActivity;
 import com.example.easyteamup.Activities.ViewEventActivities.ListEventActivities.ViewPublicEventsActivity;
 import com.example.easyteamup.Backend.Event;
 import com.example.easyteamup.Backend.FirebaseOperations;
 import com.example.easyteamup.R;
 import com.firebase.geofire.GeoLocation;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;

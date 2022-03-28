@@ -1,6 +1,5 @@
 package com.example.easyteamup.Activities.ViewEventActivities.DisplayEventHelpers;
 
-import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,13 +13,10 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 
-import com.example.easyteamup.Activities.ViewEventActivities.EventDetailsActivities.EventDetailsDialogFragment;
-import com.example.easyteamup.Activities.ViewEventActivities.FilterEvents.PublicEventsDialogFragment;
+import com.example.easyteamup.Activities.ViewEventActivities.EventDetailsActivities.Host.HostEventDetailsDialogFragment;
+import com.example.easyteamup.Activities.ViewEventActivities.EventDetailsActivities.NonHost.EventDetailsDialogFragment;
 import com.example.easyteamup.Backend.Event;
-import com.example.easyteamup.Backend.FirebaseOperations;
-import com.example.easyteamup.Backend.User;
 import com.example.easyteamup.R;
-import com.google.firebase.Timestamp;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -72,13 +68,19 @@ public class EventAdapter extends ArrayAdapter<Event> {
         eventHostLoc.setText(formattedHostLoc);
 
         TextView dueTime = (TextView) listItem.findViewById(R.id.event_due);
-        Date time = new Date(currentEvent.getDueDate().getSeconds()*1000);
+        Date time = currentEvent.getDueDate().toDate();
         String formattedTime = mContext.getString(R.string.due_time, time.toString());
         dueTime.setText(formattedTime);
 
         //showing status of the event for the logged in user
         eventStatus = (TextView) listItem.findViewById(R.id.event_invitation);
-        if(eventType.equals("invited")){
+
+        if(uid.equals(currentEvent.getHost())){
+            showHosted(currentEvent);
+        }
+        else if(eventType.equals("invited")){
+
+            Log.d("INVITED", currentEvent.getName());
             String status = currentEvent.getInvitationStatus();
             formatInvite(status);
         }
@@ -98,19 +100,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
                 }
             }
         }
-        else if(eventType.equals("hosted")){
-            String status;
-            if(!currentEvent.getIsPublic()){
-                status = "Private";
-                eventStatus.setTextColor(ContextCompat.getColor(mContext, R.color.coral));
-            }
-            else {
-                status = "Public";
-                eventStatus.setTextColor(ContextCompat.getColor(mContext, R.color.green));
-            }
-            eventStatus.setText(status);
-        }
-        else{
+        else {
             //rsvpd
             Log.d("ATTENDING", currentEvent.getName());
             String status = "Attending";
@@ -120,10 +110,9 @@ public class EventAdapter extends ArrayAdapter<Event> {
         listItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(eventType.equals("hosted")){
-                    /*
-                        FILL IN
-                     */
+                if(uid.equals(currentEvent.getHost())){
+                    HostEventDetailsDialogFragment hostDetails = HostEventDetailsDialogFragment.newInstance(uid, currentEvent);
+                    hostDetails.show(fragmentManager, "fragment_event_details_dialog");
                 }
                 else {
                     EventDetailsDialogFragment viewEventDetails = EventDetailsDialogFragment.newInstance(uid, eventType, currentEvent);
@@ -133,6 +122,19 @@ public class EventAdapter extends ArrayAdapter<Event> {
         });
 
         return listItem;
+    }
+
+    private void showHosted(Event currEvent) {
+        String status;
+        if(!currEvent.getIsPublic()){
+            status = "Hosting private event";
+            eventStatus.setTextColor(ContextCompat.getColor(mContext, R.color.orange));
+        }
+        else {
+            status = "Hosting public event";
+            eventStatus.setTextColor(ContextCompat.getColor(mContext, R.color.green));
+        }
+        eventStatus.setText(status);
     }
 
     private void formatGeneral(String status){

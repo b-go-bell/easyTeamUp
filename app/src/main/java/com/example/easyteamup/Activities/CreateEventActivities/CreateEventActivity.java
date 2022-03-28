@@ -11,10 +11,7 @@ import com.example.easyteamup.Activities.DatePickerActivities.SingleDateTimePick
 import com.example.easyteamup.Activities.DatePickerActivities.SingleSelectedEventAvailableTimesViewModel;
 import com.example.easyteamup.Activities.SnackBarActivity.SnackBarFragment;
 import com.example.easyteamup.Activities.SnackBarActivity.SnackBarInterface;
-import com.example.easyteamup.Activities.UserHomeActivities.ViewEventAnalyticsActivity;
-import com.example.easyteamup.Activities.UserHomeActivities.ViewProfileActivity;
 import com.example.easyteamup.Activities.DatePickerActivities.SelectedEventAvailableTimesViewModel;
-import com.example.easyteamup.Activities.ViewEventActivities.EventDetailsActivities.DeclineInvitationDialogFragment;
 import com.example.easyteamup.Activities.ViewEventActivities.EventDispatcherActivity;
 import com.example.easyteamup.Backend.Event;
 import com.example.easyteamup.Backend.FirebaseOperations;
@@ -27,14 +24,11 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
