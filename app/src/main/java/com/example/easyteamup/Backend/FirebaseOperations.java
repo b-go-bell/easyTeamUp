@@ -524,11 +524,18 @@ public class FirebaseOperations {
                 });
     }
 
+    /**
+     * Looks up a user by their email address
+     * @param email The email of the user we want to find.
+     * @param stringObject Will return the uid of the user corresponding to the
+     *                     email provided, or null if none exists.
+     */
     public void getUserByEmail(String email, ObjectCallback stringObject) {
         StringRequest request = new StringRequest(Request.Method.GET,
-                "http://10.0.2.2:8080/getUserByEmail",
+                "https://easy-team-up.uc.r.appspot.com/getUserByEmail",
                 response -> {
-                    stringObject.result(response);
+                    if (response.equals(null)) stringObject.result(null);
+                    else stringObject.result(response);
                 },
                 error -> {
                     stringObject.result(null);
