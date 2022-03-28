@@ -16,6 +16,14 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 public class FirebaseMessageReceiver extends FirebaseMessagingService {
+
+    FirebaseOperations fops;
+
+    public void onCreate() {
+        fops = new FirebaseOperations(this);
+    }
+
+
     @Override
     public void
     onMessageReceived(RemoteMessage remoteMessage){
@@ -24,6 +32,12 @@ public class FirebaseMessageReceiver extends FirebaseMessagingService {
                     remoteMessage.getNotification().getBody());
         }
     }
+
+    @Override
+    public void onNewToken(String token) {
+        fops.updateAuthenticatedUserToken(token);
+    }
+
 
     private RemoteViews getCustomDesign(String title, String message){
         RemoteViews remoteViews = new RemoteViews(getApplicationContext().getPackageName(),

@@ -26,6 +26,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -42,6 +43,7 @@ public class FirebaseOperations {
     FirebaseFirestore db;
     StorageReference storage;
     FirebaseUser authenticatedUser;
+    FirebaseMessaging fcm;
     RequestQueue requestQueue;
 
     public FirebaseOperations(Context context) {
@@ -49,6 +51,7 @@ public class FirebaseOperations {
         db = FirebaseFirestore.getInstance();
         storage = FirebaseStorage.getInstance().getReference();
         authenticatedUser = auth.getCurrentUser();
+        fcm = FirebaseMessaging.getInstance();
         requestQueue = Volley.newRequestQueue(context);
     }
 
@@ -61,9 +64,18 @@ public class FirebaseOperations {
      *      was successful or not.
      */
     public void loginUser(String email, String password, BooleanCallback bc) {
-        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
+        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task1 -> {
+            if (task1.isSuccessful()) {
                 authenticatedUser = auth.getCurrentUser();
+                fcm.getToken().addOnCompleteListener(task2 -> {
+                        if (task2.isSuccessful()) {
+                            updateAuthenticatedUserToken(task2.getResult());
+                        }
+                        else {
+                            logoutUser();
+                            bc.isTrue(false);
+                        }
+                });
                 bc.isTrue(true);
             }
             else {
@@ -100,6 +112,33 @@ public class FirebaseOperations {
             else bc.isTrue(false);
         });
     }
+
+    /**
+     * Logs out a user
+     */
+    public void logoutUser(){
+        db.collection("users")
+                .document(authenticatedUser.getUid())
+                .update("FCMToken", null)
+                .addOnCompleteListener(task -> {
+                    auth.signOut();
+                });
+    }
+
+
+    /**
+     * [For Firebase Cloud Messaging Notifications] Sets the FCM token
+     * of the currently logged in user to that of this device.
+     * @param token
+     */
+    public void updateAuthenticatedUserToken(String token) {
+        if (authenticatedUser != null) {
+            db.collection("users")
+                    .document(auth.getUid())
+                    .update("FCMToken", token);
+        };
+    }
+
 
     /**
      * Get the currently logged in User's uid
