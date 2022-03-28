@@ -208,6 +208,7 @@ public class Event implements Parcelable {
         this.isPublic = isPublic;
     }
 
+    @Exclude
     public boolean getIsRsvped() {
         return rsvped;
     }
@@ -216,6 +217,7 @@ public class Event implements Parcelable {
         this.rsvped = rsvped;
     }
 
+    @Exclude
     public String getInvitationStatus() {
         return invitationStatus;
     }
