@@ -67,10 +67,19 @@ public class EventAdapter extends ArrayAdapter<Event> {
         String formattedHostLoc = mContext.getString(R.string.event_location, currentEvent.getAddress());
         eventHostLoc.setText(formattedHostLoc);
 
-        TextView dueTime = (TextView) listItem.findViewById(R.id.event_due);
-        Date time = currentEvent.getDueDate().toDate();
-        String formattedTime = mContext.getString(R.string.due_time, time.toString());
-        dueTime.setText(formattedTime);
+        if(currentEvent.getFinalTime() == null){
+            TextView dueTime = (TextView) listItem.findViewById(R.id.event_due);
+            Date time = currentEvent.getDueDate().toDate();
+            String formattedTime = mContext.getString(R.string.due_time, time.toString());
+            dueTime.setText(formattedTime);
+        }
+        else {
+            TextView dueTime = (TextView) listItem.findViewById(R.id.event_due);
+            Date time = currentEvent.getFinalTime().toDate();
+            String formattedTime = ("Happening on ").concat(time.toString());
+            dueTime.setText(formattedTime);
+        }
+
 
         //showing status of the event for the logged in user
         eventStatus = (TextView) listItem.findViewById(R.id.event_invitation);
