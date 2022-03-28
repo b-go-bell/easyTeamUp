@@ -151,7 +151,14 @@ public class CreateEventActivity extends AppCompatActivity implements SnackBarIn
             @Override
             public void onClick(View view) {
                 String name = eventName.getText().toString();
-                Double eventMinutes = Double.valueOf(eventLength.getText().toString());
+
+                Double eventMinutes = null;
+                try {
+                    eventMinutes = Double.valueOf(eventLength.getText().toString());
+                }
+                catch(NumberFormatException nfe){
+                    error.setText("Please enter a valid event length time.");
+                }
 
                 Double lat = null;
                 Double lon = null;
@@ -181,7 +188,7 @@ public class CreateEventActivity extends AppCompatActivity implements SnackBarIn
                     error.setText("Please enter a name for your event.");
                 }
                 else if(eventMinutes == null || eventMinutes <= 0){
-                    error.setText("Please enter an event length greater than 0 minutes.");
+                    error.setText("Please enter a valid event length time.");
                 }
                 else {
                     Event e = new Event();

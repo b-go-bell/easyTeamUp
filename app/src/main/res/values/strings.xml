@@ -42,6 +42,8 @@
     <string name="host_event">Host an Event</string>
     <string name="view_history">View my Event History</string>
     <string name="update_profile">Update my Profile</string>
+    <string name="logout">Log out</string>
+    <string name="logout_ask">Are you sure you want to logout?</string>
 
     <!-- Strings related to No Events Fragment -->
     <string name="no_events_general">Oh no! It looks like no events matched your search…</string>

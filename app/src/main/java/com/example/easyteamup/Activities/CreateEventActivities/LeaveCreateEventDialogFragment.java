@@ -2,6 +2,7 @@ package com.example.easyteamup.Activities.CreateEventActivities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +43,7 @@ public class LeaveCreateEventDialogFragment extends DialogFragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_leave_create_event_dialog, container);
         uid = getArguments().getString("uid");
-        where = getArguments().getString("uid");
+        where = getArguments().getString("where");
 
         text = (TextView) v.findViewById(R.id.dialog_message);
         cancel = (Button) v.findViewById(R.id.cancel);
@@ -65,6 +66,7 @@ public class LeaveCreateEventDialogFragment extends DialogFragment {
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.d("WHERE", where);
                 if(where.equals("home")){
                     Intent viewProfile = new Intent(getActivity(), ViewProfileActivity.class);
                     viewProfile.putExtra("uid", uid);

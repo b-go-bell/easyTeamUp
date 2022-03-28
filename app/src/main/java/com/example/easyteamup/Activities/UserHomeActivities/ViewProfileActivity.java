@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.easyteamup.Activities.CreateEventActivities.CreateEventActivity;
+import com.example.easyteamup.Activities.CreateEventActivities.LeaveCreateEventDialogFragment;
 import com.example.easyteamup.Activities.SnackBarActivity.SnackBarFragment;
 import com.example.easyteamup.Activities.SnackBarActivity.SnackBarInterface;
 import com.example.easyteamup.Activities.ViewEventActivities.EventDispatcherActivity;
@@ -28,7 +29,7 @@ public class ViewProfileActivity extends AppCompatActivity implements SnackBarIn
     private TextView welcome;
     private Button invited_events,  public_events;
     private Button attending, hosting, create_event;
-    private Button event_history, update_profile;
+    private Button event_history, update_profile, logout;
 
 
 
@@ -51,6 +52,7 @@ public class ViewProfileActivity extends AppCompatActivity implements SnackBarIn
         create_event = (Button) findViewById(R.id.create_event_button);
         event_history = (Button) findViewById(R.id.event_history_button);
         update_profile = (Button) findViewById(R.id.update_profile_button);
+        logout = (Button) findViewById(R.id.logout_button);
 
         fragmentManager = getSupportFragmentManager();
         Bundle bundle = new Bundle();
@@ -141,6 +143,14 @@ public class ViewProfileActivity extends AppCompatActivity implements SnackBarIn
                 Intent updateProfile = new Intent(ViewProfileActivity.this, UpdateProfileActivity.class);
                 updateProfile.putExtra("uid", uid);
                 startActivity(updateProfile);
+            }
+        });
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                LogoutDialogFragment logout = LogoutDialogFragment.newInstance(uid);
+                logout.show(fragmentManager, "fragment_logout");
             }
         });
     }

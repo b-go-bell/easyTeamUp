@@ -160,6 +160,7 @@
                 android:fontFamily="@font/rubik_medium_italic"
                 android:textSize="15sp"
                 android:text="@string/host_event"
+                android:layout_marginRight="20dp"
                 android:textColor="@color/white"
                 />
 
@@ -214,7 +215,6 @@
                 android:layout_height="112dp"
                 android:paddingTop="28dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
                 android:paddingLeft="14dp"
                 android:paddingRight="14dp"
                 android:paddingBottom="28dp"
@@ -224,6 +224,25 @@
                 android:fontFamily="@font/rubik_medium_italic"
                 android:textSize="15sp"
                 android:text="@string/update_profile"
+                android:textColor="@color/white"
+                />
+            <Button
+                android:id="@+id/logout_button"
+                android:textAllCaps="false"
+                android:layout_width="160dp"
+                android:layout_height="112dp"
+                android:paddingTop="28dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:paddingLeft="14dp"
+                android:paddingRight="14dp"
+                android:paddingBottom="28dp"
+                android:layout_gravity="start"
+                android:backgroundTint="@color/green"
+                android:enabled="true"
+                android:fontFamily="@font/rubik_medium_italic"
+                android:textSize="15sp"
+                android:text="@string/logout"
                 android:textColor="@color/white"
                 />
         </LinearLayout>
