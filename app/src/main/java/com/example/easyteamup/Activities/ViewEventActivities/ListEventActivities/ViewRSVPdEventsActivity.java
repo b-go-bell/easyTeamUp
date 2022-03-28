@@ -14,6 +14,8 @@ import com.example.easyteamup.Activities.ViewEventActivities.DisplayEventHelpers
 import com.example.easyteamup.Activities.ViewEventActivities.DisplayEventHelpers.NoEventsFragment;
 import com.example.easyteamup.Activities.DatePickerActivities.SelectedEventAvailableTimesViewModel;
 import com.example.easyteamup.Activities.ViewEventActivities.EventDispatcherActivity;
+import com.example.easyteamup.Activities.ViewEventActivities.MapEventActivities.MapInvitedEventsActivity;
+import com.example.easyteamup.Activities.ViewEventActivities.MapEventActivities.MapRSVPdEventsActivity;
 import com.example.easyteamup.Backend.Event;
 import com.example.easyteamup.Backend.FirebaseOperations;
 import com.example.easyteamup.R;
@@ -79,7 +81,9 @@ public class ViewRSVPdEventsActivity extends AppCompatActivity implements SnackB
     }
 
     private void viewEventsOnMap() {
-        //Fill in
+        Intent viewRSVPMapEvents = new Intent(ViewRSVPdEventsActivity.this, MapRSVPdEventsActivity.class);
+        viewRSVPMapEvents.putExtra("uid", uid);
+        startActivity(viewRSVPMapEvents);
     }
 
     private void viewEventsInList() {
