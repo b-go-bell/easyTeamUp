@@ -130,7 +130,7 @@
     <string name="invite_users">Invite 0 or more users to your event by searching their user ID</string>
     <string name="invite_user">Invite User</string>
     <string name="user_email">User email address</string>
-    <string name="no_invited_users">No users have been invited to your event.</string>
+    <string name="no_invited_users">No new users have been invited to your event.</string>
     <string name="add_availability">Add your event time availability</string>
     <string name="add_due">Set this event\'s due time</string>
     <string name="pick_due">Pick the due time</string>
@@ -142,6 +142,8 @@
     <string name="stay_on_event">No, keep creating</string>
     <string name="leave_event">Yes, please leave</string>
     <string name="leave_event_prompt">Are you sure you want to abandon your new event?</string>
+    <string name="event_length_text">How long is your event?</string>
+    <string name="minutes">Event length in minutes</string>
 
     <!-- Host dialog -->
     <string name="update_event">Update event</string>

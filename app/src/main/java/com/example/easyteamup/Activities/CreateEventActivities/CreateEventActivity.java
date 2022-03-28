@@ -44,10 +44,10 @@ public class CreateEventActivity extends AppCompatActivity implements SnackBarIn
     private SelectedEventAvailableTimesViewModel availModel;
     private SingleSelectedEventAvailableTimesViewModel dueModel;
 
-    private EditText eventName, eventAddress, eventDescription, inviteEmail;
+    private EditText eventName, eventAddress, eventDescription, inviteEmail, eventLength;
     private SwitchCompat publicPrivate;
     private Button inviteUser, addTime, addDueTime, createEvent, cancelEvent;
-    private TextView submittedTimes, dueTime, error, inviteError;
+    private TextView submittedTimes, dueTime, error, inviteError, eventInvitees;
 
     private boolean isPublic = false;
     private ArrayList<String> invitedUids = new ArrayList<String>();
@@ -88,6 +88,8 @@ public class CreateEventActivity extends AppCompatActivity implements SnackBarIn
         dueTime = (TextView) findViewById(R.id.due_submitted);
         error = (TextView) findViewById(R.id.error);
         inviteError = (TextView) findViewById(R.id.invite_error);
+        eventInvitees = (TextView) findViewById(R.id.event_invitees);
+        eventLength = (EditText) findViewById(R.id.event_length);
 
         publicPrivate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -114,8 +116,16 @@ public class CreateEventActivity extends AppCompatActivity implements SnackBarIn
                     }
                     else {
                         inviteError.setVisibility(View.GONE);
-                        invitedUids.add(inviteId);
-                        Log.d("UIDS", String.valueOf(invitedUids));
+                        if(!invitedUids.contains(inviteId))
+                            invitedUids.add(inviteId);
+
+                        String invitees = (String) eventInvitees.getText();
+                        if(invitees.equals("No new users have been invited to your event.")){
+                            eventInvitees.setText(email);
+                        }
+                        else {
+                            eventInvitees.setText(invitees.concat("\n").concat(email));
+                        }
                     }
                 });
             }
@@ -140,46 +150,58 @@ public class CreateEventActivity extends AppCompatActivity implements SnackBarIn
         createEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String name = eventName.getText().toString();
+                Double eventMinutes = Double.valueOf(eventLength.getText().toString());
+
+                Double lat = null;
+                Double lon = null;
+                String address = eventAddress.getText().toString();
+                Geocoder geocoder = new Geocoder(getApplicationContext());
+
+                try {
+                    List<Address> addresses = geocoder.getFromLocationName(address.trim().toLowerCase(), 1);
+                    if (addresses.size() > 0) {
+                        lat = addresses.get(0).getLatitude();
+                        lon = addresses.get(0).getLongitude();
+                    }
+                } catch (IOException ioe) {
+                    error.setText("Please enter a valid address.");
+                }
+
                 if(dueDate == null){
                     error.setText("Please pick an event due time.");
                 }
                 else if(availDates == null || availDates.size() == 0){
                     error.setText("Please pick at least one available time.");
                 }
+                else if(lat == null || lon == null){
+                    error.setText("Please enter a valid address.");
+                }
+                else if(name == null || name.equals("")){
+                    error.setText("Please enter a name for your event.");
+                }
+                else if(eventMinutes == null || eventMinutes <= 0){
+                    error.setText("Please enter an event length greater than 0 minutes.");
+                }
                 else {
-                    String name = eventName.getText().toString();
-                    String address = eventAddress.getText().toString();
-                    String description = eventDescription.getText().toString();
-
                     Event e = new Event();
                     e.setName(name);
                     e.setAddress(address);
-                    Geocoder geocoder = new Geocoder(getApplicationContext());
+                    e.setLatitude(lat);
+                    e.setLongitude(lon);
 
-                    try {
-                        List<Address> addresses = geocoder.getFromLocationName(e.getAddress().trim().toLowerCase(), 1);
-                        if (addresses.size() > 0) {
-                            e.setLatitude(addresses.get(0).getLatitude());
-                            e.setLongitude(addresses.get(0).getLongitude());
-                        }
-                    } catch (IOException ioe) {
-                        ioe.printStackTrace();
-                    }
-
+                    String description = eventDescription.getText().toString();
                     e.setDescription(description);
                     e.setIsPublic(isPublic);
                     Timestamp ts = new Timestamp(dueDate);
                     e.setDueDate(ts);
+                    e.setEventLength(eventMinutes);
 
                     fops.createEvent(e, TimeUtil.getAvailability(availDates), eventId -> {
                         if(eventId != null){
                             for(int i = 0; i < invitedUids.size(); i++){
                                 fops.inviteUserToEvent(invitedUids.get(i), (String)eventId, bool -> {
                                     if(bool) {
-                                        Intent viewHosted = new Intent(CreateEventActivity.this, EventDispatcherActivity.class);
-                                        viewHosted.putExtra("uid", uid);
-                                        viewHosted.putExtra("event_type", "hosting");
-                                        startActivity(viewHosted);
                                     }
                                     else {
                                         LeaveCreateEventDialogFragment leave = LeaveCreateEventDialogFragment.newInstance(uid, "fail");
@@ -187,14 +209,16 @@ public class CreateEventActivity extends AppCompatActivity implements SnackBarIn
                                     }
                                 });
                             }
+                            Intent viewHosted = new Intent(CreateEventActivity.this, EventDispatcherActivity.class);
+                            viewHosted.putExtra("uid", uid);
+                            viewHosted.putExtra("event_type", "hosting");
+                            startActivity(viewHosted);
                         }
                         else {
                             LeaveCreateEventDialogFragment leave = LeaveCreateEventDialogFragment.newInstance(uid, "fail");
                             leave.show(fragmentManager, "fragment_leave_create_event");
                         }
                     });
-
-
                 }
             }
         });

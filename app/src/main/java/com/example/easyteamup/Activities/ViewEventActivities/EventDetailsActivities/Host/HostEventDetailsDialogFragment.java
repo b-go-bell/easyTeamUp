@@ -90,7 +90,8 @@ public class HostEventDetailsDialogFragment extends DialogFragment  {
 
         updateEvent.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
+                UpdateEventDialogFragment updateEvent = UpdateEventDialogFragment.newInstance(uid, event.getEventId(), event);
+                updateEvent.show(getChildFragmentManager(), "fragment_delete_event");
             }
         });
 
