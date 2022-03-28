@@ -1,6 +1,7 @@
 package com.example.easyteamup.Activities.ViewEventActivities.EventDetailsActivities.Host;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +21,10 @@ import com.example.easyteamup.Activities.ViewEventActivities.EventDetailsActivit
 import com.example.easyteamup.Activities.ViewEventActivities.EventDetailsActivities.NonHost.EventDetailsDialogFragment;
 import com.example.easyteamup.Backend.Event;
 import com.example.easyteamup.Backend.FirebaseOperations;
+import com.example.easyteamup.Backend.User;
 import com.example.easyteamup.R;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class HostEventDetailsDialogFragment extends DialogFragment  {
@@ -32,9 +35,9 @@ public class HostEventDetailsDialogFragment extends DialogFragment  {
     private Event event;
 
     private ImageButton close;
-    private TextView eventTitle, eventAddress, eventPublicity, eventDue, eventDescrip;
+    private TextView eventTitle, eventAddress, eventPublicity, eventDue, eventDescrip, eventLength;
     private ConstraintLayout descripLayout;
-    private Button deleteEvent, updateEvent;
+    private Button viewRsvps, deleteEvent, updateEvent;
 
     public HostEventDetailsDialogFragment() {
         // Empty constructor is required for DialogFragment
@@ -69,6 +72,8 @@ public class HostEventDetailsDialogFragment extends DialogFragment  {
         eventPublicity = (TextView) v.findViewById(R.id.event_publicity);
         eventDue = (TextView) v.findViewById(R.id.event_due);
         eventDescrip = (TextView) v.findViewById(R.id.event_descrip);
+        eventLength = (TextView) v.findViewById(R.id.event_length);
+        viewRsvps = (Button) v.findViewById(R.id.see_rsvps);
 
         descripLayout = (ConstraintLayout) v.findViewById(R.id.descrip_layout);
         deleteEvent = (Button) v.findViewById(R.id.delete_event);
@@ -78,6 +83,13 @@ public class HostEventDetailsDialogFragment extends DialogFragment  {
         close.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 (getDialog()).cancel();
+            }
+        });
+
+        viewRsvps.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                ViewRSVPsDialogFragment viewRSVPs = ViewRSVPsDialogFragment.newInstance(event.getEventId());
+                viewRSVPs.show(getChildFragmentManager(), "fragment_delete_event");
             }
         });
 
@@ -110,17 +122,32 @@ public class HostEventDetailsDialogFragment extends DialogFragment  {
 
 
         //TO DO
-        if(event.getDescription() == null){
+        if(event.getDescription() == null || (event.getDescription().equals(""))){
             descripLayout.setVisibility(View.GONE);
+            eventDescrip.setVisibility(View.GONE);
         }
         else {
             descripLayout.setVisibility(View.VISIBLE);
             eventDescrip.setText(event.getDescription());
         }
 
-        Date time = event.getDueDate().toDate();
-        String formattedTime = this.getString(R.string.due_time, time.toString());
-        eventDue.setText(formattedTime);
+        if(event.getEventLength() == null){
+            eventLength.setVisibility(View.GONE);
+        }
+        else {
+            eventLength.setText(("Event is ").concat(event.getEventLength().toString()).concat(" minutes"));
+        }
+
+        if(event.getFinalTime() == null){
+            Date time = event.getDueDate().toDate();
+            String formattedTime = getString(R.string.due_time, time.toString());
+            eventDue.setText(formattedTime);
+        }
+        else {
+            Date time = event.getFinalTime().toDate();
+            String formattedTime = ("Happening on ").concat(time.toString());
+            eventDue.setText(formattedTime);
+        }
 
         return v;
     }

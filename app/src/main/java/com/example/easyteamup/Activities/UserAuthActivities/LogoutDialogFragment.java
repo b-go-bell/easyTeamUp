@@ -1,4 +1,4 @@
-package com.example.easyteamup.Activities.UserHomeActivities;
+package com.example.easyteamup.Activities.UserAuthActivities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,12 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.fragment.app.DialogFragment;
 
-import com.example.easyteamup.Activities.CreateEventActivities.CreateEventActivity;
+import com.example.easyteamup.Activities.UserHomeActivities.ViewProfileActivity;
 import com.example.easyteamup.Activities.ViewEventActivities.EventDispatcherActivity;
+import com.example.easyteamup.Backend.FirebaseOperations;
 import com.example.easyteamup.R;
 
 public class LogoutDialogFragment extends DialogFragment {
@@ -20,6 +20,7 @@ public class LogoutDialogFragment extends DialogFragment {
 
     private Button cancel;
     private Button logout;
+    private FirebaseOperations fops;
 
     public LogoutDialogFragment(){}
 
@@ -38,6 +39,7 @@ public class LogoutDialogFragment extends DialogFragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_logout_dialog, container);
         uid = getArguments().getString("uid");
+        fops = new FirebaseOperations(getContext());
 
         cancel = (Button) v.findViewById(R.id.cancel);
         logout = (Button) v.findViewById(R.id.logout_button);
@@ -53,7 +55,9 @@ public class LogoutDialogFragment extends DialogFragment {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                fops.logoutUser();
+                Intent restart = new Intent(getActivity(), StartActivity.class);
+                startActivity(restart);
             }
         });
 

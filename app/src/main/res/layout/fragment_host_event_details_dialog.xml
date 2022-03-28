@@ -74,6 +74,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
+        <TextView
+            android:id="@+id/event_length"
+            android:layout_width="334dp"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:fontFamily="@font/rubik_bold"
+            android:textColor="@color/gray"
+            android:textSize="16sp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/descrip_layout"
             android:layout_width="match_parent"
@@ -99,6 +111,22 @@
                     app:layout_constraintEnd_toEndOf="parent"/>
             </ScrollView>
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <Button
+            android:id="@+id/see_rsvps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:layout_marginHorizontal="10dp"
+            android:text="@string/see_rsvps"
+            android:fontFamily="@font/rubik_bold_italic"
+            android:backgroundTint="@color/blue"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textAllCaps="false"
+            android:layout_marginTop="10dp"
+            />
 
         <LinearLayout
             android:id="@+id/invite_buttons"

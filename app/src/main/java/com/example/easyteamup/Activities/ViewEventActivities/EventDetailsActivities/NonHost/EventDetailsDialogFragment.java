@@ -34,7 +34,7 @@ public class EventDetailsDialogFragment extends DialogFragment {
 
 
     private ImageButton close;
-    private TextView eventTitle, eventHost, eventAddress, eventStatus, eventDue, eventDescrip;
+    private TextView eventTitle, eventHost, eventAddress, eventStatus, eventDue, eventDescrip, eventLength;
     private ConstraintLayout descripLayout;
     private LinearLayout inviteButtons, publicButton, declineButton, acceptButton;
     private Button rejectInvite, acceptInvite, attendPublic, cancelRSVP, acceptInviteFromReject;
@@ -76,6 +76,7 @@ public class EventDetailsDialogFragment extends DialogFragment {
         eventStatus = (TextView) v.findViewById(R.id.event_status);
         eventDue = (TextView) v.findViewById(R.id.event_due);
         eventDescrip = (TextView) v.findViewById(R.id.event_descrip);
+        eventLength = (TextView) v.findViewById(R.id.event_length);
 
         descripLayout = (ConstraintLayout) v.findViewById(R.id.descrip_layout);
         rejectInvite = (Button) v.findViewById(R.id.reject_invite);
@@ -135,18 +136,33 @@ public class EventDetailsDialogFragment extends DialogFragment {
         eventTitle.setText(event.getName());
         eventAddress.setText(event.getAddress());
 
-        //TO DO
-        if(event.getDescription() == null){
+
+        if(event.getDescription() == null || (event.getDescription().equals(""))){
             descripLayout.setVisibility(View.GONE);
+            eventDescrip.setVisibility(View.GONE);
         }
         else {
             descripLayout.setVisibility(View.VISIBLE);
             eventDescrip.setText(event.getDescription());
         }
 
-        Date time = event.getDueDate().toDate();
-        String formattedTime = this.getString(R.string.due_time, time.toString());
-        eventDue.setText(formattedTime);
+        if(event.getEventLength() == null){
+            eventLength.setVisibility(View.GONE);
+        }
+        else {
+            eventLength.setText(("Event is ").concat(event.getEventLength().toString()).concat(" minutes"));
+        }
+
+        if(event.getFinalTime() == null){
+            Date time = event.getDueDate().toDate();
+            String formattedTime = getString(R.string.due_time, time.toString());
+            eventDue.setText(formattedTime);
+        }
+        else {
+            Date time = event.getFinalTime().toDate();
+            String formattedTime = ("Happening on ").concat(time.toString());
+            eventDue.setText(formattedTime);
+        }
 
         setHostName();
         setButtons();

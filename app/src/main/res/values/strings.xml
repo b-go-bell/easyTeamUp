@@ -45,6 +45,7 @@
     <string name="logout">Log out</string>
     <string name="logout_ask">Are you sure you want to logout?</string>
 
+
     <!-- Strings related to No Events Fragment -->
     <string name="no_events_general">Oh no! It looks like no events matched your search…</string>
     <string name="no_invitations">Oh no! It looks like you have no event invitations…</string>
@@ -150,5 +151,7 @@
     <!-- Host dialog -->
     <string name="update_event">Update event</string>
     <string name="delete_event">Delete event</string>
+    <string name="see_rsvps">View RSVPed Users</string>
+    <string name="go_back">Return to Event Details</string>
 
 </resources>
