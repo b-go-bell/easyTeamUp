@@ -178,6 +178,9 @@ public class Event implements Parcelable {
 
     public void setLatitude(Double latitude) {
         this.latitude = latitude;
+        if (this.latitude != null && this.longitude != null) {
+            generateGeohash();
+        }
     }
 
     public Double getLongitude() {
@@ -186,6 +189,9 @@ public class Event implements Parcelable {
 
     public void setLongitude(Double longitude) {
         this.longitude = longitude;
+        if (this.latitude != null && this.longitude != null) {
+            generateGeohash();
+        }
     }
 
     public Double getEventLength() {

@@ -74,7 +74,9 @@ public class EventDetails {
 
     public void setLatitude(Double latitude) {
         this.latitude = latitude;
-        generateGeohash();
+        if (this.latitude != null && this.longitude != null) {
+            generateGeohash();
+        }
     }
 
     public Double getLongitude() {
@@ -83,7 +85,9 @@ public class EventDetails {
 
     public void setLongitude(Double longitude) {
         this.longitude = longitude;
-        generateGeohash();
+        if (this.latitude != null && this.longitude != null) {
+            generateGeohash();
+        }
     }
 
     public Timestamp getDueDate() {
