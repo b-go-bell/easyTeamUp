@@ -23,6 +23,11 @@ import com.example.easyteamup.R;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.text.SimpleDateFormat;
+
 
 public class AcceptEventDialogFragment extends DialogFragment {
 
@@ -97,12 +102,15 @@ public class AcceptEventDialogFragment extends DialogFragment {
 
         submit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                Map<String, List<Map<String, String>>> availability = new HashMap<>();
                 if(availDates == null || availDates.size() == 0){
                     error.setText("Please pick at least one available time.");
                 }
                 else {
                     //PASS OFF THE INFO TO GET SCHEDULED
                     //FOPS STUFF
+
+                    // Just call TimeUtil.getAvailability(ArrayList<Date> availability) to get the map thing
 
                     Intent fetchUpdatedInvitations = new Intent(getActivity(), ViewInvitedEventsActivity.class);
                     fetchUpdatedInvitations.putExtra("uid", uid);
