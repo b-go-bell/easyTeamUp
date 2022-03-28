@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.easyteamup.Activities.ViewEventActivities.EventDetailsActivities.NonHost.DeclineInvitationDialogFragment;
+import com.example.easyteamup.Activities.ViewEventActivities.ListEventActivities.ViewHostedEventsActivity;
 import com.example.easyteamup.Activities.ViewEventActivities.ListEventActivities.ViewInvitedEventsActivity;
 import com.example.easyteamup.Backend.FirebaseOperations;
 import com.example.easyteamup.R;
@@ -77,8 +78,8 @@ public class DeleteEventDialogFragment extends DialogFragment {
     }
 
     private void specialCancel() {
-        Intent fetchUpdatedInvitations = new Intent(getActivity(), ViewInvitedEventsActivity.class);
-        fetchUpdatedInvitations.putExtra("uid", uid);
-        startActivity(fetchUpdatedInvitations);
+        Intent fetchUpdatedHostedEvents = new Intent(getActivity(), ViewHostedEventsActivity.class);
+        fetchUpdatedHostedEvents.putExtra("uid", uid);
+        startActivity(fetchUpdatedHostedEvents);
     }
 }

@@ -49,7 +49,7 @@ public class LeaveCreateEventDialogFragment extends DialogFragment {
         home = (Button) v.findViewById(R.id.home);
 
         if(where.equals("fail")){
-            text.setText("Oh no! There was an issue creating your event...");
+            text.setText("Oh no! There was an issue with your event...");
             cancel.setText("Keep modifying my event");
             home.setText("Go back home");
         }
@@ -91,6 +91,12 @@ public class LeaveCreateEventDialogFragment extends DialogFragment {
                     Intent viewEventHistory = new Intent(getActivity(), ViewEventAnalyticsActivity.class);
                     viewEventHistory.putExtra("uid", uid);
                     startActivity(viewEventHistory);
+                }
+                else if(where.equals("hosting")){
+                    Intent viewHostedEventsMap = new Intent(getActivity(), EventDispatcherActivity.class);
+                    viewHostedEventsMap.putExtra("uid", uid);
+                    viewHostedEventsMap.putExtra("event_type", "hosting");
+                    startActivity(viewHostedEventsMap);
                 }
                 else {
                     Intent viewProfile = new Intent(getActivity(), ViewProfileActivity.class);
