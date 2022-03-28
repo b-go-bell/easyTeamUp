@@ -18,19 +18,28 @@ import com.example.easyteamup.Activities.ViewEventActivities.EventDetailsActivit
 import com.example.easyteamup.Activities.ViewEventActivities.EventDispatcherActivity;
 import com.example.easyteamup.Backend.Event;
 import com.example.easyteamup.Backend.FirebaseOperations;
+import com.example.easyteamup.Backend.TimeUtil;
 import com.example.easyteamup.R;
+import com.google.firebase.Timestamp;
 
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class CreateEventActivity extends AppCompatActivity implements SnackBarInterface {
 
@@ -44,11 +53,11 @@ public class CreateEventActivity extends AppCompatActivity implements SnackBarIn
     private EditText eventName, eventAddress, eventDescription, inviteEmail;
     private SwitchCompat publicPrivate;
     private Button inviteUser, addTime, addDueTime, createEvent, cancelEvent;
-    private TextView submittedTimes, dueTime, error;
+    private TextView submittedTimes, dueTime, error, inviteError;
 
     private boolean isPublic = false;
     private ArrayList<String> invitedUids = new ArrayList<String>();
-    private ArrayList<Date> availDates;
+    private ArrayList<Date> availDates = new ArrayList<Date>();
     private Date dueDate;
 
     @Override
@@ -84,6 +93,7 @@ public class CreateEventActivity extends AppCompatActivity implements SnackBarIn
         submittedTimes = (TextView) findViewById(R.id.times_submitted);
         dueTime = (TextView) findViewById(R.id.due_submitted);
         error = (TextView) findViewById(R.id.error);
+        inviteError = (TextView) findViewById(R.id.invite_error);
 
         publicPrivate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -101,7 +111,19 @@ public class CreateEventActivity extends AppCompatActivity implements SnackBarIn
         inviteUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //fops search method
+                String email = inviteEmail.getText().toString();
+                fops.getUserByEmail(email, id -> {
+                    String inviteId = (String) id;
+                    if(inviteId == null){
+                        inviteError.setVisibility(View.VISIBLE);
+                        inviteError.setText("That email is not registered with any EasyTeamUp user.");
+                    }
+                    else {
+                        inviteError.setVisibility(View.GONE);
+                        invitedUids.add(inviteId);
+                        Log.d("UIDS", String.valueOf(invitedUids));
+                    }
+                });
             }
         });
 
@@ -138,9 +160,47 @@ public class CreateEventActivity extends AppCompatActivity implements SnackBarIn
                     Event e = new Event();
                     e.setName(name);
                     e.setAddress(address);
-                    e.setDescription(description);
+                    Geocoder geocoder = new Geocoder(getApplicationContext());
 
-                    //...
+                    try {
+                        List<Address> addresses = geocoder.getFromLocationName(e.getAddress().trim().toLowerCase(), 1);
+                        if (addresses.size() > 0) {
+                            e.setLatitude(addresses.get(0).getLatitude());
+                            e.setLongitude(addresses.get(0).getLongitude());
+                        }
+                    } catch (IOException ioe) {
+                        ioe.printStackTrace();
+                    }
+
+                    e.setDescription(description);
+                    e.setIsPublic(isPublic);
+                    Timestamp ts = new Timestamp(dueDate);
+                    e.setDueDate(ts);
+
+                    fops.createEvent(e, TimeUtil.getAvailability(availDates), eventId -> {
+                        if(eventId != null){
+                            for(int i = 0; i < invitedUids.size(); i++){
+                                fops.inviteUserToEvent(invitedUids.get(i), (String)eventId, bool -> {
+                                    if(bool) {
+                                        Intent viewHosted = new Intent(CreateEventActivity.this, EventDispatcherActivity.class);
+                                        viewHosted.putExtra("uid", uid);
+                                        viewHosted.putExtra("event_type", "hosting");
+                                        startActivity(viewHosted);
+                                    }
+                                    else {
+                                        LeaveCreateEventDialogFragment leave = LeaveCreateEventDialogFragment.newInstance(uid, "fail");
+                                        leave.show(fragmentManager, "fragment_leave_create_event");
+                                    }
+                                });
+                            }
+                        }
+                        else {
+                            LeaveCreateEventDialogFragment leave = LeaveCreateEventDialogFragment.newInstance(uid, "fail");
+                            leave.show(fragmentManager, "fragment_leave_create_event");
+                        }
+                    });
+
+
                 }
             }
         });
@@ -154,6 +214,7 @@ public class CreateEventActivity extends AppCompatActivity implements SnackBarIn
         });
 
         availModel.getAvailableTimes().observe(this, item -> {
+            availDates = item;
             if(item.size() == 0){
                 submittedTimes.setText(R.string.no_times);
             }
@@ -181,6 +242,7 @@ public class CreateEventActivity extends AppCompatActivity implements SnackBarIn
         });
 
     }
+
 
     public void viewPublicEvents(){
         LeaveCreateEventDialogFragment leave = LeaveCreateEventDialogFragment.newInstance(uid, "public");

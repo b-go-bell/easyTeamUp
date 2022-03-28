@@ -182,6 +182,9 @@ public class MapPublicEventsActivity extends AppCompatActivity implements OnMapR
                         for(int i = 0; i < events.size(); i++){
                             //for each event, display on the map
                             Event currentEvent = events.get(i);
+                            if(currentEvent.getLatitude() == null || currentEvent.getLongitude() == null){
+                                continue;
+                            }
                             Log.d("EVENT", String.valueOf(currentEvent));
                             LatLng eventLoc = new LatLng(currentEvent.getLatitude(), currentEvent.getLongitude());
                             String inviteStatus = currentEvent.getInvitationStatus();

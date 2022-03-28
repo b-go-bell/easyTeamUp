@@ -14,6 +14,8 @@ import com.example.easyteamup.Activities.ViewEventActivities.DisplayEventHelpers
 import com.example.easyteamup.Activities.ViewEventActivities.DisplayEventHelpers.NoEventsFragment;
 import com.example.easyteamup.Activities.DatePickerActivities.SelectedEventAvailableTimesViewModel;
 import com.example.easyteamup.Activities.ViewEventActivities.EventDispatcherActivity;
+import com.example.easyteamup.Activities.ViewEventActivities.MapEventActivities.MapHostedEventsActivity;
+import com.example.easyteamup.Activities.ViewEventActivities.MapEventActivities.MapInvitedEventsActivity;
 import com.example.easyteamup.Backend.Event;
 import com.example.easyteamup.R;
 import android.content.Intent;
@@ -76,7 +78,9 @@ public class ViewHostedEventsActivity extends AppCompatActivity implements Snack
     }
 
     private void viewEventsOnMap() {
-        //Fill in
+        Intent viewHostedMapEvents = new Intent(ViewHostedEventsActivity.this, MapHostedEventsActivity.class);
+        viewHostedMapEvents.putExtra("uid", uid);
+        startActivity(viewHostedMapEvents);
     }
 
     private void viewEventsInList() {

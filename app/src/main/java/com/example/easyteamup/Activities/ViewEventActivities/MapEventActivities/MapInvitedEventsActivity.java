@@ -147,6 +147,9 @@ public class MapInvitedEventsActivity extends AppCompatActivity implements OnMap
                         for(int i = 0; i < events.size(); i++){
                             //for each event, display on the map
                             Event currentEvent = events.get(i);
+                            if(currentEvent.getLatitude() == null || currentEvent.getLongitude() == null){
+                                continue;
+                            }
                             LatLng eventLoc = new LatLng(currentEvent.getLatitude(), currentEvent.getLongitude());
                             String inviteStatus = eventStatuses.get(i);
                             String eventName = currentEvent.getName();

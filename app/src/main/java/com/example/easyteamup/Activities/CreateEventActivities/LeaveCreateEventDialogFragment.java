@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.fragment.app.DialogFragment;
 
@@ -23,6 +24,7 @@ public class LeaveCreateEventDialogFragment extends DialogFragment {
 
     private Button cancel;
     private Button home;
+    private TextView text;
 
     public LeaveCreateEventDialogFragment(){}
 
@@ -44,8 +46,16 @@ public class LeaveCreateEventDialogFragment extends DialogFragment {
         uid = getArguments().getString("uid");
         where = getArguments().getString("uid");
 
+        text = (TextView) v.findViewById(R.id.dialog_message);
         cancel = (Button) v.findViewById(R.id.cancel);
         home = (Button) v.findViewById(R.id.home);
+
+        if(where.equals("fail")){
+            text.setText("Oh no! There was an issue creating your event...");
+            cancel.setText("Keep modifying my event");
+            home.setText("Go back home");
+        }
+
 
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,6 +93,11 @@ public class LeaveCreateEventDialogFragment extends DialogFragment {
                     Intent viewEventHistory = new Intent(getActivity(), ViewEventAnalyticsActivity.class);
                     viewEventHistory.putExtra("uid", uid);
                     startActivity(viewEventHistory);
+                }
+                else {
+                    Intent viewProfile = new Intent(getActivity(), ViewProfileActivity.class);
+                    viewProfile.putExtra("uid", uid);
+                    startActivity(viewProfile);
                 }
             }
         });

@@ -15,10 +15,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.easyteamup.Activities.CreateEventActivities.LeaveCreateEventDialogFragment;
 import com.example.easyteamup.Activities.DatePickerActivities.DateTimePickerDialogFragment;
 import com.example.easyteamup.Activities.DatePickerActivities.SelectedEventAvailableTimesViewModel;
+import com.example.easyteamup.Activities.UserAuthActivities.FailDialogFragment;
+import com.example.easyteamup.Activities.UserHomeActivities.ViewProfileActivity;
+import com.example.easyteamup.Activities.ViewEventActivities.EventDispatcherActivity;
 import com.example.easyteamup.Activities.ViewEventActivities.ListEventActivities.ViewInvitedEventsActivity;
 import com.example.easyteamup.Backend.FirebaseOperations;
+import com.example.easyteamup.Backend.TimeUtil;
 import com.example.easyteamup.R;
 
 import java.util.ArrayList;
@@ -102,15 +107,24 @@ public class AcceptEventDialogFragment extends DialogFragment {
 
         submit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Map<String, List<Map<String, String>>> availability = new HashMap<>();
                 if(availDates == null || availDates.size() == 0){
                     error.setText("Please pick at least one available time.");
                 }
                 else {
                     //PASS OFF THE INFO TO GET SCHEDULED
                     //FOPS STUFF
-
-                    // Just call TimeUtil.getAvailability(ArrayList<Date> availability) to get the map thing
+                    fops.RSVPforEvent(uid, eid, TimeUtil.getAvailability(availDates), bool -> {
+                        if(bool){
+                            Intent viewAttendingEventsMap = new Intent(getActivity(), EventDispatcherActivity.class);
+                            viewAttendingEventsMap.putExtra("uid", uid);
+                            viewAttendingEventsMap.putExtra("event_type", "attending");
+                            startActivity(viewAttendingEventsMap);
+                        }
+                        else {
+                            FailDialogFragment fail = FailDialogFragment.newInstance(uid, "fail");
+                            fail.show(fragmentManager, "fragment_fail");
+                        }
+                    });
 
                     Intent fetchUpdatedInvitations = new Intent(getActivity(), ViewInvitedEventsActivity.class);
                     fetchUpdatedInvitations.putExtra("uid", uid);

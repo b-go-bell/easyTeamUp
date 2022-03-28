@@ -31,6 +31,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -122,7 +123,11 @@ public class MapHostedEventsActivity extends AppCompatActivity implements OnMapR
                         for(int i = 0; i < events.size(); i++) {
                             //for each event, display on the map
                             Event currentEvent = events.get(i);
+                            if(currentEvent.getLatitude() == null || currentEvent.getLongitude() == null){
+                                continue;
+                            }
                             LatLng eventLoc = new LatLng(currentEvent.getLatitude(), currentEvent.getLongitude());
+
                             String eventName = currentEvent.getName();
 
                             BitmapDescriptor eventIcon;
