@@ -11,6 +11,7 @@ import com.example.easyteamup.Activities.SnackBarActivity.SnackBarInterface;
 import com.example.easyteamup.Activities.UserHomeActivities.ViewEventAnalyticsActivity;
 import com.example.easyteamup.Activities.UserHomeActivities.ViewProfileActivity;
 import com.example.easyteamup.Activities.ViewEventActivities.DisplayEventHelpers.NoEventsFragment;
+import com.example.easyteamup.Activities.ViewEventActivities.EventDetailsActivities.Host.HostEventDetailsDialogFragment;
 import com.example.easyteamup.Activities.ViewEventActivities.EventDispatcherActivity;
 import com.example.easyteamup.Activities.ViewEventActivities.ListEventActivities.ViewHostedEventsActivity;
 import com.example.easyteamup.Activities.ViewEventActivities.ListEventActivities.ViewInvitedEventsActivity;
@@ -48,6 +49,7 @@ public class MapHostedEventsActivity extends AppCompatActivity implements OnMapR
     private FragmentManager fragmentManager;
 
     private String uid;
+    private boolean none;
 
     private Button listButton;
     private SupportMapFragment mapFragment;
@@ -95,6 +97,9 @@ public class MapHostedEventsActivity extends AppCompatActivity implements OnMapR
 
     @Override
     public boolean onMarkerClick(@NonNull Marker marker) {
+        Event e = (Event) marker.getTag();
+        HostEventDetailsDialogFragment hostDetails = HostEventDetailsDialogFragment.newInstance(uid, e);
+        hostDetails.show(fragmentManager, "fragment_event_details_dialog");
         return false;
     }
 
@@ -146,10 +151,11 @@ public class MapHostedEventsActivity extends AppCompatActivity implements OnMapR
                             }
 
                             //setting marker
-                            MarkerOptions event_marker = new MarkerOptions().position(eventLoc)
+                            Marker event_marker = mMap.addMarker(new MarkerOptions()
+                                    .position(eventLoc)
                                     .title(eventName)
-                                    .icon(eventIcon);
-                            mMap.addMarker(event_marker);
+                                    .icon(eventIcon));
+                            event_marker.setTag(currentEvent);
                         }
                     } catch (NullPointerException npe) {
                         showNoEvents();

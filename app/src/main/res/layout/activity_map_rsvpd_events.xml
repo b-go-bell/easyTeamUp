@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:fontFamily="@font/rubik_regular"
-            android:text="@string/viewing_rsvp"
+            android:text="@string/viewing_past"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/list_button"
             app:layout_constraintTop_toTopOf ="parent"

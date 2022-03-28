@@ -154,9 +154,14 @@ public class EventDetailsDialogFragment extends DialogFragment {
         }
 
         if(event.getFinalTime() == null){
-            Date time = event.getDueDate().toDate();
-            String formattedTime = getString(R.string.due_time, time.toString());
-            eventDue.setText(formattedTime);
+            try{
+                Date time = event.getDueDate().toDate();
+                String formattedTime = getString(R.string.due_time, time.toString());
+                eventDue.setText(formattedTime);
+            }
+            catch(Exception e){
+                eventDue.setText("No due date provided.");
+            }
         }
         else {
             Date time = event.getFinalTime().toDate();

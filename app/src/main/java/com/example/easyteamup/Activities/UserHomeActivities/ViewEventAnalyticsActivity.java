@@ -75,7 +75,9 @@ public class ViewEventAnalyticsActivity extends AppCompatActivity implements Sna
     }
 
     private void viewEventsOnMap() {
-
+        Intent viewPastMapEvents = new Intent(ViewEventAnalyticsActivity.this, MapEventAnalyticsActivity.class);
+        viewPastMapEvents.putExtra("uid", uid);
+        startActivity(viewPastMapEvents);
     }
 
     private void viewEventsInList() {
@@ -143,9 +145,5 @@ public class ViewEventAnalyticsActivity extends AppCompatActivity implements Sna
         startActivity(viewUserProfile);
     }
 
-    public void viewUserHistory(){
-        Intent viewEventHistory = new Intent(ViewEventAnalyticsActivity.this, ViewEventAnalyticsActivity.class);
-        viewEventHistory.putExtra("uid", uid);
-        startActivity(viewEventHistory);
-    }
+    public void viewUserHistory(){}
 }

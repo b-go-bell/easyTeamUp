@@ -69,9 +69,14 @@ public class EventAdapter extends ArrayAdapter<Event> {
 
         if(currentEvent.getFinalTime() == null){
             TextView dueTime = (TextView) listItem.findViewById(R.id.event_due);
-            Date time = currentEvent.getDueDate().toDate();
-            String formattedTime = mContext.getString(R.string.due_time, time.toString());
-            dueTime.setText(formattedTime);
+            try{
+                Date time = currentEvent.getDueDate().toDate();
+                String formattedTime = mContext.getString(R.string.due_time, time.toString());
+                dueTime.setText(formattedTime);
+            }
+            catch(Exception e){
+                dueTime.setText("No due date provided.");
+            }
         }
         else {
             TextView dueTime = (TextView) listItem.findViewById(R.id.event_due);

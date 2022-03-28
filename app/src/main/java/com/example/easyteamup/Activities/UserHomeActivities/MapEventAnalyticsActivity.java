@@ -1,27 +1,25 @@
-package com.example.easyteamup.Activities.ViewEventActivities.MapEventActivities;
+package com.example.easyteamup.Activities.UserHomeActivities;
+
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-
 import com.example.easyteamup.Activities.CreateEventActivities.CreateEventActivity;
 import com.example.easyteamup.Activities.SnackBarActivity.SnackBarFragment;
 import com.example.easyteamup.Activities.SnackBarActivity.SnackBarInterface;
-import com.example.easyteamup.Activities.UserHomeActivities.ViewEventAnalyticsActivity;
-import com.example.easyteamup.Activities.UserHomeActivities.ViewProfileActivity;
 import com.example.easyteamup.Activities.ViewEventActivities.DisplayEventHelpers.NoEventsFragment;
-import com.example.easyteamup.Activities.ViewEventActivities.EventDetailsActivities.NonHost.EventDetailsDialogFragment;
 import com.example.easyteamup.Activities.ViewEventActivities.EventDispatcherActivity;
-import com.example.easyteamup.Activities.ViewEventActivities.ListEventActivities.ViewInvitedEventsActivity;
+import com.example.easyteamup.Activities.ViewEventActivities.ListEventActivities.ViewHostedEventsActivity;
+import com.example.easyteamup.Activities.ViewEventActivities.MapEventActivities.MapHostedEventsActivity;
 import com.example.easyteamup.Backend.Event;
 import com.example.easyteamup.Backend.FirebaseOperations;
 import com.example.easyteamup.R;
@@ -36,10 +34,8 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Map;
 
-public class MapInvitedEventsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener, SnackBarInterface {
+public class MapEventAnalyticsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener, SnackBarInterface {
 
     private GoogleMap mMap;
     private static final String TAG = "MapsActivity";
@@ -50,7 +46,6 @@ public class MapInvitedEventsActivity extends AppCompatActivity implements OnMap
     private FragmentManager fragmentManager;
 
     private String uid;
-    private boolean none;
 
     private Button listButton;
     private SupportMapFragment mapFragment;
@@ -59,7 +54,7 @@ public class MapInvitedEventsActivity extends AppCompatActivity implements OnMap
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_map_invited_events);
+        setContentView(R.layout.activity_map_past_events);
         getSupportActionBar().hide();
 
         fops = new FirebaseOperations(this);
@@ -90,45 +85,26 @@ public class MapInvitedEventsActivity extends AppCompatActivity implements OnMap
         });
     }
 
-    private void viewEventsInList(){
-        Intent viewPublicListEvents = new Intent(MapInvitedEventsActivity.this, ViewInvitedEventsActivity.class);
-        viewPublicListEvents.putExtra("uid", uid);
-        startActivity(viewPublicListEvents);
+    private void viewEventsInList() {
+        Intent viewPastEvents = new Intent(MapEventAnalyticsActivity.this, ViewEventAnalyticsActivity.class);
+        viewPastEvents.putExtra("uid", uid);
+        startActivity(viewPastEvents);
     }
 
     @Override
     public boolean onMarkerClick(@NonNull Marker marker) {
-        Log.d("MARKER CLICK", marker.getTitle());
-        Event e = (Event) marker.getTag();
-        Log.d("EVENT", String.valueOf(e));
-        EventDetailsDialogFragment viewEventDetails = EventDetailsDialogFragment.newInstance(uid, "invited", e);
-        viewEventDetails.show(fragmentManager, "fragment_event_details_dialog");
         return false;
     }
-
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mapFragment.getView().setVisibility(View.INVISIBLE);
-        fops.getInvitedEvents(uid, listObject -> {
+        fops.getPastEvents(uid, eventIdList -> {
             try {
-                ArrayList<String> eventIds = new ArrayList<>();
-                ArrayList<String> eventStatuses = new ArrayList<>();
-
-                Map<String, String> mapEvents = (Map<String, String>) listObject;
-                if(mapEvents.isEmpty()){
+                ArrayList<String> eventIds = (ArrayList<String>) eventIdList;
+                if (eventIds.size() == 0) {
                     throw new NullPointerException();
                 }
-                Iterator<Map.Entry<String, String>> it = mapEvents.entrySet().iterator();
-
-                while (it.hasNext()) {
-                    Map.Entry<String, String> event = it.next();
-                    String eid = event.getKey();
-                    String status = event.getValue();
-                    eventIds.add(eid);
-                    eventStatuses.add(status);
-                }
-
                 mapFragment.getView().setVisibility(View.VISIBLE);
                 noEvents.setVisibility(View.INVISIBLE);
 
@@ -138,54 +114,46 @@ public class MapInvitedEventsActivity extends AppCompatActivity implements OnMap
                 //change this to be their current location if time
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(34.0205, -118.2856), 7));
 
-                //displaying the events
+                //displaying events
                 fops.getEventsByEventId(eventIds, eventList -> {
                     try {
                         ArrayList<Event> events = (ArrayList<Event>) eventList;
-                        for(int i = 0; i < events.size(); i++){
+                        for(int i = 0; i < events.size(); i++) {
                             //for each event, display on the map
                             Event currentEvent = events.get(i);
                             if(currentEvent.getLatitude() == null || currentEvent.getLongitude() == null){
                                 continue;
                             }
                             LatLng eventLoc = new LatLng(currentEvent.getLatitude(), currentEvent.getLongitude());
-                            String inviteStatus = eventStatuses.get(i);
+
                             String eventName = currentEvent.getName();
 
                             BitmapDescriptor eventIcon;
                             int height = 144;
                             int width = 90;
 
-                            if(inviteStatus.equals("attending")){
-                                Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.green_marker);
-                                Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
-                                eventIcon = BitmapDescriptorFactory.fromBitmap(smallMarker);
-                            }
-                            else if(inviteStatus.equals("rejected")){
-                                Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.coral_marker);
-                                Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
-                                eventIcon = BitmapDescriptorFactory.fromBitmap(smallMarker);
-                            }
-                            else {
+                            if(uid.equals(currentEvent.getHost())){
                                 Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.orange_marker);
+                                Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
+                                eventIcon = BitmapDescriptorFactory.fromBitmap(smallMarker);
+                            }
+                            else{
+                                Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.green_marker);
                                 Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
                                 eventIcon = BitmapDescriptorFactory.fromBitmap(smallMarker);
                             }
 
                             //setting marker
-                            Marker event_marker = mMap.addMarker(new MarkerOptions()
-                                    .position(eventLoc)
+                            MarkerOptions event_marker = new MarkerOptions().position(eventLoc)
                                     .title(eventName)
-                                    .icon(eventIcon));
-                            event_marker.setTag(currentEvent);
+                                    .icon(eventIcon);
+                            mMap.addMarker(event_marker);
                         }
-                    }
-                    catch(NullPointerException npe){
+                    } catch (NullPointerException npe) {
                         showNoEvents();
                     }
                 });
-            }
-            catch (NullPointerException npe){
+            } catch (NullPointerException npe) {
                 showNoEvents();
             }
         });
@@ -197,7 +165,7 @@ public class MapInvitedEventsActivity extends AppCompatActivity implements OnMap
 
         Bundle bundle = new Bundle();
         bundle.putString("uid", uid);
-        bundle.putString("none", "invited");
+        bundle.putString("none", "past");
         fragmentManager.beginTransaction()
                 .setReorderingAllowed(true)
                 .add(R.id.no_events_container, NoEventsFragment.class, bundle)
@@ -206,29 +174,30 @@ public class MapInvitedEventsActivity extends AppCompatActivity implements OnMap
     }
 
     public void viewPublicEvents(){
-        Intent viewPublicEvents = new Intent(MapInvitedEventsActivity.this, EventDispatcherActivity.class);
+        Intent viewPublicEvents = new Intent(MapEventAnalyticsActivity.this, EventDispatcherActivity.class);
         viewPublicEvents.putExtra("uid", uid);
         viewPublicEvents.putExtra("event_type", "public");
         startActivity(viewPublicEvents);
     }
 
-    public void viewInvitations(){}
+    public void viewInvitations(){
+        Intent viewInvitations = new Intent(MapEventAnalyticsActivity.this, EventDispatcherActivity.class);
+        viewInvitations.putExtra("uid", uid);
+        viewInvitations.putExtra("event_type", "invited");
+        startActivity(viewInvitations);
+    }
 
     public void createEvent(){
-        Intent createEvent = new Intent(MapInvitedEventsActivity.this, CreateEventActivity.class);
+        Intent createEvent = new Intent(MapEventAnalyticsActivity.this, CreateEventActivity.class);
         createEvent.putExtra("uid", uid);
         startActivity(createEvent);
     }
 
     public void viewUserProfile(){
-        Intent viewUserProfile = new Intent(MapInvitedEventsActivity.this, ViewProfileActivity.class);
+        Intent viewUserProfile = new Intent(MapEventAnalyticsActivity.this, ViewProfileActivity.class);
         viewUserProfile.putExtra("uid", uid);
         startActivity(viewUserProfile);
     }
 
-    public void viewUserHistory(){
-        Intent viewEventHistory = new Intent(MapInvitedEventsActivity.this, ViewEventAnalyticsActivity.class);
-        viewEventHistory.putExtra("uid", uid);
-        startActivity(viewEventHistory);
-    }
+    public void viewUserHistory(){}
 }
