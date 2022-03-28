@@ -20,6 +20,7 @@ public class Event implements Parcelable {
     private String description;
     private Double latitude;
     private Double longitude;
+    private Double eventLength;
     private Timestamp dueDate;
     private Timestamp finalTime;
     private boolean isPublic;
@@ -35,6 +36,7 @@ public class Event implements Parcelable {
         this.description = null;
         this.latitude = null;
         this.longitude = null;
+        this.eventLength = null;
         this.dueDate = null;
         this.finalTime = null;
         this.isPublic = false;
@@ -42,8 +44,8 @@ public class Event implements Parcelable {
         this.invitationStatus = null;
     }
 
-    public Event(String eventId, String name, String host, String address,
-                 String geohash, String description, Double latitude, Double longitude,
+    public Event(String eventId, String name, String host, String address, String geohash,
+                 String description, Double latitude, Double longitude, Double eventLength,
                  Timestamp dueDate, Timestamp finalTime, boolean isPublic, boolean rsvped,
                  String invitationStatus) {
         this.eventId = eventId;
@@ -54,13 +56,13 @@ public class Event implements Parcelable {
         this.description = description;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.eventLength = eventLength;
         this.dueDate = dueDate;
         this.finalTime = finalTime;
         this.isPublic = isPublic;
         this.rsvped = rsvped;
         this.invitationStatus = invitationStatus;
     }
-
 
     /* Begin Parcelable Implementation */
 
@@ -77,6 +79,7 @@ public class Event implements Parcelable {
         out.writeString(description);
         out.writeDouble(latitude);
         out.writeDouble(longitude);
+        out.writeDouble(eventLength);
         out.writeParcelable(dueDate, 0);
         out.writeParcelable(finalTime, 0);
         out.writeByte((byte) (isPublic ? 1 : 0));
@@ -94,6 +97,7 @@ public class Event implements Parcelable {
         description = in.readString();
         latitude = in.readDouble();
         longitude = in.readDouble();
+        eventLength = in.readDouble();
         dueDate = in.readParcelable(Timestamp.class.getClassLoader());
         finalTime = in.readParcelable(Timestamp.class.getClassLoader());
         isPublic = in.readByte() != 0;
@@ -184,6 +188,14 @@ public class Event implements Parcelable {
         this.longitude = longitude;
     }
 
+    public Double getEventLength() {
+        return eventLength;
+    }
+
+    public void setEventLength(Double eventLength) {
+        this.eventLength = eventLength;
+    }
+
     public Timestamp getDueDate() {
         return dueDate;
     }
@@ -245,6 +257,7 @@ public class Event implements Parcelable {
                 ", description='" + description + '\'' +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
+                ", eventLength=" + eventLength +
                 ", dueDate=" + dueDate +
                 ", finalTime=" + finalTime +
                 ", isPublic=" + isPublic +

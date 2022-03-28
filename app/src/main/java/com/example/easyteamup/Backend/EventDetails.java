@@ -11,6 +11,7 @@ public class EventDetails {
     private String description;
     private Double latitude;
     private Double longitude;
+    private Double eventLength;
     private Timestamp dueDate;
 
     public EventDetails() {
@@ -20,6 +21,7 @@ public class EventDetails {
         this.geohash = null;
         this.latitude = null;
         this.longitude = null;
+        this.eventLength = null;
         this.dueDate = null;
     }
 
@@ -28,6 +30,7 @@ public class EventDetails {
         this.address = event.getAddress();
         this.latitude = event.getLatitude();
         this.longitude = event.getLongitude();
+        this.eventLength = event.getEventLength();
         this.description = event.getDescription();
         this.dueDate = event.getDueDate();
         generateGeohash();
@@ -89,6 +92,14 @@ public class EventDetails {
 
     public void setDueDate(Timestamp dueDate) {
         this.dueDate = dueDate;
+    }
+
+    public Double getEventLength() {
+        return eventLength;
+    }
+
+    public void setEventLength(Double eventLength) {
+        this.eventLength = eventLength;
     }
 
     public String getDescription() {
