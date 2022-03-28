@@ -83,7 +83,8 @@ public class HostEventDetailsDialogFragment extends DialogFragment  {
 
         deleteEvent.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
+                DeleteEventDialogFragment deleteEvent = DeleteEventDialogFragment.newInstance(uid, event.getEventId(), event.getName());
+                deleteEvent.show(getChildFragmentManager(), "fragment_delete_event");
             }
         });
 
