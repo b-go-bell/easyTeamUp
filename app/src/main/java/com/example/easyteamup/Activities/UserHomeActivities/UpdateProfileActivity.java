@@ -54,7 +54,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements SnackBar
     private EditText email, password, firstName, lastName, phone, major, year, bio;
     private ImageView photo;
     private TextView error;
-    private Button updateProfile, cancelUpdate;
+    private Button changePassword, updateProfile, cancelUpdate;
 
     private Uri oldImageUri;
     private Uri imageUri;
@@ -78,8 +78,8 @@ public class UpdateProfileActivity extends AppCompatActivity implements SnackBar
         uid = getIntent.getStringExtra("uid");
 
         //setting up views
+        changePassword = (Button) findViewById(R.id.change_password);
         email = (EditText) findViewById(R.id.email);
-        //password = (EditText) findViewById(R.id.password);
         firstName = (EditText) findViewById(R.id.first);
         lastName = (EditText) findViewById(R.id.last);
         phone = (EditText) findViewById(R.id.phone);
@@ -117,6 +117,14 @@ public class UpdateProfileActivity extends AppCompatActivity implements SnackBar
                 bio.setText(user.getBio());
         });
 
+        changePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ChangePasswordDialogFragment leave = ChangePasswordDialogFragment.newInstance();
+                leave.show(fragmentManager, "fragment_change_password");
+            }
+        });
+
 
         ActivityResultLauncher<String> imageGallery = registerForActivityResult(new ActivityResultContracts.GetContent(),
                 new ActivityResultCallback<Uri>() {
@@ -144,7 +152,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements SnackBar
             @Override
             public void onClick(View view) {
                 String e = email.getText().toString();
-                //String psd = password.getText().toString();
+                String psd = password.getText().toString();
                 String fn = firstName.getText().toString();
                 String ln = lastName.getText().toString();
                 String ph = phone.getText().toString();
@@ -159,10 +167,6 @@ public class UpdateProfileActivity extends AppCompatActivity implements SnackBar
                     if(!e.equals("")){
                         usr.setEmail(e);
                     }
-
-                    /*
-                        password
-                     */
 
                     if(!fn.equals("")){
                         usr.setFirstName(fn);
