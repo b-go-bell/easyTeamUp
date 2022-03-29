@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.UserHomeActivities.UpdateProfileActivity">
+    tools:context=".Activities.UserHomeActivities.UpdateProfileActivities.UpdateProfileActivity">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/descrip_layout"
@@ -48,7 +48,22 @@
                         app:cardCornerRadius="50dp"
                         android:src="@drawable/user"
                         />
-
+                    <Button
+                        android:id="@+id/change_password"
+                        android:layout_width="240dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="@string/change_password"
+                        android:layout_marginHorizontal="10dp"
+                        android:fontFamily="@font/rubik_bold_italic"
+                        android:backgroundTint="@color/blue"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        android:textAllCaps="false"
+                        android:layout_marginTop="24dp"
+                        />
                     <EditText
                         android:id="@+id/email"
                         android:layout_width="match_parent"
@@ -64,24 +79,6 @@
                         android:fontFamily="@font/rubik_regular"
                         android:inputType="textEmailAddress"
                         />
-<!--                    <EditText-->
-<!--                        android:id="@+id/password"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_gravity="start"-->
-<!--                        android:layout_marginLeft="60dp"-->
-<!--                        android:layout_marginTop="20dp"-->
-<!--                        android:layout_marginRight="60dp"-->
-<!--                        app:layout_constraintEnd_toEndOf="parent"-->
-<!--                        app:layout_constraintStart_toStartOf="parent"-->
-<!--                        app:layout_constraintTop_toTopOf="@+id/logo"-->
-<!--                        android:hint="@string/password"-->
-<!--                        android:backgroundTint="@color/gray"-->
-<!--                        android:textColor="@color/gray"-->
-<!--                        android:textColorHint="@color/medium_gray" -->
-<!--                        android:fontFamily="@font/rubik_regular"-->
-<!--                        android:inputType="textPassword"-->
-<!--                        />-->
                     <EditText
                         android:id="@+id/first"
                         android:layout_width="match_parent"

@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:background="@color/blue"
     android:padding="18dp"
-    tools:context=".Activities.SnackBarActivity.SnackBarFragment">
+    tools:context=".Activities.SnackBarActivities.SnackBarFragment">
 
     <ImageButton
         android:id="@+id/public_events"

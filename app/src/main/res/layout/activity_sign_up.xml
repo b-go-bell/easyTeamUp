@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gradients"
-    tools:context=".Activities.UserAuthActivities.SignUpActivityFolder.SignUpActivity"
+    tools:context=".Activities.UserHomeActivities.SignUpActivities.SignUpActivity"
     android:orientation="vertical">
 
     <ImageView

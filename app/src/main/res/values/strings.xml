@@ -31,6 +31,10 @@
     <string name="update_profile_activity">Update Profile</string>
     <string name="leave_update_prompt">Are you sure you want to abandon your profile changes?</string>
     <string name="stay_on_update">No, keep modifying</string>
+    <string name="change_password">Change password</string>
+    <string name="old_pass">Old password</string>
+    <string name="new_pass">New password</string>
+    <string name="update">Update</string>
 
 
     <!-- Strings related to View Profile Activity -->
@@ -122,6 +126,7 @@
     <string name="no_times">No time ranges currently selected.</string>
     <string name="cncl">Cancel</string>
     <string name="view_host_times">View host availability</string>
+    <string name="pick_date">Pick the day of your available time range</string>
 
     <!-- Notification Strings -->
     <string name="title">Title</string>
