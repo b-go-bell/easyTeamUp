@@ -78,15 +78,7 @@ public class MapRSVPdEventsActivity extends AppCompatActivity implements OnMapRe
         noEvents = (FragmentContainerView) findViewById(R.id.no_events_container);
         listButton = (Button) findViewById(R.id.list_button);
 
-        fops.getRSVPedEvents(uid, eventIdList -> {
-            ArrayList<String> eids = (ArrayList<String>) eventIdList;
-            if(eids.isEmpty()){
-                showNoEvents();
-            }
-            else {
-                mapFragment.getMapAsync(this);
-            }
-        });
+        mapFragment.getMapAsync(this);
 
         listButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
