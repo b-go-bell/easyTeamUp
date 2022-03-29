@@ -42,7 +42,7 @@ public class UpdateEventDialogFragment extends DialogFragment {
     private FragmentManager fragmentManager;
     private SingleSelectedEventAvailableTimesViewModel dueModel;
 
-    private EditText eventName, eventAddress, eventDescription, inviteEmail, eventLength;;
+    private EditText eventName, eventAddress, eventType, eventDescription, inviteEmail, eventLength;;
     private SwitchCompat publicPrivate;
     private Button inviteUser, addDueTime, updateEvent, cancelEvent;
     private TextView eventInvitees, dueTime, error, inviteError, eventLengthText;
@@ -83,6 +83,7 @@ public class UpdateEventDialogFragment extends DialogFragment {
         //setting up views
         eventName = (EditText) v.findViewById(R.id.event_title);
         eventAddress = (EditText) v.findViewById(R.id.event_address);
+        eventType = (EditText) v.findViewById(R.id.event_type);
         eventDescription = (EditText) v.findViewById(R.id.event_description);
         inviteEmail = (EditText) v.findViewById(R.id.user_email_address);
         publicPrivate = (SwitchCompat) v.findViewById(R.id.privacy_toggle);
@@ -199,10 +200,14 @@ public class UpdateEventDialogFragment extends DialogFragment {
                     eventMinutes = e.getEventLength();
                 }
 
+                String category = eventType.getText().toString();
                 String description = eventDescription.getText().toString();
+
                 EventDetails ed = new EventDetails();
+
                 ed.setName(name);
                 ed.setAddress(address);
+                ed.setCategory(category);
                 ed.setDescription(description);
                 Timestamp ts = new Timestamp(dueDate);
                 ed.setDueDate(ts);

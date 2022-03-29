@@ -58,8 +58,18 @@
             android:fontFamily="@font/rubik_regular"
             android:textColor="@color/gray"
             android:textSize="18sp"
+            android:layout_marginTop="6dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
+        <TextView
+            android:id="@+id/event_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:fontFamily="@font/rubik_medium"
+            android:layout_marginTop="6dp"
+            android:textColor="@color/gray"
+            />
 
         <TextView
             android:id="@+id/event_status"

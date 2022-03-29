@@ -67,6 +67,13 @@ public class EventAdapter extends ArrayAdapter<Event> {
         String formattedHostLoc = mContext.getString(R.string.event_location, currentEvent.getAddress());
         eventHostLoc.setText(formattedHostLoc);
 
+        TextView eventCat = (TextView) listItem.findViewById(R.id.event_category);
+        String cat = currentEvent.getCategory();
+        if(cat == null || cat.equals(""))
+            eventCat.setVisibility(View.GONE);
+        else
+            eventCat.setText(cat);
+
         if(currentEvent.getFinalTime() == null){
             TextView dueTime = (TextView) listItem.findViewById(R.id.event_due);
             try{

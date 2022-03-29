@@ -34,7 +34,7 @@ public class EventDetailsDialogFragment extends DialogFragment {
 
 
     private ImageButton close;
-    private TextView eventTitle, eventHost, eventAddress, eventStatus, eventDue, eventDescrip, eventLength;
+    private TextView eventTitle, eventHost, eventCategory, eventAddress, eventStatus, eventDue, eventDescrip, eventLength;
     private ConstraintLayout descripLayout;
     private LinearLayout inviteButtons, publicButton, declineButton, acceptButton;
     private Button rejectInvite, acceptInvite, attendPublic, cancelRSVP, acceptInviteFromReject;
@@ -72,6 +72,7 @@ public class EventDetailsDialogFragment extends DialogFragment {
         close = (ImageButton) v.findViewById(R.id.close);
         eventTitle = (TextView) v.findViewById(R.id.event_title);
         eventHost = (TextView) v.findViewById(R.id.event_host);
+        eventCategory = (TextView) v.findViewById(R.id.event_category);
         eventAddress = (TextView) v.findViewById(R.id.event_address);
         eventStatus = (TextView) v.findViewById(R.id.event_status);
         eventDue = (TextView) v.findViewById(R.id.event_due);
@@ -136,6 +137,10 @@ public class EventDetailsDialogFragment extends DialogFragment {
         eventTitle.setText(event.getName());
         eventAddress.setText(event.getAddress());
 
+        if(event.getCategory() == null || (event.getCategory().equals("")))
+            eventCategory.setVisibility(View.GONE);
+        else 
+            eventCategory.setText(event.getCategory());
 
         if(event.getDescription() == null || (event.getDescription().equals(""))){
             descripLayout.setVisibility(View.GONE);

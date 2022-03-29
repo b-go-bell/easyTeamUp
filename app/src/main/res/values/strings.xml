@@ -159,6 +159,7 @@
     <string name="leave_event_prompt">Are you sure you want to abandon your new event?</string>
     <string name="event_length_text">How long is your event?</string>
     <string name="minutes">Event length in minutes</string>
+    <string name="event_type">Event type</string>
 
     <!-- Host dialog -->
     <string name="update_event">Update event</string>

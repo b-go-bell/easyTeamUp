@@ -44,7 +44,7 @@ public class CreateEventActivity extends AppCompatActivity implements SnackBarIn
     private SelectedEventAvailableTimesViewModel availModel;
     private SingleSelectedEventAvailableTimesViewModel dueModel;
 
-    private EditText eventName, eventAddress, eventDescription, inviteEmail, eventLength;
+    private EditText eventName, eventAddress, eventType, eventDescription, inviteEmail, eventLength;
     private SwitchCompat publicPrivate;
     private Button inviteUser, addTime, addDueTime, createEvent, cancelEvent;
     private TextView submittedTimes, dueTime, error, inviteError, eventInvitees;
@@ -76,6 +76,7 @@ public class CreateEventActivity extends AppCompatActivity implements SnackBarIn
         //setting up views
         eventName = (EditText) findViewById(R.id.event_title);
         eventAddress = (EditText) findViewById(R.id.event_address);
+        eventType = (EditText) findViewById(R.id.event_type);
         eventDescription = (EditText) findViewById(R.id.event_description);
         inviteEmail = (EditText) findViewById(R.id.user_email_address);
         publicPrivate = (SwitchCompat) findViewById(R.id.privacy_toggle);
@@ -196,6 +197,9 @@ public class CreateEventActivity extends AppCompatActivity implements SnackBarIn
                     e.setAddress(address);
                     e.setLatitude(lat);
                     e.setLongitude(lon);
+
+                    String category = eventType.getText().toString();
+                    e.setCategory(category);
 
                     String description = eventDescription.getText().toString();
                     e.setDescription(description);

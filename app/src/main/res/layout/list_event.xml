@@ -28,8 +28,17 @@
             android:id="@+id/event_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hosted by XYZ at location"
+            android:text="Hosted at location"
             android:fontFamily="@font/rubik_bold"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/gray"
+            />
+        <TextView
+            android:id="@+id/event_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Event category"
+            android:fontFamily="@font/rubik_medium"
             android:layout_marginTop="10dp"
             android:textColor="@color/gray"
             />
