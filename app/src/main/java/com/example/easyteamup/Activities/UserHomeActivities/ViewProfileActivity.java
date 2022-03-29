@@ -10,11 +10,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.easyteamup.Activities.CreateEventActivities.CreateEventActivity;
-import com.example.easyteamup.Activities.SnackBarActivity.SnackBarFragment;
-import com.example.easyteamup.Activities.SnackBarActivity.SnackBarInterface;
-import com.example.easyteamup.Activities.UserAuthActivities.LogoutDialogFragment;
-import com.example.easyteamup.Activities.ViewEventActivities.EventDispatcherActivity;
+import com.example.easyteamup.Activities.EventActivities.CreateEventActivities.CreateEventActivity;
+import com.example.easyteamup.Activities.SnackBarActivities.SnackBarFragment;
+import com.example.easyteamup.Activities.SnackBarActivities.SnackBarInterface;
+import com.example.easyteamup.Activities.UserHomeActivities.LoginLogoutActivities.LogoutDialogFragment;
+import com.example.easyteamup.Activities.UserHomeActivities.UpdateProfileActivities.UpdateProfileActivity;
+import com.example.easyteamup.Activities.EventActivities.ViewEventActivities.EventDispatcherActivity;
+import com.example.easyteamup.Activities.EventActivities.ViewEventActivities.ListEventActivities.ViewEventAnalyticsActivity;
 import com.example.easyteamup.Backend.FirebaseOperations;
 import com.example.easyteamup.R;
 import com.example.easyteamup.Backend.User;

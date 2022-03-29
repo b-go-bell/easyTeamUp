@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".Activities.UserAuthActivities.SignUpActivityFolder.FirstSignUpFragment"
+    tools:context=".Activities.UserHomeActivities.SignUpActivities.FirstSignUpFragment"
     android:orientation="vertical"
     android:layout_marginTop="60dp"
     >
