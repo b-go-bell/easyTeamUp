@@ -29,6 +29,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -108,6 +109,7 @@ public class MapEventAnalyticsActivity extends AppCompatActivity implements OnMa
                 noEvents.setVisibility(View.INVISIBLE);
 
                 mMap = googleMap;
+
                 mMap.setOnMarkerClickListener(this);
                 mMap.getUiSettings().setZoomControlsEnabled(true);
                 //change this to be their current location if time
