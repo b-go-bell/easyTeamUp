@@ -139,7 +139,7 @@ public class EventDetailsDialogFragment extends DialogFragment {
 
         if(event.getCategory() == null || (event.getCategory().equals("")))
             eventCategory.setVisibility(View.GONE);
-        else 
+        else
             eventCategory.setText(event.getCategory());
 
         if(event.getDescription() == null || (event.getDescription().equals(""))){
