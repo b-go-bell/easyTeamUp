@@ -10,8 +10,6 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
-
-    <style name="Theme.EasyTeamUp.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
+    <style name="Theme" parent="Theme.MaterialComponents.Light.NoActionBar"/>
     <style name="Theme.EasyTeamUp.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

@@ -15,63 +15,82 @@
         android:theme="@style/Theme.EasyTeamUp">
         <activity
             android:name=".Activities.EventActivities.ViewEventActivities.MapEventActivities.MapEventAnalyticsActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.EventActivities.ViewEventActivities.MapEventActivities.MapRSVPdEventsActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.EventActivities.ViewEventActivities.MapEventActivities.MapHostedEventsActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.EventActivities.ViewEventActivities.MapEventActivities.MapInvitedEventsActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.EventActivities.ViewEventActivities.MapEventActivities.MapPublicEventsActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.EventActivities.ViewEventActivities.ListEventActivities.ViewRSVPdEventsActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.EventActivities.ViewEventActivities.ListEventActivities.ViewHostedEventsActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.EventActivities.ViewEventActivities.ListEventActivities.ViewInvitedEventsActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.EventActivities.ViewEventActivities.FilterPublicEventsActivities.PublicEventsDialogActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.EventActivities.ViewEventActivities.ListEventActivities.ViewPublicEventsActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.EventActivities.ViewEventActivities.EventDispatcherActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.EventActivities.ViewEventActivities.FilterPublicEventsActivities.ChooseLocationActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.UserHomeActivities.UpdateProfileActivities.UpdateProfileActivity"
             android:windowSoftInputMode="adjustPan"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.EventActivities.ViewEventActivities.ListEventActivities.ViewEventAnalyticsActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.EventActivities.CreateEventActivities.CreateEventActivity"
             android:windowSoftInputMode="adjustPan"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.UserHomeActivities.ViewProfileActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.UserHomeActivities.SignUpActivities.SignUpActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.UserHomeActivities.LoginLogoutActivities.LoginActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.UserHomeActivities.StartActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

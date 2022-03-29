@@ -151,7 +151,7 @@
     <string name="pick_due">Pick the due time</string>
     <string name="submit_event">Create Event</string>
     <string name="no_due_time">No due time currently selected</string>
-    <string name="pick_due_time">Pick a due tiem</string>
+    <string name="pick_due_time">Pick a due time</string>
     <string name="pick_due_date">Pick a due date</string>
     <string name="submit_due_time">Submit due date</string>
     <string name="stay_on_event">No, keep creating</string>

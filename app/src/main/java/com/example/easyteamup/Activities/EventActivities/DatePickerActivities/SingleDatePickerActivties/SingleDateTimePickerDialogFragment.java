@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.easyteamup.R;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,8 +49,10 @@ public class SingleDateTimePickerDialogFragment extends DialogFragment {
         View v = inflater.inflate(R.layout.fragment_single_date_time_picker_dialog, container, false);
         model = new ViewModelProvider(requireActivity()).get(SingleSelectedEventAvailableTimesViewModel.class);
 
-        dueDatePicker = (DatePicker) v.findViewById(R.id.start_date_picker);
+        dueDatePicker = (DatePicker) v.findViewById(R.id.date_picker);
         dueTimePicker = (TimePicker) v.findViewById(R.id.start_time_picker);
+
+        Log.d("DUEDATE", String.valueOf(dueDatePicker));
 
         // TO DO -> take host availability and and set their first time availlable listed and last time available
         // and set them as the ranges
