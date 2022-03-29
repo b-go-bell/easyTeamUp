@@ -20,8 +20,7 @@ import java.util.Date;
 
 public class DateTimePickerDialogFragment extends DialogFragment {
 
-    private DatePicker startDatePicker;
-    private DatePicker endDatePicker;
+    private DatePicker datePicker;
     private TimePicker startTimePicker;
     private TimePicker endTimePicker;
 
@@ -53,8 +52,8 @@ public class DateTimePickerDialogFragment extends DialogFragment {
         model = new ViewModelProvider(requireActivity()).get(SelectedEventAvailableTimesViewModel.class);
         ranges = new ArrayList<>();
 
-        startDatePicker = (DatePicker) v.findViewById(R.id.start_date_picker);
-        endDatePicker = (DatePicker) v.findViewById(R.id.end_date_picker);
+
+        datePicker = (DatePicker) v.findViewById(R.id.date_picker);
         startTimePicker = (TimePicker) v.findViewById(R.id.start_time_picker);
         endTimePicker = (TimePicker) v.findViewById(R.id.end_time_picker);
 
@@ -80,23 +79,20 @@ public class DateTimePickerDialogFragment extends DialogFragment {
         submitRange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int startYear = startDatePicker.getYear();
-                int startMonth = startDatePicker.getMonth();
-                int startDay = startDatePicker.getDayOfMonth();
+                int year = datePicker.getYear();
+                int month = datePicker.getMonth();
+                int day = datePicker.getDayOfMonth();
                 int startHour = startTimePicker.getHour();
                 int startMinute = startTimePicker.getMinute();
 
-                int endYear = endDatePicker.getYear();
-                int endMonth = endDatePicker.getMonth();
-                int endDay = endDatePicker.getDayOfMonth();
                 int endHour = endTimePicker.getHour();
                 int endMinute = endTimePicker.getMinute();
 
                 Calendar startCal = Calendar.getInstance();
-                startCal.set(startYear, startMonth, startDay, startHour, startMinute);
+                startCal.set(year, month, day, startHour, startMinute);
 
                 Calendar endCal = Calendar.getInstance();
-                endCal.set(endYear, endMonth, endDay, endHour, endMinute);
+                endCal.set(year, month, day, endHour, endMinute);
 
                 Log.d("START TIME", String.valueOf(startCal.getTime()));
                 Log.d("END TIME", String.valueOf(endCal.getTime()));

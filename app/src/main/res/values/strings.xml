@@ -126,6 +126,7 @@
     <string name="no_times">No time ranges currently selected.</string>
     <string name="cncl">Cancel</string>
     <string name="view_host_times">View host availability</string>
+    <string name="pick_date">Pick the day of your available time range</string>
 
     <!-- Notification Strings -->
     <string name="title">Title</string>
