@@ -9,6 +9,7 @@ public class EventDetails {
     private String address;
     private String geohash;
     private String description;
+    private String category;
     private Double latitude;
     private Double longitude;
     private Double eventLength;
@@ -18,6 +19,7 @@ public class EventDetails {
         this.name = null;
         this.address = null;
         this.description = null;
+        this.category = null;
         this.geohash = null;
         this.latitude = null;
         this.longitude = null;
@@ -30,6 +32,7 @@ public class EventDetails {
         this.address = event.getAddress();
         this.latitude = event.getLatitude();
         this.longitude = event.getLongitude();
+        this.category = event.getCategory();
         this.eventLength = event.getEventLength();
         this.description = event.getDescription();
         this.dueDate = event.getDueDate();
@@ -88,6 +91,14 @@ public class EventDetails {
         if (this.latitude != null && this.longitude != null) {
             generateGeohash();
         }
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public Timestamp getDueDate() {

@@ -18,6 +18,7 @@ public class Event implements Parcelable {
     private String address;
     private String geohash;
     private String description;
+    private String category;
     private Double latitude;
     private Double longitude;
     private Double eventLength;
@@ -34,6 +35,7 @@ public class Event implements Parcelable {
         this.address = null;
         this.geohash = null;
         this.description = null;
+        this.category = null;
         this.latitude = null;
         this.longitude = null;
         this.eventLength = null;
@@ -45,15 +47,16 @@ public class Event implements Parcelable {
     }
 
     public Event(String eventId, String name, String host, String address, String geohash,
-                 String description, Double latitude, Double longitude, Double eventLength,
-                 Timestamp dueDate, Timestamp finalTime, boolean isPublic, boolean rsvped,
-                 String invitationStatus) {
+                 String description, String category, Double latitude, Double longitude,
+                 Double eventLength, Timestamp dueDate, Timestamp finalTime, boolean isPublic,
+                 boolean rsvped, String invitationStatus) {
         this.eventId = eventId;
         this.name = name;
         this.host = host;
         this.address = address;
         this.geohash = geohash;
         this.description = description;
+        this.category = category;
         this.latitude = latitude;
         this.longitude = longitude;
         this.eventLength = eventLength;
@@ -154,6 +157,14 @@ public class Event implements Parcelable {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public String getGeohash() {
@@ -261,6 +272,7 @@ public class Event implements Parcelable {
                 ", address='" + address + '\'' +
                 ", geohash='" + geohash + '\'' +
                 ", description='" + description + '\'' +
+                ", category='" + category + '\'' +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
                 ", eventLength=" + eventLength +
