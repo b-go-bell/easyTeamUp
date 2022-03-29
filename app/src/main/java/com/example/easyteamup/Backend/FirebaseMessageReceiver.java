@@ -49,8 +49,6 @@ public class FirebaseMessageReceiver extends FirebaseMessagingService {
     }
 
     public void showNotification(String title, String message) {
-        System.out.println("title: " + title);
-        System.out.println("message: " + message);
 
         CharSequence name = "test channel";
         String description = "description channel";

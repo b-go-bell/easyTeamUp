@@ -108,7 +108,15 @@ public class FirebaseOperations {
 
                 db.collection("users").document(authenticatedUser.getUid()).set(mappedUser);
                 db.collection("users").document(authenticatedUser.getUid()).collection("pastEvents");
-                bc.isTrue(true);
+                fcm.getToken().addOnCompleteListener(task2 -> {
+                    if (task2.isSuccessful()) {
+                        updateAuthenticatedUserToken(task2.getResult());
+                        bc.isTrue(true);
+                    }
+                    else {
+                        bc.isTrue(false);
+                    }
+                });
             }
             else bc.isTrue(false);
         });
@@ -150,6 +158,7 @@ public class FirebaseOperations {
                 .update("FCMToken", null)
                 .addOnCompleteListener(task -> {
                     auth.signOut();
+                    authenticatedUser = null;
                 });
     }
 
@@ -165,6 +174,14 @@ public class FirebaseOperations {
                     .document(auth.getUid())
                     .update("FCMToken", token);
         };
+    }
+
+    /**
+     * Checks if a user is currently logged into the app or not
+     * @return True if a user is logged in, false otherwise
+     */
+    public boolean checkIfUserLoggedIn() {
+        return authenticatedUser != null;
     }
 
 
