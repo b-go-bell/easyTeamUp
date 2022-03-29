@@ -15,6 +15,8 @@ import com.firebase.geofire.GeoLocation;
 import com.firebase.geofire.GeoQueryBounds;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -109,6 +111,33 @@ public class FirebaseOperations {
                 bc.isTrue(true);
             }
             else bc.isTrue(false);
+        });
+    }
+
+    /**
+     * Changes the currently logged in user's password
+     * @param oldPassword The user's current password
+     * @param newPassword The user's new desired password
+     * @return BooleanCallback contains true if the password change was succesful, false
+     * otherwise. One possible reason for this if the user's old_password was specified
+     * incorrectly.
+     */
+    public void changePassword(String oldPassword, String newPassword, BooleanCallback bc) {
+        AuthCredential credential = EmailAuthProvider.getCredential(authenticatedUser.getEmail(), oldPassword);
+        authenticatedUser.reauthenticate(credential).addOnCompleteListener(task1 -> {
+            if (task1.isSuccessful()) {
+                authenticatedUser.updatePassword(newPassword).addOnCompleteListener(task2 -> {
+                   if (task2.isSuccessful()) {
+                       bc.isTrue(true);
+                   }
+                   else {
+                       bc.isTrue(false);
+                   }
+                });
+            }
+            else {
+                bc.isTrue(false);
+            }
         });
     }
 
