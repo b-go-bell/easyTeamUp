@@ -10,12 +10,15 @@ import android.widget.ProgressBar;
 
 import com.example.easyteamup.Activities.UserHomeActivities.LoginLogoutActivities.LoginActivity;
 import com.example.easyteamup.Activities.UserHomeActivities.SignUpActivities.SignUpActivity;
+import com.example.easyteamup.Backend.FirebaseOperations;
 import com.example.easyteamup.R;
 
 public class StartActivity extends AppCompatActivity {
 
     private Button loginButton, signupButton;
     private ProgressBar loadingBar;
+
+    private FirebaseOperations fops;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +31,15 @@ public class StartActivity extends AppCompatActivity {
 
         loadingBar = (ProgressBar) findViewById(R.id.loading);
         loadingBar.setVisibility(View.INVISIBLE);
+
+        fops = new FirebaseOperations(this);
+
+        if(fops.checkIfUserLoggedIn()){
+            Intent viewProfile = new Intent(StartActivity.this, ViewProfileActivity.class);
+            String uid = fops.getLoggedInUserId();
+            viewProfile.putExtra("uid", uid);
+            startActivity(viewProfile);
+        }
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
