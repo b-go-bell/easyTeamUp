@@ -50,7 +50,7 @@
                     android:hint="@string/event_title"
                     android:backgroundTint="@color/gray"
                     android:textColor="@color/gray"
-                    android:textColorHint="@color/gray"
+                    android:textColorHint="@color/medium_gray"
                     android:fontFamily="@font/rubik_regular"
                     android:inputType="textShortMessage"
                     />
@@ -68,7 +68,7 @@
                     android:hint="@string/event_address"
                     android:backgroundTint="@color/gray"
                     android:textColor="@color/gray"
-                    android:textColorHint="@color/gray"
+                    android:textColorHint="@color/medium_gray"
                     android:fontFamily="@font/rubik_regular"
                     android:inputType="textPostalAddress"
                     />
@@ -86,7 +86,7 @@
                     android:hint="@string/event_description"
                     android:backgroundTint="@color/gray"
                     android:textColor="@color/gray"
-                    android:textColorHint="@color/gray"
+                    android:textColorHint="@color/medium_gray"
                     android:fontFamily="@font/rubik_regular"
                     android:inputType="textLongMessage"
                     />
@@ -183,7 +183,7 @@
                     android:hint="@string/minutes"
                     android:backgroundTint="@color/gray"
                     android:textColor="@color/gray"
-                    android:textColorHint="@color/gray"
+                    android:textColorHint="@color/medium_gray"
                     android:fontFamily="@font/rubik_regular"
                     android:inputType="number"
                     />
@@ -217,7 +217,7 @@
                     android:hint="@string/user_email"
                     android:backgroundTint="@color/gray"
                     android:textColor="@color/gray"
-                    android:textColorHint="@color/gray"
+                    android:textColorHint="@color/medium_gray"
                     android:fontFamily="@font/rubik_regular"
                     android:inputType="textLongMessage"
                     />

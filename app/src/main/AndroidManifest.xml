@@ -51,6 +51,7 @@
             android:exported="false" />
         <activity
             android:name=".Activities.UserHomeActivities.UpdateProfileActivity"
+            android:windowSoftInputMode="adjustPan"
             android:exported="false" />
         <activity
             android:name=".Activities.UserHomeActivities.ViewEventAnalyticsActivity"

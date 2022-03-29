@@ -11,7 +11,7 @@
     <string name="login">Login</string>
     <string name="login_underline"><u>Login</u></string>
 
-    <!-- Strings related to Login and Signup Activities -->
+    <!-- Strings related to Login and Signup and Update Activities -->
     <string name="username">username</string>
     <string name="email">email</string>
     <string name="password">password</string>
@@ -28,6 +28,10 @@
     <string name="invalid_school">There was a problem setting your major or graduation year; please try again!</string>
     <string name="invalid_bio">There was a problem setting your personal bio; please try again!</string>
     <string name="invalid_photo">There was a problem setting your profile photo; please try again!</string>
+    <string name="update_profile_activity">Update Profile</string>
+    <string name="leave_update_prompt">Are you sure you want to abandon your profile changes?</string>
+    <string name="stay_on_update">No, keep modifying</string>
+
 
     <!-- Strings related to View Profile Activity -->
     <string name="w">Welcome</string>
@@ -157,5 +161,6 @@
     <string name="see_rsvps">View RSVPed Users</string>
     <string name="see_invited">View Invited Users &amp; Status</string>
     <string name="go_back">Return to Event Details</string>
+
 
 </resources>
