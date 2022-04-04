@@ -54,6 +54,8 @@ public class DeleteEventDialogFragment extends DialogFragment {
         decline = (Button) v.findViewById(R.id.reject);
         type = (TextView) v.findViewById(R.id.event_title);
 
+        type.setText("Are you sure you want to delete this event?");
+
         goBack.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 (getDialog()).cancel();
