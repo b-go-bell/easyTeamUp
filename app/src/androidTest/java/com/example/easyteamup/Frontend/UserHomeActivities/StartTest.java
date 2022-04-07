@@ -31,4 +31,12 @@ public class StartTest {
         //checks that has transitioned to login activity where you can click login
         onView(withId(R.id.submit_button)).check(matches(isDisplayed()));
     }
+
+    @Test
+    public void testGoToSignup() {
+        ActivityScenario loginScenario = rule.getScenario();
+        onView(withId(R.id.signup_button)).perform(click());
+        //checks that has transitioned to login activity where you can click login
+        onView(withId(R.id.fragment_container)).check(matches(isDisplayed()));
+    }
 }

@@ -128,7 +128,12 @@ public class ViewEventAnalyticsActivity extends AppCompatActivity implements Sna
         startActivity(viewPublicEvents);
     }
 
-    public void viewInvitations(){}
+    public void viewInvitations(){
+        Intent viewInvitations = new Intent(ViewEventAnalyticsActivity.this, EventDispatcherActivity.class);
+        viewInvitations.putExtra("uid", uid);
+        viewInvitations.putExtra("event_type", "invited");
+        startActivity(viewInvitations);
+    }
 
     public void createEvent(){
         Intent createEvent = new Intent(ViewEventAnalyticsActivity.this, CreateEventActivity.class);
