@@ -8,42 +8,82 @@ public class EventTest {
 
     @Test
     public void setEventId() {
+        Event event = new Event();
+        String id = "test";
+        event.setEventId("test");
+        assertEquals(event.getEventId(), id);
     }
 
     @Test
     public void getEventId() {
+        Event event = new Event();
+        String id = "test";
+        event.setEventId("test");
+        assertEquals(event.getEventId(), id);
     }
 
     @Test
     public void getName() {
+        Event event = new Event();
+        String name = "test";
+        event.setName("test");
+        assertEquals(event.getName(), name);
     }
 
     @Test
     public void setName() {
+        Event event = new Event();
+        String name = "test";
+        event.setName("test");
+        assertEquals(event.getName(), name);
     }
 
     @Test
     public void getHost() {
+        Event event = new Event();
+        String host = "test";
+        event.setHost("test");
+        assertEquals(event.getHost(), host);
     }
 
     @Test
     public void setHost() {
+        Event event = new Event();
+        String host = "test";
+        event.setHost("test");
+        assertEquals(event.getHost(), host);
     }
 
     @Test
     public void getAddress() {
+        Event event = new Event();
+        String address = "test";
+        event.setAddress("test");
+        assertEquals(event.getAddress(), address);
     }
 
     @Test
     public void setAddress() {
+        Event event = new Event();
+        String address = "test";
+        event.setAddress("test");
+        assertEquals(event.getAddress(), address);
     }
 
     @Test
     public void getCategory() {
+        Event event = new Event();
+        String cat = "test";
+        event.setCategory("test");
+        assertEquals(event.getCategory(), cat);
     }
 
     @Test
     public void setCategory() {
+        Event event = new Event();
+        String cat = "test";
+        event.setCategory("test");
+        assertEquals(event.getCategory(), cat);
     }
 
     @Test
