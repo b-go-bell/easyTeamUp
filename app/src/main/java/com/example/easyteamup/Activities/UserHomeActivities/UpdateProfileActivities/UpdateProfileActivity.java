@@ -84,15 +84,19 @@ public class UpdateProfileActivity extends AppCompatActivity implements SnackBar
             email.setText(user.getEmail());
             firstName.setText(user.getFirstName());
             lastName.setText(user.getLastName());
+
             String phnString = String.valueOf(user.getPhone());
             if(!phnString.equals("0"))
                 phone.setText(phnString);
-            if(!user.getMajor().equals(""))
+
+            if(major != null && !user.getMajor().equals(""))
                 major.setText(user.getMajor());
+
             String yrString = String.valueOf(user.getGraduationYear());
             if(!yrString.equals("0"))
                 year.setText(yrString);
-            if(!(user.getBio().equals("")))
+
+            if(bio != null && !(user.getBio().equals("")))
                 bio.setText(user.getBio());
         });
 
@@ -130,68 +134,85 @@ public class UpdateProfileActivity extends AppCompatActivity implements SnackBar
         updateProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String e = email.getText().toString();
-                String psd = password.getText().toString();
-                String fn = firstName.getText().toString();
-                String ln = lastName.getText().toString();
-                String ph = phone.getText().toString();
-                String m = major.getText().toString();
-                String y = year.getText().toString();
-                String b = bio.getText().toString();
-
-
+                //fixing bug with nulls
                 fops.getUserByUid(uid, userObject -> {
                     User usr = (User) userObject;
+                    String e, fn, ln, ph, m, y, b;
 
-                    if(!e.equals("")){
-                        usr.setEmail(e);
-                    }
-
-                    if(!fn.equals("")){
-                        usr.setFirstName(fn);
-                    }
-
-                    if(!ln.equals("")){
-                        usr.setLastName(ln);
-                    }
-
-                    if(!ph.equals("")){
-                        long phn;
-                        try {
-                            phn = Long.parseLong(ph) ;
+                    try {
+                        e = email.getText().toString();
+                        if (!e.equals("")) {
+                            usr.setEmail(e);
                         }
-                        catch (NumberFormatException nfe){
-                            phn = 0;
-                        }
-                        usr.setPhone(phn);
+                    } catch (NullPointerException npe) {
                     }
 
-                    if(!m.equals("")){
-                        usr.setMajor(m);
+                    try {
+                        fn = firstName.getText().toString();
+                        if (!fn.equals("")) {
+                            usr.setFirstName(fn);
+                        }
+                    } catch (NullPointerException npe) {
                     }
 
-                    if(!y.equals("")){
-                        int yr;
-                        try {
-                            yr = Integer.parseInt(y) ;
+                    try {
+                        ln = lastName.getText().toString();
+                        if (!ln.equals("")) {
+                            usr.setLastName(ln);
                         }
-                        catch (NumberFormatException nfe){
-                            yr = 0;
-                        }
-                        usr.setGraduationYear(yr);
+                    } catch (NullPointerException npe) {
                     }
 
-                    if(!b.equals("")) {
-                        usr.setBio(b);
+                    try {
+                        ph = phone.getText().toString();
+                        if (!ph.equals("")) {
+                            long phn;
+                            try {
+                                phn = Long.parseLong(ph);
+                            } catch (NumberFormatException nfe) {
+                                phn = 0;
+                            }
+                            usr.setPhone(phn);
+                        }
+                    } catch (NullPointerException npe) {
+                    }
+
+                    try {
+                        m = major.getText().toString();
+                        if (!m.equals("")) {
+                            usr.setMajor(m);
+                        }
+                    } catch (NullPointerException npe) {
+                    }
+
+                    try {
+                        y = year.getText().toString();
+                        if (!y.equals("")) {
+                            int yr;
+                            try {
+                                yr = Integer.parseInt(y);
+                            } catch (NumberFormatException nfe) {
+                                yr = 0;
+                            }
+                            usr.setGraduationYear(yr);
+                        }
+                    } catch (NullPointerException npe) {
+                    }
+
+                    try {
+                        b = bio.getText().toString();
+                        if (!b.equals("")) {
+                            usr.setBio(b);
+                        }
+                    } catch (NullPointerException npe) {
                     }
 
                     fops.setUser(usr, uid, bc -> {
-                        if(bc){
+                        if (bc) {
                             Intent viewUserProfile = new Intent(UpdateProfileActivity.this, ViewProfileActivity.class);
                             viewUserProfile.putExtra("uid", uid);
                             startActivity(viewUserProfile);
-                        }
-                        else {
+                        } else {
                             error.setText("There was an issue updating your profile. Please check all fields are valid.");
                             LeaveUpdateProfileDialogFragment leave = LeaveUpdateProfileDialogFragment.newInstance(uid, "fail");
                             leave.show(fragmentManager, "fragment_leave_create_event");
