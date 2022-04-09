@@ -54,9 +54,12 @@ public class LogoutDialogFragment extends DialogFragment {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fops.logoutUser();
-                Intent restart = new Intent(getActivity(), StartActivity.class);
-                startActivity(restart);
+                fops.logoutUser(bool -> {
+                    if (bool) {
+                        Intent restart = new Intent(getActivity(), StartActivity.class);
+                        startActivity(restart);
+                    }
+                });
             }
         });
 

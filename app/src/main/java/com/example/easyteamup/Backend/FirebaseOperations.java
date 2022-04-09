@@ -152,13 +152,19 @@ public class FirebaseOperations {
     /**
      * Logs out a user
      */
-    public void logoutUser(){
+    public void logoutUser(BooleanCallback bc){
         db.collection("users")
                 .document(authenticatedUser.getUid())
                 .update("FCMToken", null)
                 .addOnCompleteListener(task -> {
-                    auth.signOut();
-                    authenticatedUser = null;
+                    if (task.isSuccessful()) {
+                        auth.signOut();
+                        authenticatedUser = null;
+                        bc.isTrue(true);
+                    }
+                    else {
+                        bc.isTrue(false);
+                    }
                 });
     }
 
