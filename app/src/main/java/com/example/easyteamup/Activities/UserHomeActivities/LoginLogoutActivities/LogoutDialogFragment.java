@@ -2,6 +2,7 @@ package com.example.easyteamup.Activities.UserHomeActivities.LoginLogoutActiviti
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,6 +56,11 @@ public class LogoutDialogFragment extends DialogFragment {
             @Override
             public void onClick(View view) {
                 fops.logoutUser();
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 Intent restart = new Intent(getActivity(), StartActivity.class);
                 startActivity(restart);
             }

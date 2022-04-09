@@ -1,5 +1,6 @@
 package com.example.easyteamup.Activities.UserHomeActivities.SignUpActivities;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,6 +17,8 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 
 import com.example.easyteamup.R;
+
+import java.io.File;
 
 public class FifthSignUpFragment extends Fragment {
 
@@ -44,6 +47,9 @@ public class FifthSignUpFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_signup_fifth, container, false);
 
         profilePhoto = (ImageView) v.findViewById(R.id.profile_photo);
+        imageUri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE +
+                "://" + getResources().getResourcePackageName(R.drawable.user)
+                + '/' + getResources().getResourceTypeName(R.drawable.user) + '/' + getResources().getResourceEntryName(R.drawable.user) );
         signupButton = (Button) v.findViewById(R.id.submit_button);
         backButton = (ImageButton) v.findViewById(R.id.back_button);
 

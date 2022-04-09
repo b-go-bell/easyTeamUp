@@ -53,6 +53,7 @@ public class ThirdSignUpFragment extends Fragment {
                 catch (NumberFormatException nfe){
                     year = 0;
                 }
+
                 mCallback.onThirdContinue(false, major, year);
             }
         });
