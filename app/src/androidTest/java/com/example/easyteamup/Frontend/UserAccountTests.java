@@ -53,6 +53,13 @@ public class UserAccountTests {
         catch(NoMatchingViewException e){
 
         }
+        //sleep for 10 seconds to let async logout happen
+        try{
+            Thread.sleep(10000);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Test
