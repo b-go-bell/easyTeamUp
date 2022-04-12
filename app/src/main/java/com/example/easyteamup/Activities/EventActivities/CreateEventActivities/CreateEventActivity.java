@@ -165,6 +165,7 @@ public class CreateEventActivity extends AppCompatActivity implements SnackBarIn
                 Double lon = null;
                 String address = eventAddress.getText().toString();
                 Geocoder geocoder = new Geocoder(getApplicationContext());
+                String category = eventType.getText().toString();
 
                 try {
                     List<Address> addresses = geocoder.getFromLocationName(address.trim().toLowerCase(), 1);
@@ -185,11 +186,14 @@ public class CreateEventActivity extends AppCompatActivity implements SnackBarIn
                 else if(lat == null || lon == null){
                     error.setText("Please enter a valid address.");
                 }
-                else if(name == null || name.equals("")){
+                else if(name.equals("")){
                     error.setText("Please enter a name for your event.");
                 }
                 else if(eventMinutes == null || eventMinutes <= 0){
                     error.setText("Please enter a valid event length time.");
+                }
+                else if(category.equals("")){
+                    error.setText("Please enter an event type.");
                 }
                 else {
                     Event e = new Event();
@@ -198,7 +202,6 @@ public class CreateEventActivity extends AppCompatActivity implements SnackBarIn
                     e.setLatitude(lat);
                     e.setLongitude(lon);
 
-                    String category = eventType.getText().toString();
                     e.setCategory(category);
 
                     String description = eventDescription.getText().toString();

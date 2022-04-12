@@ -88,15 +88,23 @@ public class EventAdapter extends ArrayAdapter<Event> {
         else {
             TextView dueTime = (TextView) listItem.findViewById(R.id.event_due);
             Date time = currentEvent.getFinalTime().toDate();
-            String formattedTime = ("Happening on ").concat(time.toString());
-            dueTime.setText(formattedTime);
+
+            if(!eventType.equals("past")){
+                String formattedTime = ("Happening on ").concat(time.toString());
+                dueTime.setText(formattedTime);
+            }
+            else {
+                String formattedTime = ("Happened on ").concat(time.toString());
+                dueTime.setText(formattedTime);
+            }
+
         }
 
 
         //showing status of the event for the logged in user
         eventStatus = (TextView) listItem.findViewById(R.id.event_invitation);
 
-        if(uid.equals(currentEvent.getHost())){
+        if(uid.equals(currentEvent.getHost()) && !eventType.equals("past")){
             showHosted(currentEvent);
         }
         else if(eventType.equals("past")){
@@ -110,9 +118,9 @@ public class EventAdapter extends ArrayAdapter<Event> {
                 status = "Attended";
                 formatGeneral(status);
             }
+
         }
         else if(eventType.equals("invited")){
-
             Log.d("INVITED", currentEvent.getName());
             String status = currentEvent.getInvitationStatus();
             formatInvite(status);
@@ -143,7 +151,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
         listItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(uid.equals(currentEvent.getHost())){
+                if(uid.equals(currentEvent.getHost()) && !eventType.equals("past")){
                     HostEventDetailsDialogFragment hostDetails = HostEventDetailsDialogFragment.newInstance(uid, currentEvent);
                     hostDetails.show(fragmentManager, "fragment_event_details_dialog");
                 }
