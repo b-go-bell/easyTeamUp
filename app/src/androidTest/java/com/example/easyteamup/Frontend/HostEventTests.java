@@ -19,6 +19,7 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.core.IsInstanceOf.instanceOf;
+import static org.junit.Assert.fail;
 
 import android.util.Log;
 import android.view.View;
@@ -40,14 +41,20 @@ import com.example.easyteamup.R;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestName;
 
 public class HostEventTests {
 
     @Rule
     public ActivityScenarioRule rule = new ActivityScenarioRule<>(StartActivity.class);
+
+    @Rule
+    public TestName testName = new TestName();
 
     @Before
     public void init() {
@@ -144,6 +151,7 @@ public class HostEventTests {
         onView(withId(R.id.events_list)).check(matches(isDisplayed()));
     }
 
+
     @Test
     public void createEventBadDueTime() {
         onView(withId(R.id.create_event_button)).perform(scrollTo(), click());
@@ -174,12 +182,38 @@ public class HostEventTests {
             e.printStackTrace();
         }
 
-        //checking that the event has an error and does not get created because bad time
-        //will fail
-        onView(withId(R.id.error)).perform(scrollTo());
-        onView(withId(R.id.error)).check(matches(isDisplayed()));
-    }
+        //checking if the event appears in hosted events list; if it does, delete it and fail the test
+        final int[] events = new int[1];
+        onView(withId(R.id.events_list)).check(matches(new TypeSafeMatcher<View>() {
+            @Override
+            public boolean matchesSafely(View view) {
+                ListView listView = (ListView) view;
+                events[0] = listView.getCount();
+                return true;
+            }
 
+            @Override
+            public void describeTo(Description description) {}
+        }));
+
+        boolean f = false;
+        for(int i = 0; i < events[0]; i++){
+            try{
+                onData(anything()).inAdapterView(withId(R.id.events_list)).atPosition(i)
+                        .check(matches(hasDescendant(
+                                allOf(withId(R.id.event_name), withText("Bad Due Time Testing Event")))));
+                onData(anything()).inAdapterView(withId(R.id.events_list)).atPosition(i).perform(scrollTo(), click());
+                onView(withId(R.id.delete_event)).perform(click());
+                onView(withId(R.id.reject)).perform(click());
+                f = true;
+                break;
+            }
+            catch (AssertionError e){ }
+        }
+        if(f){
+            fail("Event was created when it should not have been.");
+        }
+    }
 
     @Test
     public void createEventBadAvailableTimes() {
@@ -199,7 +233,7 @@ public class HostEventTests {
         onView(withId(R.id.submit_range)).perform(click());
 
         onView(withId(R.id.event_address)).perform(scrollTo(), typeText("University of Southern California"), closeSoftKeyboard());
-        onView(withId(R.id.event_title)).perform(scrollTo(), typeText("Bad Due Time Testing Event"), closeSoftKeyboard());
+        onView(withId(R.id.event_title)).perform(scrollTo(), typeText("Bad Available Time Testing Event"), closeSoftKeyboard());
         onView(withId(R.id.event_length)).perform(scrollTo(), typeText("60"), closeSoftKeyboard());
         onView(withId(R.id.event_type)).perform(scrollTo(), typeText("Testing"), closeSoftKeyboard());
         onView(withId(R.id.submit_event)).perform(scrollTo(), click());
@@ -211,10 +245,37 @@ public class HostEventTests {
             e.printStackTrace();
         }
 
-        //checking that the event has an error and does not get created because bad time
-        //will fail
-        onView(withId(R.id.error)).perform(scrollTo());
-        onView(withId(R.id.error)).check(matches(isDisplayed()));
+        //checking if the event appears in hosted events list; if it does, delete it and fail the test
+        final int[] events = new int[1];
+        onView(withId(R.id.events_list)).check(matches(new TypeSafeMatcher<View>() {
+            @Override
+            public boolean matchesSafely(View view) {
+                ListView listView = (ListView) view;
+                events[0] = listView.getCount();
+                return true;
+            }
+
+            @Override
+            public void describeTo(Description description) {}
+        }));
+
+        boolean f = false;
+        for(int i = 0; i < events[0]; i++){
+            try{
+                onData(anything()).inAdapterView(withId(R.id.events_list)).atPosition(i)
+                        .check(matches(hasDescendant(
+                                allOf(withId(R.id.event_name), withText("Bad Available Time Testing Event")))));
+                onData(anything()).inAdapterView(withId(R.id.events_list)).atPosition(i).perform(scrollTo(), click());
+                onView(withId(R.id.delete_event)).perform(click());
+                onView(withId(R.id.reject)).perform(click());
+                f = true;
+                break;
+            }
+            catch (AssertionError e){ }
+        }
+        if(f){
+            fail("Event was created when it should not have been.");
+        }
     }
 
     @Test
@@ -234,6 +295,6 @@ public class HostEventTests {
 
     @Test
     public void inviteUsers() {
-        
+
     }
 }

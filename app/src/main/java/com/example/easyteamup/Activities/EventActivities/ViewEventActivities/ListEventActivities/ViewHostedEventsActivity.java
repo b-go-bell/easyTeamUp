@@ -18,6 +18,7 @@ import com.example.easyteamup.Backend.Event;
 import com.example.easyteamup.R;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -86,12 +87,14 @@ public class ViewHostedEventsActivity extends AppCompatActivity implements Snack
             try {
                 ArrayList<String> eventIds = (ArrayList<String>) listObject;
                 if(eventIds.size() == 0){
+                    Log.d("EVENT IDS 0", "npe here");
                     throw new NullPointerException();
                 }
 
                 fops.getEventsByEventId(eventIds, eventList -> {
                     try {
                         ArrayList<Event> events = (ArrayList<Event>) eventList;
+                        Log.d("EVENTS", String.valueOf(events));
                         eventAdapter = new EventAdapter(this, uid, "hosted", events);
 
                         listEvents.setAdapter(eventAdapter);
@@ -100,11 +103,13 @@ public class ViewHostedEventsActivity extends AppCompatActivity implements Snack
                         noEvents.setVisibility(View.INVISIBLE);
                     }
                     catch(NullPointerException npe){
+                        Log.d("GET EVENTS", "npe here");
                         showNoEvents();
                     }
                 });
             }
             catch (NullPointerException npe) {
+                Log.d("GET HOSTED", "npe here");
                 showNoEvents();
             }
         });
