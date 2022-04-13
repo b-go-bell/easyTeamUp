@@ -11,7 +11,6 @@ public  class TimeUtil {
 
     private static String KEY_DATE_FORMAT = "yyyy-MM-dd";
     private static String MILITARY_DATE_FORMAT = "HHmm";
-    private ArrayList<Date> availDates;
 
     public static Map<String, List<Map<String, String>>> getAvailability(ArrayList<Date> availDates) {
         Map<String, List<Map<String, String>>> availability = new HashMap<>();
@@ -28,6 +27,5 @@ public  class TimeUtil {
         }
         return availability;
     }
-//                    HERE!!!!
-//                    fops.RSVPforEvent(uid, eid, availability, );
+
 }

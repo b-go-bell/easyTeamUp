@@ -18,7 +18,7 @@ public class User {
     private Map<String, String> invitedEvents;
     private Map<String, Object> settings;
 
-    public User(String uid, String email, int phone, String firstName,
+    public User(String uid, String email, long phone, String firstName,
                 String lastName, int graduationYear, String major, String bio,
                 String photoUrl, List<String> RSVPedEvents, List<String> hostedEvents,
                 Map<String, String> invitedEvents, Map<String, Object> settings) {
