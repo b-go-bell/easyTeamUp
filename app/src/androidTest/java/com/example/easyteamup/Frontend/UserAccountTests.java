@@ -213,6 +213,14 @@ public class UserAccountTests {
         //go to update profile
         onView(withId(R.id.update_profile_button)).perform(scrollTo(), click());
 
+        //wait for async transition for 10 seconds
+        try{
+            Thread.sleep(8000);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+
         Random rand = new Random();
         Integer num = rand.nextInt(1000000000);
         String newUser = ("user").concat(num.toString());
