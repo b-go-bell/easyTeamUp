@@ -462,7 +462,7 @@ public class HostEventTests {
     }
 
     @Test
-    public void beforeDeleteInviteUsers() {
+    public void beforeDeleteUsersInvite() {
         onView(withId(R.id.hosting_button)).perform(scrollTo(), click());
         //give time for async submission
         try{
@@ -513,7 +513,7 @@ public class HostEventTests {
                 onView(withId(R.id.invite_user)).perform(click());
                 onView(withId(R.id.event_invitees)).check(matches(withText(containsString("bridget.test@gmail.com"))));
 
-                break;
+                return;
             }
             catch (AssertionError e){ }
         }
