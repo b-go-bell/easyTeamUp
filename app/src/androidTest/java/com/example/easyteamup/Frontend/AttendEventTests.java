@@ -181,7 +181,7 @@ public class AttendEventTests {
         }
         onView(withId(R.id.other_loc)).perform(click());
         try{
-            Thread.sleep(10000);
+            Thread.sleep(20000);
         }
         catch(Exception e){
             e.printStackTrace();
