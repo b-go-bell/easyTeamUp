@@ -180,12 +180,7 @@ public class AttendEventTests {
             e.printStackTrace();
         }
         onView(withId(R.id.other_loc)).perform(click());
-        try{
-            Thread.sleep(20000);
-        }
-        catch(Exception e){
-            e.printStackTrace();
-        }
+
         onView(withId(R.id.pick_location)).perform(click());
         onView(withId(R.id.distance_input)).perform(typeText("30"), closeSoftKeyboard());
         onView(withId(R.id.submit)).perform(click());
