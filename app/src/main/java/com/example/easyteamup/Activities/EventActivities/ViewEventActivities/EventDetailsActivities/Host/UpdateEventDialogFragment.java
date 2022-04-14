@@ -165,8 +165,7 @@ public class UpdateEventDialogFragment extends DialogFragment {
         updateEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
+                
                 Double newLat = null;
                 Double newLon = null;
                 String address = eventAddress.getText().toString();
