@@ -1,7 +1,11 @@
 package com.example.easyteamup.Backend;
 
+import static java.lang.Math.min;
+
 import android.content.Context;
 import android.net.Uri;
+
+import androidx.annotation.NonNull;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -13,6 +17,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.firebase.geofire.GeoFireUtils;
 import com.firebase.geofire.GeoLocation;
 import com.firebase.geofire.GeoQueryBounds;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.AuthCredential;
@@ -34,6 +40,7 @@ import com.google.firebase.storage.StorageReference;
 
 import org.json.JSONException;
 
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -470,65 +477,73 @@ public class FirebaseOperations {
      *         the specified ids, or an empty ArrayList if none exists.
      */
     public void getEventsByEventId(List<String> eventIds, ObjectCallback listObject) {
-        try {
-            db.collection("events")
-                    .whereIn(FieldPath.documentId(), eventIds)
-                    .get()
-                    .addOnCompleteListener(task1 -> {
-                        if (task1.isSuccessful()) {
-                            List<Event> events = new ArrayList<>();
-                            List<Task<?>> tasks = new ArrayList<>();
 
-                            for (QueryDocumentSnapshot document : task1.getResult()) {
-                                Event e = document.toObject(Event.class);
-                                e.setEventId(document.getId());
+        //break into eventIds into subsets of 10, since that is max that firebase 'in'
+        //query will take
+        List<Task<QuerySnapshot>> getEventsTasks = new ArrayList<>();
+        for (int i = 0; i < eventIds.size(); i+= 10){
+            List<String> eventIdsSubset = eventIds.subList(i, min(i+10, eventIds.size()));
+            getEventsTasks.add(db.collection("events")
+                    .whereIn(FieldPath.documentId(), eventIdsSubset)
+                    .get());
+        }
 
-                                Task<DocumentSnapshot> checkRsvp = document
-                                        .getReference()
-                                        .collection("rsvpedUsers")
-                                        .document(authenticatedUser.getUid())
-                                        .get();
-                                Task<DocumentSnapshot> checkInvitation = document
-                                        .getReference()
-                                        .collection("invitedUsers")
-                                        .document(authenticatedUser.getUid())
-                                        .get();
+        Tasks.whenAll(getEventsTasks).addOnCompleteListener(result -> {
+            if (result.isSuccessful()) {
+                List<Event> events = new ArrayList<Event>();
+                List<Task<?>> tasks = new ArrayList<>();//keeps track to make sure all of the internal tasks are done before returning a result
 
-                                Task<Void> allTask = Tasks.whenAll(checkRsvp, checkInvitation);
-                                tasks.add(allTask);
-                                allTask.addOnCompleteListener(task2 -> {
-                                    if (task2.isSuccessful()) {
-                                        e.setIsRsvped(checkRsvp.getResult().exists());
+                    for (Task<QuerySnapshot> task : getEventsTasks) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Event e = document.toObject(Event.class);
+                            e.setEventId(document.getId());
 
-                                        DocumentSnapshot invitation = checkInvitation.getResult();
-                                        if (invitation.exists()) {
-                                            e.setInvitationStatus(invitation.getString("status"));
-                                        }
-                                        events.add(e);
+                            Task<DocumentSnapshot> checkRSVP = document
+                                    .getReference()
+                                    .collection("rsvpedUsers")
+                                    .document(authenticatedUser.getUid())
+                                    .get();
+                            Task<DocumentSnapshot> checkInvitation = document
+                                    .getReference()
+                                    .collection("invitedUsers")
+                                    .document(authenticatedUser.getUid())
+                                    .get();
+
+                            Task<Void> updateEventRegistrationDetailsTask = Tasks.whenAll(checkRSVP, checkInvitation);
+                            tasks.add(updateEventRegistrationDetailsTask);
+                            updateEventRegistrationDetailsTask.addOnCompleteListener(task2 -> {
+                                if (task2.isSuccessful()) {
+                                    e.setIsRsvped(checkRSVP.getResult().exists());
+
+                                    DocumentSnapshot invitation = checkInvitation.getResult();
+                                    if (invitation.exists()) {
+                                        e.setInvitationStatus(invitation.getString("status"));
                                     }
-                                });
-                            }//end for
-
-                            Tasks.whenAll(tasks).addOnCompleteListener(task -> {
-                                if (task.isSuccessful()) {
-                                    listObject.result(events);
-                                }
-                                else {
-                                    listObject.result(null);
+                                    System.out.println("In callback");
+                                    events.add(e);
                                 }
                             });
+                        }
+                    }//end for
 
-                        }
-                        else {
-                            listObject.result(null);
-                        }
-                    });
-        }
-        catch (RuntimeException re) {
-            listObject.result(null);
-        }
+                Tasks.whenAll(tasks).addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        listObject.result(events);
+                    }
+                    else {
+                        listObject.result(null);
+                    }
+                });
+
+            }
+            else {
+                listObject.result(null);
+            }
+        });
 
     }
+
+
 
     /**
      * Gets a list of uids of all users that have RSVPed for an event.

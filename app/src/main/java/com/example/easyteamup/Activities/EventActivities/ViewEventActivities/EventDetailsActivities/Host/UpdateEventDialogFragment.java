@@ -204,7 +204,7 @@ public class UpdateEventDialogFragment extends DialogFragment {
                 ed.setCategory(category);
                 ed.setDescription(description);
                 Timestamp ts = new Timestamp(dueDate);
-                ed.setDueDate(ts);
+//                ed.setDueDate(ts);
                 ed.setLatitude(newLat);
                 ed.setLongitude(newLon);
                 ed.setEventLength(eventMinutes);
