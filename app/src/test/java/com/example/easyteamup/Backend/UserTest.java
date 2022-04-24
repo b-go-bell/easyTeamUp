@@ -2,6 +2,8 @@ package com.example.easyteamup.Backend;
 
 import static org.junit.Assert.*;
 
+import android.app.Instrumentation;
+
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -171,6 +173,11 @@ public class UserTest {
 
     @Test
     public void setBio() {
+        String otherBio = "OTHERBIO";
+        testUser.setBio(otherBio);
+        assertEquals(testUser.getBio(), otherBio);
+        testUser.setBio(bio);
+        assertEquals(testUser.getBio(), bio);
     }
 
     @Test
@@ -180,6 +187,11 @@ public class UserTest {
 
     @Test
     public void setPhotoUrl() {
+        String otherPhotoUrl = "www.OTHERURL.com";
+        testUser.setPhotoUrl(otherPhotoUrl);
+        assertEquals(testUser.getPhotoUrl(), otherPhotoUrl);
+        testUser.setPhotoUrl(photoUrl);
+        assertEquals(testUser.getPhotoUrl(), photoUrl);
     }
 
     @Test
@@ -189,6 +201,15 @@ public class UserTest {
 
     @Test
     public void setRSVPedEvents() {
+        ArrayList<String> otherrsvplist = new ArrayList<>();
+        otherrsvplist.add("one");
+        otherrsvplist.add("two");
+        otherrsvplist.add("three");
+        List<String> otherRSVPedEvents = otherrsvplist;
+        testUser.setRSVPedEvents(otherRSVPedEvents);
+        assertEquals(testUser.getRSVPedEvents(), otherrsvplist);
+        testUser.setRSVPedEvents(RSVPedEvents);
+        assertEquals(testUser.getRSVPedEvents(), RSVPedEvents);
     }
 
     @Test
@@ -198,6 +219,15 @@ public class UserTest {
 
     @Test
     public void setHostedEvents() {
+        ArrayList<String> otherhostedlist = new ArrayList<>();
+        otherhostedlist.add("one");
+        otherhostedlist.add("two");
+        otherhostedlist.add("three");
+        List<String> otherhostedEvents = otherhostedlist;
+        testUser.setRSVPedEvents(otherhostedEvents);
+        assertEquals(testUser.getRSVPedEvents(), otherhostedEvents);
+        testUser.setRSVPedEvents(RSVPedEvents);
+        assertEquals(testUser.getRSVPedEvents(), RSVPedEvents);
     }
 
     @Test
@@ -207,6 +237,21 @@ public class UserTest {
 
     @Test
     public void setInvitedEvents() {
+        HashMap<String, String> otherinvitedmap = new HashMap<>();
+        Map<String, String> otherinvitedEvents = otherinvitedmap;
+        String k1 = "key1";
+        String v1 = "val1";
+        String k2 = "key2";
+        String v2 = "val2";
+        String k3 = "key3";
+        String v3 = "val3";
+        otherinvitedEvents.put(k1, v1);
+        otherinvitedEvents.put(k2, v2);
+        otherinvitedEvents.put(k3, v3);
+        testUser.setInvitedEvents(otherinvitedEvents);
+        assertEquals(testUser.getInvitedEvents(), otherinvitedEvents);
+        testUser.setInvitedEvents(invitedEvents);
+        assertEquals(testUser.getInvitedEvents(), invitedEvents);
     }
 
     @Test
@@ -216,5 +261,20 @@ public class UserTest {
 
     @Test
     public void setSettings() {
+        HashMap<String, Object>  othersettingsmap = new HashMap<>();
+        Map<String, Object> othersettings = othersettingsmap;
+        String k1 = "key1";
+        String v1 = "val1";
+        String k2 = "key2";
+        String v2 = "val2";
+        String k3 = "key3";
+        String v3 = "val3";
+        othersettings.put(k1, v1);
+        othersettings.put(k2, v2);
+        othersettings.put(k3, v3);
+        testUser.setSettings(othersettings);
+        assertEquals(testUser.getSettings(), othersettings);
+        testUser.setSettings(settings);
+        assertEquals(testUser.getSettings(), settings);
     }
 }
