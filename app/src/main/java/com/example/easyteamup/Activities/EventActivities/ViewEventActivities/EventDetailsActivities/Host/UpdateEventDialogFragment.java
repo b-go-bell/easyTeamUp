@@ -19,8 +19,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.easyteamup.Activities.EventActivities.CreateEventActivities.LeaveCreateEventDialogFragment;
-import com.example.easyteamup.Activities.EventActivities.DatePickerActivities.SingleDatePickerActivties.SingleDateTimePickerDialogFragment;
-import com.example.easyteamup.Activities.EventActivities.DatePickerActivities.SingleDatePickerActivties.SingleSelectedEventAvailableTimesViewModel;
 import com.example.easyteamup.Activities.EventActivities.ViewEventActivities.EventDispatcherActivity;
 import com.example.easyteamup.Backend.Event;
 import com.example.easyteamup.Backend.EventDetails;
@@ -40,7 +38,7 @@ public class UpdateEventDialogFragment extends DialogFragment {
     private Event e;
     private FirebaseOperations fops;
     private FragmentManager fragmentManager;
-    private SingleSelectedEventAvailableTimesViewModel dueModel;
+
 
     private EditText eventName, eventAddress, eventType, eventDescription, inviteEmail, eventLength;;
     private SwitchCompat publicPrivate;
@@ -73,7 +71,6 @@ public class UpdateEventDialogFragment extends DialogFragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_update_event_dialog, container);
 
-        dueModel = new ViewModelProvider(this).get(SingleSelectedEventAvailableTimesViewModel.class);
 
         uid = getArguments().getString("uid");
         eid = getArguments().getString("eid");
@@ -157,8 +154,6 @@ public class UpdateEventDialogFragment extends DialogFragment {
         addDueTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogFragment dueDateTimePicker = SingleDateTimePickerDialogFragment.newInstance();
-                dueDateTimePicker.show(fragmentManager, "singleDateTimePicker");
             }
         });
 
@@ -267,19 +262,6 @@ public class UpdateEventDialogFragment extends DialogFragment {
             @Override
             public void onClick(View view) {
                 getDialog().cancel();
-            }
-        });
-
-        dueModel.getDueTime().observe(this, item -> {
-            Log.d("ITEM?", String.valueOf(item));
-            dueDate = item;
-
-            if(dueDate == null){
-                dueTime.setText(R.string.no_due_time);
-            }
-            else {
-                String date = dueDate.toString();
-                dueTime.setText(date);
             }
         });
 

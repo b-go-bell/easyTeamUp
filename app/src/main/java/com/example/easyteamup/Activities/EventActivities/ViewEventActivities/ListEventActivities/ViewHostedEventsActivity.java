@@ -12,7 +12,6 @@ import com.example.easyteamup.Activities.SnackBarActivities.SnackBarFragment;
 import com.example.easyteamup.Activities.SnackBarActivities.SnackBarInterface;
 import com.example.easyteamup.Activities.UserHomeActivities.ViewProfileActivity;
 import com.example.easyteamup.Activities.EventActivities.ViewEventActivities.DisplayEventHelpers.NoEventsFragment;
-import com.example.easyteamup.Activities.EventActivities.DatePickerActivities.DoubleDatePickerActivities.SelectedEventAvailableTimesViewModel;
 import com.example.easyteamup.Activities.EventActivities.ViewEventActivities.MapEventActivities.MapHostedEventsActivity;
 import com.example.easyteamup.Backend.Event;
 import com.example.easyteamup.R;
@@ -40,15 +39,12 @@ public class ViewHostedEventsActivity extends AppCompatActivity implements Snack
     private FragmentContainerView noEvents;
     private EventAdapter eventAdapter;
 
-    private SelectedEventAvailableTimesViewModel model;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_hosted_events);
         getSupportActionBar().hide();
-
-        model = new ViewModelProvider(this).get(SelectedEventAvailableTimesViewModel.class);
 
         fops = new FirebaseOperations(this);
         fragmentManager = getSupportFragmentManager();

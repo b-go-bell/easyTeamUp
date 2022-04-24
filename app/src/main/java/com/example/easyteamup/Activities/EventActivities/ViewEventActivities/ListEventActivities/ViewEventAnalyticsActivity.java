@@ -5,7 +5,6 @@ import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.easyteamup.Activities.EventActivities.CreateEventActivities.CreateEventActivity;
-import com.example.easyteamup.Activities.EventActivities.DatePickerActivities.DoubleDatePickerActivities.SelectedEventAvailableTimesViewModel;
 import com.example.easyteamup.Activities.EventActivities.ViewEventActivities.EventDispatcherActivity;
 import com.example.easyteamup.Activities.SnackBarActivities.SnackBarFragment;
 import com.example.easyteamup.Activities.SnackBarActivities.SnackBarInterface;
@@ -37,7 +36,6 @@ public class ViewEventAnalyticsActivity extends AppCompatActivity implements Sna
     private Button mapButton;
     private FragmentContainerView noEvents;
     private EventAdapter eventAdapter;
-    private SelectedEventAvailableTimesViewModel model;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

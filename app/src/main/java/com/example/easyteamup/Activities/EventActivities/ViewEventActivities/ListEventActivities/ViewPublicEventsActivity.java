@@ -3,7 +3,6 @@ package com.example.easyteamup.Activities.EventActivities.ViewEventActivities.Li
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.example.easyteamup.Activities.EventActivities.CreateEventActivities.CreateEventActivity;
 import com.example.easyteamup.Activities.EventActivities.ViewEventActivities.EventDispatcherActivity;
@@ -12,7 +11,6 @@ import com.example.easyteamup.Activities.SnackBarActivities.SnackBarInterface;
 import com.example.easyteamup.Activities.UserHomeActivities.ViewProfileActivity;
 import com.example.easyteamup.Activities.EventActivities.ViewEventActivities.DisplayEventHelpers.EventAdapter;
 import com.example.easyteamup.Activities.EventActivities.ViewEventActivities.DisplayEventHelpers.NoEventsFragment;
-import com.example.easyteamup.Activities.EventActivities.DatePickerActivities.DoubleDatePickerActivities.SelectedEventAvailableTimesViewModel;
 import com.example.easyteamup.Activities.EventActivities.ViewEventActivities.MapEventActivities.MapPublicEventsActivity;
 import com.example.easyteamup.Backend.Event;
 import com.example.easyteamup.Backend.FirebaseOperations;
@@ -47,7 +45,6 @@ public class ViewPublicEventsActivity extends AppCompatActivity implements Snack
     private FragmentContainerView noEvents;
     private EventAdapter eventAdapter;
 
-    private SelectedEventAvailableTimesViewModel model;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +55,6 @@ public class ViewPublicEventsActivity extends AppCompatActivity implements Snack
         fops = new FirebaseOperations(this);
         fragmentManager = getSupportFragmentManager();
         getIntent = getIntent();
-
-        model = new ViewModelProvider(this).get(SelectedEventAvailableTimesViewModel.class);
 
         Bundle bundle = new Bundle();
         fragmentManager.beginTransaction()

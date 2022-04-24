@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/edit_name"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    android:background="@color/beige">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginTop="6dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/pick_due_date"
+            android:layout_marginHorizontal="10dp"
+            android:fontFamily="@font/rubik_medium"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="@color/gray"
+            android:textSize="24sp"/>
+        <TextView
+            android:id="@+id/due"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="No due date currently selected"
+            android:layout_marginHorizontal="10dp"
+            android:fontFamily="@font/rubik_regular_italic"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textColor="@color/coral"
+            android:layout_marginTop="6dp"
+            android:textSize="12sp"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginTop="6dp">
+
+        <ImageButton
+            android:id="@+id/prev_month"
+            android:layout_width="30dp"
+            android:layout_height="40dp"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:layout_marginLeft="8dp"
+            android:src="@drawable/previous"
+            android:layout_marginTop="10dp"
+            />
+
+        <com.kizitonwose.calendarview.CalendarView
+            android:id="@+id/calendarView"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            app:cv_dayViewResource="@layout/calendar_day_layout"
+            app:cv_monthHeaderResource="@layout/calendar_month_header_layout"
+            app:cv_scrollMode="paged"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            />
+
+        <ImageButton
+            android:id="@+id/next_month"
+            android:layout_width="30dp"
+            android:layout_height="40dp"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:layout_marginRight="8dp"
+            android:src="@drawable/forward"
+            android:layout_marginTop="10dp"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginTop="6dp">
+
+        <Button
+            android:id="@+id/cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/cncl"
+            android:layout_marginHorizontal="10dp"
+            android:layout_gravity="center"
+            android:fontFamily="@font/rubik_medium_italic"
+            android:backgroundTint="@color/gray"
+            android:textColor="@color/white"
+            android:textSize="10sp"
+            android:textAllCaps="false"
+            android:layout_marginTop="6dp"
+            />
+
+        <Button
+            android:id="@+id/submit_range"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="10dp"
+            android:text="@string/submit_due_time"
+            android:fontFamily="@font/rubik_medium_italic"
+            android:backgroundTint="@color/white"
+            android:textColor="@color/gray"
+            android:textSize="11sp"
+            android:textAllCaps="false"
+            android:layout_marginTop="6dp"
+            />
+
+    </LinearLayout>
+
+
+</LinearLayout>

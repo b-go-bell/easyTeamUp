@@ -15,8 +15,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.easyteamup.Activities.EventActivities.DatePickerActivities.DoubleDatePickerActivities.DateTimePickerDialogFragment;
-import com.example.easyteamup.Activities.EventActivities.DatePickerActivities.DoubleDatePickerActivities.SelectedEventAvailableTimesViewModel;
 import com.example.easyteamup.Activities.EventActivities.ViewEventActivities.EventDispatcherActivity;
 import com.example.easyteamup.Activities.UserHomeActivities.LoginLogoutActivities.FailDialogFragment;
 import com.example.easyteamup.Activities.EventActivities.ViewEventActivities.ListEventActivities.ViewInvitedEventsActivity;
@@ -37,7 +35,6 @@ public class AcceptEventDialogFragment extends DialogFragment {
 
     private FirebaseOperations fops;
     private FragmentManager fragmentManager;
-    private SelectedEventAvailableTimesViewModel model;
 
     private Button goBack;
     private Button hostTime, pickTime;
@@ -69,7 +66,6 @@ public class AcceptEventDialogFragment extends DialogFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_accept_event_dialog, container, false);
-        model = new ViewModelProvider(requireActivity()).get(SelectedEventAvailableTimesViewModel.class);
 
         uid = getArguments().getString("uid");
         eid = getArguments().getString("eid");
@@ -103,8 +99,6 @@ public class AcceptEventDialogFragment extends DialogFragment {
 
         pickTime.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                DialogFragment dateTimePicker = DateTimePickerDialogFragment.newInstance();
-                dateTimePicker.show(fragmentManager, "dateTimePicker");
             }
         });
 
@@ -136,28 +130,12 @@ public class AcceptEventDialogFragment extends DialogFragment {
             }
         });
 
-        model.getAvailableTimes().observe(this, item -> {
-            Log.d("ITEM?", String.valueOf(item));
-            availDates = item;
 
-            if(item.size() == 0){
-                timesSubmitted.setText(R.string.no_times);
-            }
-            else {
-                String dates = "";
-                for(int i = 0; i < item.size(); i+=2){
-                    dates = dates.concat(String.valueOf(item.get(i))).concat(" - ").concat(String.valueOf(item.get(i+1))).concat("\n");
-                }
-                Log.d("DATES", dates);
-                timesSubmitted.setText(dates);
-            }
-        });
         return v;
     }
 
     @Override
     public void onCancel(DialogInterface dlg) {
-        model.deleteTimes();
         super.onCancel(dlg);
     }
 }
