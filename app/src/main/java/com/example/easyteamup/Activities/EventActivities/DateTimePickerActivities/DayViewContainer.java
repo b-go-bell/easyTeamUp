@@ -18,8 +18,11 @@ import com.kizitonwose.calendarview.model.CalendarDay;
 import com.kizitonwose.calendarview.model.DayOwner;
 import com.kizitonwose.calendarview.ui.ViewContainer;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.TimeZone;
 
 class DayViewContainer extends ViewContainer {
@@ -28,33 +31,70 @@ class DayViewContainer extends ViewContainer {
     private FragmentManager fragmentManager;
 
     private DueDateViewModel dueModel;
+    private AvailableTimesViewModel availableModel;
 
 
     public DayViewContainer(View view) {
         super(view);
-        final TextView calendar_day_text = view.findViewById(R.id.calendarDayText);
+        TextView calendar_day_text = view.findViewById(R.id.calendarDayText);
+
+        fragmentManager = (unwrap(view.getContext())).getSupportFragmentManager();
 
         dueModel = new ViewModelProvider((unwrap(view.getContext()))).get(DueDateViewModel.class);
+        availableModel = new ViewModelProvider((unwrap(view.getContext()))).get(AvailableTimesViewModel.class);
 
 
-        dueModel.getDueTime().observe((unwrap(view.getContext())), item -> {
-            ZonedDateTime setUTCDueTime = item;
-            if (setUTCDueTime != null && day != null) {
-                ZonedDateTime setDueTime = setUTCDueTime.withZoneSameInstant(TimeZone.getDefault().toZoneId());
-                if(day.getDate().getMonthValue() == setDueTime.getMonthValue() &&
-                        day.getDate().getDayOfMonth() == setDueTime.getDayOfMonth()){
-                    calendar_day_text.setTextColor(ContextCompat.getColor((unwrap(view.getContext())), R.color.green));
+            dueModel.getDueTime().observe((unwrap(view.getContext())), item -> {
+                ZonedDateTime setUTCDueTime = item;
+                if (setUTCDueTime != null && day != null) {
+                    ZonedDateTime setDueTime = setUTCDueTime.withZoneSameInstant(TimeZone.getDefault().toZoneId());
+                    if(day.getDate().getMonthValue() == setDueTime.getMonthValue() &&
+                            day.getDate().getDayOfMonth() == setDueTime.getDayOfMonth()){
+                        calendar_day_text.setTextColor(ContextCompat.getColor((unwrap(view.getContext())), R.color.green));
+                    }
+                    else if (day.getOwner() != DayOwner.THIS_MONTH ||
+                            ((day.getDate().getDayOfMonth() <= LocalDate.now().getDayOfMonth()) && (day.getDate().getMonthValue() == LocalDate.now().getMonthValue()))) {
+                        calendar_day_text.setTextColor(ContextCompat.getColor((unwrap(view.getContext())), R.color.medium_gray));
+                    }
+                    else{
+                        calendar_day_text.setTextColor(ContextCompat.getColor((unwrap(view.getContext())), R.color.gray));
+                    }
                 }
-                else if (day.getOwner() != DayOwner.THIS_MONTH ||
-                        ((day.getDate().getDayOfMonth() <= LocalDate.now().getDayOfMonth()) && (day.getDate().getMonthValue() == LocalDate.now().getMonthValue()))) {
-                    calendar_day_text.setTextColor(ContextCompat.getColor((unwrap(view.getContext())), R.color.medium_gray));
+            });
+
+            availableModel.getAvailableTimes().observe((unwrap(view.getContext())), item -> {
+                HashMap<LocalDate, ArrayList<ZonedDateTime>> utcTimes = item;
+                if(utcTimes != null && day != null && !utcTimes.isEmpty()){
+                    utcTimes.forEach((key, utcValue) -> {
+                        if (day.getDate().getMonthValue() == key.getMonthValue() &&
+                                day.getDate().getDayOfMonth() == key.getDayOfMonth() && !utcValue.isEmpty()) {
+                            calendar_day_text.setTextColor(ContextCompat.getColor((unwrap(view.getContext())), R.color.blue));
+                        } else if (day.getOwner() != DayOwner.THIS_MONTH) {
+                            calendar_day_text.setTextColor(ContextCompat.getColor((unwrap(view.getContext())), R.color.medium_gray));
+                        } else if ((day.getDate().getDayOfMonth() <= LocalDate.now().getDayOfMonth()) && (day.getDate().getMonthValue() == LocalDate.now().getMonthValue())) {
+                            calendar_day_text.setTextColor(ContextCompat.getColor((unwrap(view.getContext())), R.color.medium_gray));
+                        } else {
+                            dueModel.getDueTime().observe( (unwrap(view.getContext())), dueItem -> {
+                                ZonedDateTime setUTCDueTime = dueItem;
+                                if (setUTCDueTime != null && day != null) {
+                                    ZonedDateTime setDueTime = setUTCDueTime.withZoneSameInstant(TimeZone.getDefault().toZoneId());
+
+                                    if((day.getDate().getDayOfMonth() < setDueTime.getDayOfMonth()) && (day.getDate().getMonthValue() == setDueTime.getMonthValue()) ) {
+                                        calendar_day_text.setTextColor(ContextCompat.getColor((unwrap(view.getContext())), R.color.medium_gray));
+                                    }
+                                    else if(day.getDate().getMonthValue() == setDueTime.getMonthValue() && day.getDate().getDayOfMonth() == setDueTime.getDayOfMonth()){
+                                        calendar_day_text.setTextColor(ContextCompat.getColor((unwrap(view.getContext())), R.color.green));
+                                    }
+                                    else {
+                                        calendar_day_text.setTextColor(ContextCompat.getColor((unwrap(view.getContext())), R.color.gray));
+                                    }
+                                }
+                            });
+                        }
+                    });
                 }
-                else{
-                    calendar_day_text.setTextColor(ContextCompat.getColor((unwrap(view.getContext())), R.color.gray));
-                }
-            }
-        });
-                fragmentManager = (unwrap(view.getContext())).getSupportFragmentManager();
+            });
+
 
         view.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -65,6 +105,23 @@ class DayViewContainer extends ViewContainer {
                             DialogFragment dueTimePicker = TimePickerDialogFragment.newInstance(day, due);
                             dueTimePicker.show(fragmentManager, "dialog");
                         }
+                    }
+                }
+                else {
+                    if(day.getOwner() == DayOwner.THIS_MONTH){
+                        if(day.getDate().getMonthValue() != LocalDate.now().getMonthValue()){
+                            DialogFragment dueTimePicker = TimePickerDialogFragment.newInstance(day, due);
+                            dueTimePicker.show(fragmentManager, "dialog");
+                        }
+
+                        dueModel.getDueTime().observe((unwrap(view.getContext())), item -> {
+                            ZonedDateTime dueTime = item;
+                            if((day.getDate().getDayOfMonth() > LocalDate.now().getDayOfMonth()) &&
+                                    (day.getDate().getDayOfMonth() > dueTime.getDayOfMonth())){
+                                DialogFragment dueTimePicker = TimePickerDialogFragment.newInstance(day, due);
+                                dueTimePicker.show(fragmentManager, "dialog");
+                            }
+                        });
                     }
                 }
             }

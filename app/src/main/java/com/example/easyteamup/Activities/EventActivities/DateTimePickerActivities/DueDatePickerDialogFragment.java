@@ -140,9 +140,8 @@ public class DueDatePickerDialogFragment extends DialogFragment {
 
         calendarView.getContext();
 
-
         YearMonth currentMonth = YearMonth.now();
-        YearMonth lastMonth = currentMonth.plusMonths(12);
+        YearMonth lastMonth = currentMonth.plusMonths(11);
 
         calendarView.setup(currentMonth, lastMonth, DayOfWeek.SUNDAY);
         calendarView.scrollToMonth(currentMonth);
@@ -164,13 +163,13 @@ public class DueDatePickerDialogFragment extends DialogFragment {
                     YearMonth next = month.getYearMonth().plusMonths(1);
                     calendarView.scrollToMonth(next);
                 }
-
             }
         });
 
 
         cancel.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                dueModel.deleteDueTime();
                 (getDialog()).cancel();
             }
         });
@@ -181,6 +180,7 @@ public class DueDatePickerDialogFragment extends DialogFragment {
                 (getDialog()).cancel();
             }
         });
+
         return v;
     }
 

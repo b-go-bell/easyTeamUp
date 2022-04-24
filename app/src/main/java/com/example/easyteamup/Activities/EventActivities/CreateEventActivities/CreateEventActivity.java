@@ -7,6 +7,8 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.easyteamup.Activities.EventActivities.DateTimePickerActivities.AvailableTimesPickerDialogFragment;
+import com.example.easyteamup.Activities.EventActivities.DateTimePickerActivities.AvailableTimesViewModel;
 import com.example.easyteamup.Activities.EventActivities.DateTimePickerActivities.DueDatePickerDialogFragment;
 import com.example.easyteamup.Activities.EventActivities.DateTimePickerActivities.DueDateViewModel;
 import com.example.easyteamup.Activities.SnackBarActivities.SnackBarFragment;
@@ -31,9 +33,11 @@ import android.widget.TextView;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -53,6 +57,8 @@ public class CreateEventActivity extends AppCompatActivity implements SnackBarIn
     private ArrayList<String> invitedUids = new ArrayList<String>();
 
     private DueDateViewModel dueModel;
+    private AvailableTimesViewModel availableModel;
+
     private final Serializable[] dueDate = new Serializable[1];
 
     @Override
@@ -72,6 +78,7 @@ public class CreateEventActivity extends AppCompatActivity implements SnackBarIn
         getIntent = getIntent();
         uid = getIntent.getStringExtra("uid");
         dueModel = new ViewModelProvider(this).get(DueDateViewModel.class);
+        availableModel = new ViewModelProvider(this).get(AvailableTimesViewModel.class);
 
         //setting up views
         eventName = (EditText) findViewById(R.id.event_title);
@@ -142,16 +149,17 @@ public class CreateEventActivity extends AppCompatActivity implements SnackBarIn
 
 
         dueModel.getDueTime().observe(this, item -> {
-            Log.d("ITEM?", String.valueOf(item));
             dueDate[0] = item;
             if(dueDate[0] == null){
                 dueTime.setText(R.string.no_due_time);
+                addDueTime.setText("Pick the due time");
                 dueTime.setTextColor(ContextCompat.getColor(this, R.color.gray));
             }
             else {
                 ZonedDateTime setDueTime = ((ZonedDateTime)dueDate[0]).withZoneSameInstant(TimeZone.getDefault().toZoneId());
                 dueTime.setText(prettyPrintDate(setDueTime));
                 dueTime.setTextColor(ContextCompat.getColor(this, R.color.green));
+                addDueTime.setText("Change the due time");
             }
         });
 
@@ -159,7 +167,35 @@ public class CreateEventActivity extends AppCompatActivity implements SnackBarIn
         addTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(dueDate[0] == null){
+                    submittedTimes.setText("Please select a due date before adding available times.");
+                    submittedTimes.setTextColor(ContextCompat.getColor(getBaseContext(), R.color.coral));
+                }
+                else {
+                    DialogFragment availableTimesPickerDialogFragment = AvailableTimesPickerDialogFragment.newInstance((ZonedDateTime)dueDate[0]);
+                    availableTimesPickerDialogFragment.show(fragmentManager, "dueDatePicker");
+                }
+            }
+        });
 
+        final Boolean[] noTimeRanges = new Boolean[1];
+        availableModel.getAvailableTimes().observe(this, item -> {
+            HashMap<LocalDate, ArrayList<ZonedDateTime>> availTimes = item;
+
+            noTimeRanges[0] = true;
+            if(availTimes != null && !availTimes.isEmpty()){
+                availTimes.forEach((key, value) -> {
+                    if(!value.isEmpty())
+                        noTimeRanges[0] = false;
+                });
+            }
+
+            if(!noTimeRanges[0]){
+                addTime.setText("Edit your availability");
+                submittedTimes.setVisibility(View.GONE);
+            }
+            else {
+                addTime.setText("Add your availability");
             }
         });
 
@@ -196,9 +232,9 @@ public class CreateEventActivity extends AppCompatActivity implements SnackBarIn
                 if(dueDate == null){
                     error.setText("Please pick an event due time.");
                 }
-//                else if(availDates == null || availDates.size() == 0){
-//                    error.setText("Please pick at least one available time.");
-//                }
+                else if(noTimeRanges[0]){
+                    error.setText("Please pick at least one available time.");
+                }
                 else if(lat == null || lon == null){
                     error.setText("Please enter a valid address.");
                 }
@@ -234,7 +270,10 @@ public class CreateEventActivity extends AppCompatActivity implements SnackBarIn
 
                     Log.d("DUE DATE", ts.toDate().toString());
 
-//                    fops.createEvent(e, /*stuff*/, eventId -> {
+                    availableModel.getAvailableTimes().observe(CreateEventActivity.this, item -> {
+                        HashMap<LocalDate, ArrayList<ZonedDateTime>> availTimes = item;
+
+//                    fops.createEvent(e, /*stuff with availTimes*/, eventId -> {
 //                        if(eventId != null){
 //                            for(int i = 0; i < invitedUids.size(); i++){
 //                                fops.inviteUserToEvent(invitedUids.get(i), (String)eventId, bool -> {
@@ -256,6 +295,8 @@ public class CreateEventActivity extends AppCompatActivity implements SnackBarIn
 //                            leave.show(fragmentManager, "fragment_leave_create_event");
 //                        }
 //                    });
+                    });
+
                 }
             }
         });

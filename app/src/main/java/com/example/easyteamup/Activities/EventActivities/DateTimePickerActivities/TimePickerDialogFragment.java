@@ -1,9 +1,12 @@
 package com.example.easyteamup.Activities.EventActivities.DateTimePickerActivities;
 
 import android.app.Dialog;
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +17,7 @@ import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.easyteamup.R;
@@ -24,8 +28,10 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.TimeZone;
@@ -36,7 +42,7 @@ public class TimePickerDialogFragment extends DialogFragment {
     private Boolean due;
 
     private DueDateViewModel dueModel;
-    private AvailableTimesViewModel timesModel;
+    private AvailableTimesViewModel availableModel;
 
     private TextView date, select;
     private Button returnToCal;
@@ -48,7 +54,6 @@ public class TimePickerDialogFragment extends DialogFragment {
             pm400, pm415, pm430, pm445, pm500, pm515, pm530, pm545, pm600, pm615, pm630, pm645, pm700, pm715, pm730, pm745,
             pm800, pm815, pm830, pm845, pm900, pm915, pm930, pm945, pm1000, pm1015, pm1030, pm1045, pm1100, pm1115, pm1130, pm1145;
 
-    private Button dueButton = null;
     private Set<Button> timesButtons = new HashSet<>();
 
     public TimePickerDialogFragment() {
@@ -77,19 +82,23 @@ public class TimePickerDialogFragment extends DialogFragment {
         View v = inflater.inflate(R.layout.fragment_times_picker, container, false);
 
         dueModel = new ViewModelProvider(requireActivity()).get(DueDateViewModel.class);
-        timesModel = new ViewModelProvider(requireActivity()).get(AvailableTimesViewModel.class);
+        availableModel = new ViewModelProvider(requireActivity()).get(AvailableTimesViewModel.class);
 
         day = (CalendarDay) getArguments().getSerializable("day");
         due = getArguments().getBoolean("due");
 
         date = (TextView) v.findViewById(R.id.date);
-        date.setText(String.valueOf(day.getDate()));
         select = (TextView) v.findViewById(R.id.select);
 
         if(!due){
-            select.setText("Select all available 15 minute blocks");
+            String str = "Select all available 15 minute blocks for ";
+            str = str.concat(String.valueOf(day.getDate()));
+            date.setVisibility(View.GONE);
+            select.setText(str);
         }
-
+        else {
+            date.setText(String.valueOf(day.getDate()));
+        }
 
         am1200 = (Button) v.findViewById(R.id.am1200);
         am1215 = (Button) v.findViewById(R.id.am1215);
@@ -201,6 +210,17 @@ public class TimePickerDialogFragment extends DialogFragment {
         }
         else {
             //mark available times that have been selected
+            availableModel.getAvailableTimes().observe(this, item -> {
+                HashMap<LocalDate, ArrayList<ZonedDateTime>> availTimes = item;
+                if(availTimes != null){
+                    availTimes.forEach((key, value) -> {
+                        for(ZonedDateTime availUTCTime : value){
+                            setButton(v, availUTCTime);
+                            addButtonToAvailable(v, availUTCTime);
+                        }
+                    });
+                }
+            });
         }
 
         am1200.setOnClickListener(new View.OnClickListener() {
@@ -1069,11 +1089,30 @@ public class TimePickerDialogFragment extends DialogFragment {
 
 
 
-
         returnToCal = (Button) v.findViewById(R.id.return_times);
         returnToCal.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if(!due){
+                    LocalDate key = day.getDate();
+                    ArrayList<ZonedDateTime> value = new ArrayList<>();
+
+                    for(Button b : timesButtons ){
+                        LocalDate ld = day.getDate();
+
+                        Pair<Integer, Integer> hrSec = getButtonTime(b);
+                        LocalTime lt = LocalTime.of(hrSec.first, hrSec.second, 0, 0);
+
+                        ZonedDateTime zdt = ZonedDateTime.of(ld, lt, TimeZone.getDefault().toZoneId());
+                        ZonedDateTime availableZdtUtc = zdt.withZoneSameInstant(ZoneId.of("UTC"));
+
+                        value.add(availableZdtUtc);
+                    }
+                    availableModel.addAvailableTime(key, value);
+
+                    availableModel.getAvailableTimes().observe((unwrap(v.getContext())), item -> {
+                        HashMap<LocalDate, ArrayList<ZonedDateTime>> availTimes = item;
+                    });
+
                 }
                 (getDialog()).cancel();
             }
@@ -1112,6 +1151,17 @@ public class TimePickerDialogFragment extends DialogFragment {
     private void dueClick(Button b) {
         LocalDate ld = day.getDate();
 
+        Pair<Integer, Integer> hrSec = getButtonTime(b);
+        LocalTime lt = LocalTime.of(hrSec.first, hrSec.second, 0, 0);
+
+        ZonedDateTime zdt = ZonedDateTime.of(ld, lt, TimeZone.getDefault().toZoneId());
+        ZonedDateTime zdtUTC = zdt.withZoneSameInstant(ZoneId.of("UTC"));
+
+        dueModel.setDueTime(zdtUTC);
+        (getDialog()).cancel();
+    }
+
+    private Pair<Integer, Integer> getButtonTime(Button b){
         String buttonTime = b.getText().toString();
         String[] colonSplits = buttonTime.split(":");
         String[] spaceSplits = colonSplits[1].split(" ");
@@ -1126,35 +1176,53 @@ public class TimePickerDialogFragment extends DialogFragment {
         }
         int mins = Integer.parseInt(spaceSplits[0]);
 
-        LocalTime lt = LocalTime.of(hr, mins, 0, 0);
-
-        ZonedDateTime zdt = ZonedDateTime.of(ld, lt, TimeZone.getDefault().toZoneId());
-        ZonedDateTime zdtUTC = zdt.withZoneSameInstant(ZoneId.of("UTC"));
-
-        dueModel.setDueTime(zdtUTC);
-        (getDialog()).cancel();
+        return new Pair<>(hr, mins);
     }
 
 
     private void availClick(Button b) {
-//        if(dueButton == null){ //no due time selected
-//            dueButton = b;
-//            b.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.green));
-//        }
-//        else if (dueButton.getId() == b.getId()){ //unchecking the due time
-//            dueButton = null;
-//            b.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.beige));
-//        }
-//        else { //changing the due time
-//            dueButton.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.beige));
-//            b.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.green));
-//            dueButton = b;
-//        }
+        if(!timesButtons.contains(b)){ //not in set of clicked times
+            timesButtons.add(b);
+            b.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.blue));
+        }
+        else { //in set of clicked times
+            timesButtons.remove(b);
+            b.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.beige));
+        }
     }
 
-    //colors the button with the associated UTC Time
-    private void setButton(View v, ZonedDateTime setUTCDueTime){
-        ZonedDateTime setDueTime = setUTCDueTime.withZoneSameInstant(TimeZone.getDefault().toZoneId());
+    private void addButtonToAvailable(View v, ZonedDateTime utcTime) {
+        ZonedDateTime setDueTime = utcTime.withZoneSameInstant(TimeZone.getDefault().toZoneId());
+        LocalDate thisDate = day.getDate();
+        if (setDueTime.getYear() == thisDate.getYear() &&
+                setDueTime.getMonthValue() == thisDate.getMonthValue() &&
+                setDueTime.getDayOfMonth() == thisDate.getDayOfMonth()) { //the day of the due date picked
+
+            String mins = String.valueOf(setDueTime.getMinute());
+            if (mins.equals("0")) {
+                mins = mins.concat("0");
+            }
+            int hrs = setDueTime.getHour();
+
+            String mornAft = "am";
+            if (hrs == 0) {
+                hrs = 12;
+            } else if (hrs >= 12) {
+                mornAft = "pm";
+                if (hrs > 12) {
+                    hrs -= 12;
+                }
+            }
+            String buttonID = mornAft.concat(String.valueOf(hrs)).concat(String.valueOf(mins));
+            Button b = v.findViewById(getResources().getIdentifier(buttonID, "id", getActivity().getPackageName()));
+
+            timesButtons.add(b);
+        }
+    }
+
+    //colors the correct local time button with the associated UTC Time
+    private void setButton(View v, ZonedDateTime utcTime){
+        ZonedDateTime setDueTime = utcTime.withZoneSameInstant(TimeZone.getDefault().toZoneId());
         LocalDate thisDate = day.getDate();
         if(setDueTime.getYear() == thisDate.getYear() &&
                 setDueTime.getMonthValue() == thisDate.getMonthValue() &&
@@ -1179,7 +1247,19 @@ public class TimePickerDialogFragment extends DialogFragment {
             String buttonID = mornAft.concat(String.valueOf(hrs)).concat(String.valueOf(mins));
             Button b = v.findViewById(getResources().getIdentifier(buttonID, "id", getActivity().getPackageName()));
 
-            b.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.green));
+            if(due){
+                b.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.green));
+            }
+            else {
+                b.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.blue));
+            }
         }
+    }
+
+    private static FragmentActivity unwrap(Context context) {
+        while (!(context instanceof FragmentActivity) && context instanceof ContextWrapper) {
+            context = ((ContextWrapper) context).getBaseContext();
+        }
+        return (FragmentActivity) context;
     }
 }
