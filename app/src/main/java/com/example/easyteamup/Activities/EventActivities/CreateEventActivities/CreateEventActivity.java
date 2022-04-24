@@ -2,16 +2,15 @@ package com.example.easyteamup.Activities.EventActivities.CreateEventActivities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.easyteamup.Activities.EventActivities.DatePickerActivities.DoubleDatePickerActivities.DateTimePickerDialogFragment;
-import com.example.easyteamup.Activities.EventActivities.DatePickerActivities.SingleDatePickerActivties.SingleDateTimePickerDialogFragment;
-import com.example.easyteamup.Activities.EventActivities.DatePickerActivities.SingleDatePickerActivties.SingleSelectedEventAvailableTimesViewModel;
+import com.example.easyteamup.Activities.EventActivities.DateTimePickerActivities.DueDatePickerDialogFragment;
+import com.example.easyteamup.Activities.EventActivities.DateTimePickerActivities.DueDateViewModel;
 import com.example.easyteamup.Activities.SnackBarActivities.SnackBarFragment;
 import com.example.easyteamup.Activities.SnackBarActivities.SnackBarInterface;
-import com.example.easyteamup.Activities.EventActivities.DatePickerActivities.DoubleDatePickerActivities.SelectedEventAvailableTimesViewModel;
 import com.example.easyteamup.Activities.EventActivities.ViewEventActivities.EventDispatcherActivity;
 import com.example.easyteamup.Backend.Event;
 import com.example.easyteamup.Backend.FirebaseOperations;
@@ -31,9 +30,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.io.IOException;
+import java.io.Serializable;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 public class CreateEventActivity extends AppCompatActivity implements SnackBarInterface {
 
@@ -41,8 +43,6 @@ public class CreateEventActivity extends AppCompatActivity implements SnackBarIn
     private String uid;
     private FirebaseOperations fops;
     private FragmentManager fragmentManager;
-    private SelectedEventAvailableTimesViewModel availModel;
-    private SingleSelectedEventAvailableTimesViewModel dueModel;
 
     private EditText eventName, eventAddress, eventType, eventDescription, inviteEmail, eventLength;
     private SwitchCompat publicPrivate;
@@ -51,16 +51,15 @@ public class CreateEventActivity extends AppCompatActivity implements SnackBarIn
 
     private boolean isPublic = false;
     private ArrayList<String> invitedUids = new ArrayList<String>();
-    private ArrayList<Date> availDates = new ArrayList<Date>();
-    private Date dueDate;
+
+    private DueDateViewModel dueModel;
+    private final Serializable[] dueDate = new Serializable[1];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
         getSupportActionBar().hide();
-        availModel = new ViewModelProvider(this).get(SelectedEventAvailableTimesViewModel.class);
-        dueModel = new ViewModelProvider(this).get(SingleSelectedEventAvailableTimesViewModel.class);
         fops = new FirebaseOperations(this);
 
         fragmentManager = getSupportFragmentManager();
@@ -72,6 +71,7 @@ public class CreateEventActivity extends AppCompatActivity implements SnackBarIn
 
         getIntent = getIntent();
         uid = getIntent.getStringExtra("uid");
+        dueModel = new ViewModelProvider(this).get(DueDateViewModel.class);
 
         //setting up views
         eventName = (EditText) findViewById(R.id.event_title);
@@ -132,21 +132,37 @@ public class CreateEventActivity extends AppCompatActivity implements SnackBarIn
             }
         });
 
-        addTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DialogFragment dateTimePicker = DateTimePickerDialogFragment.newInstance();
-                dateTimePicker.show(fragmentManager, "dateTimePicker");
-            }
-        });
-
         addDueTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogFragment dueDateTimePicker = SingleDateTimePickerDialogFragment.newInstance();
-                dueDateTimePicker.show(fragmentManager, "singleDateTimePicker");
+                DialogFragment dueDateTimePicker = DueDatePickerDialogFragment.newInstance();
+                dueDateTimePicker.show(fragmentManager, "dueDatePicker");
             }
         });
+
+
+        dueModel.getDueTime().observe(this, item -> {
+            Log.d("ITEM?", String.valueOf(item));
+            dueDate[0] = item;
+            if(dueDate[0] == null){
+                dueTime.setText(R.string.no_due_time);
+                dueTime.setTextColor(ContextCompat.getColor(this, R.color.gray));
+            }
+            else {
+                ZonedDateTime setDueTime = ((ZonedDateTime)dueDate[0]).withZoneSameInstant(TimeZone.getDefault().toZoneId());
+                dueTime.setText(prettyPrintDate(setDueTime));
+                dueTime.setTextColor(ContextCompat.getColor(this, R.color.green));
+            }
+        });
+
+
+        addTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
 
         createEvent.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -180,9 +196,9 @@ public class CreateEventActivity extends AppCompatActivity implements SnackBarIn
                 if(dueDate == null){
                     error.setText("Please pick an event due time.");
                 }
-                else if(availDates == null || availDates.size() == 0){
-                    error.setText("Please pick at least one available time.");
-                }
+//                else if(availDates == null || availDates.size() == 0){
+//                    error.setText("Please pick at least one available time.");
+//                }
                 else if(lat == null || lon == null){
                     error.setText("Please enter a valid address.");
                 }
@@ -207,32 +223,39 @@ public class CreateEventActivity extends AppCompatActivity implements SnackBarIn
                     String description = eventDescription.getText().toString();
                     e.setDescription(description);
                     e.setIsPublic(isPublic);
-                    Timestamp ts = new Timestamp(dueDate);
+
+                    ZonedDateTime zonedDueTime = ((ZonedDateTime)dueDate[0]);
+                    ZonedDateTime offsetZonedDueTime = zonedDueTime.plusSeconds(zonedDueTime.getOffset().getTotalSeconds());
+                    Date date = Date.from(offsetZonedDueTime.toInstant());
+                    Timestamp ts = new Timestamp(date);
                     e.setDueDate(ts);
+
                     e.setEventLength(eventMinutes);
 
-                    fops.createEvent(e, TimeUtil.getAvailability(availDates), eventId -> {
-                        if(eventId != null){
-                            for(int i = 0; i < invitedUids.size(); i++){
-                                fops.inviteUserToEvent(invitedUids.get(i), (String)eventId, bool -> {
-                                    if(bool) {
-                                    }
-                                    else {
-                                        LeaveCreateEventDialogFragment leave = LeaveCreateEventDialogFragment.newInstance(uid, "fail");
-                                        leave.show(fragmentManager, "fragment_leave_create_event");
-                                    }
-                                });
-                            }
-                            Intent viewHosted = new Intent(CreateEventActivity.this, EventDispatcherActivity.class);
-                            viewHosted.putExtra("uid", uid);
-                            viewHosted.putExtra("event_type", "hosting");
-                            startActivity(viewHosted);
-                        }
-                        else {
-                            LeaveCreateEventDialogFragment leave = LeaveCreateEventDialogFragment.newInstance(uid, "fail");
-                            leave.show(fragmentManager, "fragment_leave_create_event");
-                        }
-                    });
+                    Log.d("DUE DATE", ts.toDate().toString());
+
+//                    fops.createEvent(e, /*stuff*/, eventId -> {
+//                        if(eventId != null){
+//                            for(int i = 0; i < invitedUids.size(); i++){
+//                                fops.inviteUserToEvent(invitedUids.get(i), (String)eventId, bool -> {
+//                                    if(bool) {
+//                                    }
+//                                    else {
+//                                        LeaveCreateEventDialogFragment leave = LeaveCreateEventDialogFragment.newInstance(uid, "fail");
+//                                        leave.show(fragmentManager, "fragment_leave_create_event");
+//                                    }
+//                                });
+//                            }
+//                            Intent viewHosted = new Intent(CreateEventActivity.this, EventDispatcherActivity.class);
+//                            viewHosted.putExtra("uid", uid);
+//                            viewHosted.putExtra("event_type", "hosting");
+//                            startActivity(viewHosted);
+//                        }
+//                        else {
+//                            LeaveCreateEventDialogFragment leave = LeaveCreateEventDialogFragment.newInstance(uid, "fail");
+//                            leave.show(fragmentManager, "fragment_leave_create_event");
+//                        }
+//                    });
                 }
             }
         });
@@ -244,35 +267,32 @@ public class CreateEventActivity extends AppCompatActivity implements SnackBarIn
                 leave.show(fragmentManager, "fragment_leave_create_event");
             }
         });
+    }
 
-        availModel.getAvailableTimes().observe(this, item -> {
-            availDates = item;
-            if(item.size() == 0){
-                submittedTimes.setText(R.string.no_times);
-            }
-            else {
-                String dates = "";
-                for(int i = 0; i < item.size(); i+=2){
-                    dates = dates.concat(String.valueOf(item.get(i))).concat(" - ").concat(String.valueOf(item.get(i+1))).concat("\n");
-                }
-                Log.d("DATES", dates);
-                submittedTimes.setText(dates);
-            }
-        });
+    private String prettyPrintDate(ZonedDateTime setDueTime){
+        String datePrettyPrint = (setDueTime.getDayOfWeek().name()).concat(", ");
+        datePrettyPrint = datePrettyPrint.concat(setDueTime.getMonth().toString()).concat(" ");
+        datePrettyPrint = datePrettyPrint.concat(String.valueOf(setDueTime.getDayOfMonth())).concat(" at ");
 
-        dueModel.getDueTime().observe(this, item -> {
-            Log.d("ITEM?", String.valueOf(item));
-            dueDate = item;
+        String prettyHours = "0";
+        if(setDueTime.getHour() < 10){
+            prettyHours = prettyHours.concat(String.valueOf(setDueTime.getHour()));
+        }
+        else {
+            prettyHours = String.valueOf(setDueTime.getHour());
+        }
 
-            if(dueDate == null){
-                dueTime.setText(R.string.no_due_time);
-            }
-            else {
-                String date = dueDate.toString();
-                dueTime.setText(date);
-            }
-        });
+        datePrettyPrint = datePrettyPrint.concat(prettyHours).concat(":");
+        String prettyMins;
+        if(setDueTime.getMinute() == 0){
+            prettyMins = "00";
+        }
+        else {
+            prettyMins = String.valueOf(setDueTime.getMinute());
+        }
+        datePrettyPrint = datePrettyPrint.concat(prettyMins);
 
+        return datePrettyPrint;
     }
 
 

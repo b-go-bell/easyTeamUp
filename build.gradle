@@ -3,7 +3,7 @@ buildscript {
     repositories {
         // Check that you have the following line (if not, add it):
         google()  // Google's Maven repository
-
+        jcenter()
     }
     dependencies {
         classpath 'com.google.gms:google-services:4.3.10'
@@ -12,10 +12,19 @@ buildscript {
 }
 
 
+
 plugins {
     id 'com.android.application' version '7.1.0' apply false
     id 'com.android.library' version '7.1.0' apply false
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin' version '2.0.1' apply false
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        maven { url "https://jitpack.io" } //calendar
+    }
 }
 
 task clean(type: Delete) {

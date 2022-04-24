@@ -1,0 +1,1110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/times_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    android:orientation="vertical"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    android:background="@color/white">
+    <TextView
+        android:id="@+id/select"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select a Due Time"
+        android:gravity="center"
+        android:fontFamily="@font/rubik_medium"
+        android:textColor="@color/blue"
+        android:textSize="20dp"
+        android:layout_marginTop="18dp"
+        app:layout_constraintTop_toTopOf="@+id/times_container"
+        app:layout_constraintBottom_toTopOf="@+id/date"
+        />
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:gravity="center"
+        android:fontFamily="@font/rubik_bold"
+        android:textColor="@color/gray"
+        android:textSize="20dp"
+        android:layout_marginTop="18dp"
+        app:layout_constraintTop_toBottomOf="@+id/select"
+        />
+    <ScrollView
+        android:id="@+id/buttons"
+        android:layout_width="match_parent"
+        android:layout_height="520dp"
+        app:layout_constraintTop_toBottomOf="@+id/date"
+        app:layout_constraintBottom_toTopOf="@+id/return_times"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <Button
+                android:id="@+id/am1200"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:paddingVertical="20dp"
+                android:text="12:00 AM"
+                android:fontFamily="@font/rubik_bold"
+                android:backgroundTint="@color/beige"
+                android:textColor="@color/gray"
+                />
+            <Button
+                android:id="@+id/am1215"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:paddingVertical="20dp"
+                android:text="12:15 AM"
+                android:fontFamily="@font/rubik_bold"
+                android:backgroundTint="@color/beige"
+                android:textColor="@color/gray"
+                />
+            <Button
+                android:id="@+id/am1230"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:paddingVertical="20dp"
+                android:text="12:30 AM"
+                android:fontFamily="@font/rubik_bold"
+                android:backgroundTint="@color/beige"
+                android:textColor="@color/gray"
+                />
+            <Button
+                android:id="@+id/am1245"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:paddingVertical="20dp"
+                android:text="12:45 AM"
+                android:fontFamily="@font/rubik_bold"
+                android:backgroundTint="@color/beige"
+                android:textColor="@color/gray"
+                />
+            <Button
+                android:id="@+id/am100"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:paddingVertical="20dp"
+                android:text="1:00 AM"
+                android:fontFamily="@font/rubik_bold"
+                android:backgroundTint="@color/beige"
+                android:textColor="@color/gray"
+                />
+
+            <Button
+                android:id="@+id/am115"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="1:15 AM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/am130"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:paddingVertical="20dp"
+                android:text="1:30 AM"
+                android:fontFamily="@font/rubik_bold"
+                android:backgroundTint="@color/beige"
+                android:textColor="@color/gray"
+                />
+
+            <Button
+                android:id="@+id/am145"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="1:45 AM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/am200"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="2:00 AM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/am215"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="2:15 AM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/am230"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="2:30 AM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/am245"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="2:45 AM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/am300"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="3:00 AM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/am315"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="3:15 AM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/am330"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="3:30 AM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/am345"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="3:45 AM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/am400"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="4:00 AM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/am415"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="4:15 AM"
+                android:textColor="@color/gray" />
+            <Button
+                android:id="@+id/am430"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="4:30 AM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/am445"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="4:45 AM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/am500"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="5:00 AM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/am515"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="5:15 AM"
+                android:textColor="@color/gray" />
+            <Button
+                android:id="@+id/am530"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="5:30 AM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/am545"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="5:45 AM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/am600"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="6:00 AM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/am615"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="6:15 AM"
+                android:textColor="@color/gray" />
+            <Button
+                android:id="@+id/am630"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="6:30 AM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/am645"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="6:45 AM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/am700"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="7:00 AM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/am715"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="7:15 AM"
+                android:textColor="@color/gray" />
+            <Button
+                android:id="@+id/am730"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="7:30 AM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/am745"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="7:45 AM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/am800"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="8:00 AM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/am815"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="8:15 AM"
+                android:textColor="@color/gray" />
+            <Button
+                android:id="@+id/am830"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="8:30 AM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/am845"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="8:45 AM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/am900"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="9:00 AM"
+                android:textColor="@color/gray" />
+            <Button
+                android:id="@+id/am915"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="9:15 AM"
+                android:textColor="@color/gray" />
+            <Button
+                android:id="@+id/am930"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="9:30 AM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/am945"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="9:45 AM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/am1000"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="10:00 AM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/am1015"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="10:15 AM"
+                android:textColor="@color/gray" />
+            <Button
+                android:id="@+id/am1030"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="10:30 AM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/am1045"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="10:45 AM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/am1100"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="11:00 AM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/am1115"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="11:15 AM"
+                android:textColor="@color/gray" />
+            <Button
+                android:id="@+id/am1130"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="11:30 AM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/am1145"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="11:45 AM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/pm1200"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="12:00 PM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/pm1215"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="12:15 PM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/pm1230"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="12:30 PM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/pm1245"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="12:45 PM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/pm100"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="1:00 PM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/pm115"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="1:15 PM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/pm130"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="1:30 PM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/pm145"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="1:45 PM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/pm200"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="2:00 PM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/pm215"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="2:15 PM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/pm230"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="2:30 PM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/pm245"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="2:45 PM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/pm300"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="3:00 PM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/pm315"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="3:15 PM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/pm330"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="3:30 PM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/pm345"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="3:45 PM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/pm400"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="4:00 PM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/pm415"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="4:15 PM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/pm430"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="4:30 PM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/pm445"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="4:45 PM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/pm500"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="5:00 PM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/pm515"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="5:15 PM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/pm530"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="5:30 PM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/pm545"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="5:45 PM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/pm600"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="6:00 PM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/pm615"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="6:15 PM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/pm630"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="6:30 PM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/pm645"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="6:45 PM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/pm700"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="7:00 PM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/pm715"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="7:15 PM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/pm730"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="7:30 PM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/pm745"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="7:45 PM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/pm800"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="8:00 PM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/pm815"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="8:15 PM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/pm830"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="8:30 PM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/pm845"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="8:45 PM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/pm900"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="9:00 PM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/pm915"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="9:15 PM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/pm930"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="9:30 PM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/pm945"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="9:45 PM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/pm1000"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="10:00 PM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/pm1015"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="10:15 PM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/pm1030"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="10:30 PM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/pm1045"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="10:45 PM"
+                android:textColor="@color/gray" />
+            <Button
+                android:id="@+id/pm1100"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="11:00 PM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/pm1115"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="11:15 PM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/pm1130"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="11:30 PM"
+                android:textColor="@color/gray" />
+
+            <Button
+                android:id="@+id/pm1145"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/beige"
+                android:fontFamily="@font/rubik_bold"
+                android:paddingVertical="20dp"
+                android:text="11:45 PM"
+                android:textColor="@color/gray" />
+        </LinearLayout>
+    </ScrollView>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/return_times"
+        android:text="Return to Calendar"
+        android:fontFamily="@font/rubik_medium_italic"
+        android:layout_marginBottom="10dp"
+        android:paddingVertical="16dp"
+        android:backgroundTint="@color/gray"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

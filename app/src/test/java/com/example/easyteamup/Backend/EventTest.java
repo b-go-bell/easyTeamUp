@@ -171,7 +171,6 @@ public class EventTest {
     }
 
     @Test
-
     public void getIsPublic() {
         Event event = new Event();
         event.setIsPublic(true);
