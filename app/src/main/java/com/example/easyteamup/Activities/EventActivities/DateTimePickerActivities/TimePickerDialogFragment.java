@@ -211,9 +211,16 @@ public class TimePickerDialogFragment extends DialogFragment {
                 pm400, pm415, pm430, pm445, pm500, pm515, pm530, pm545, pm600, pm615, pm630, pm645, pm700, pm715, pm730, pm745,
                 pm800, pm815, pm830, pm845, pm900, pm915, pm930, pm945, pm1000, pm1015, pm1030, pm1045, pm1100, pm1115, pm1130, pm1145);
 
-        for(Button b : buttons){
-            b.setEnabled(false);
-            b.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.medium_gray));
+        Log.d("HOST TIMES", String.valueOf(hostTimes));
+        if(hostTimes != null){
+            for(Button b : buttons){
+                b.setEnabled(false);
+                b.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.medium_gray));
+            }
+            for(ZonedDateTime availTime : hostTimes){
+                Log.d("HOST TIME: ", String.valueOf(availTime));
+                enableButton(v, availTime);
+            }
         }
 
 
@@ -1272,6 +1279,36 @@ public class TimePickerDialogFragment extends DialogFragment {
                 b.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.blue));
             }
         }
+    }
+
+    private void enableButton(View v, ZonedDateTime utcTime){
+        ZonedDateTime setDueTime = utcTime.withZoneSameInstant(TimeZone.getDefault().toZoneId());
+        LocalDate thisDate = day.getDate();
+
+
+        String mins = String.valueOf(setDueTime.getMinute());
+        if(mins.equals("0")){
+            mins = mins.concat("0");
+        }
+        int hrs = setDueTime.getHour();
+
+        String mornAft = "am";
+        if(hrs == 0){
+            hrs = 12;
+        }
+        else if(hrs >= 12){
+            mornAft = "pm";
+            if(hrs > 12){
+                hrs -= 12;
+            }
+        }
+        String buttonID = mornAft.concat(String.valueOf(hrs)).concat(String.valueOf(mins));
+        Button b = v.findViewById(getResources().getIdentifier(buttonID, "id", getActivity().getPackageName()));
+
+        Log.d("BUTTONID", buttonID);
+
+        b.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.beige));
+        b.setEnabled(true);
     }
 
     private static FragmentActivity unwrap(Context context) {

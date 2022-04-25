@@ -42,8 +42,8 @@ public class UpdateEventDialogFragment extends DialogFragment {
 
     private EditText eventName, eventAddress, eventType, eventDescription, inviteEmail, eventLength;;
     private SwitchCompat publicPrivate;
-    private Button inviteUser, addDueTime, updateEvent, cancelEvent;
-    private TextView eventInvitees, dueTime, error, inviteError, eventLengthText;
+    private Button inviteUser, updateEvent, cancelEvent;
+    private TextView eventInvitees, error, inviteError, eventLengthText;
 
     private boolean isPublic = false;
     private ArrayList<String> invitedUids = new ArrayList<String>();
@@ -85,10 +85,8 @@ public class UpdateEventDialogFragment extends DialogFragment {
         inviteEmail = (EditText) v.findViewById(R.id.user_email_address);
         publicPrivate = (SwitchCompat) v.findViewById(R.id.privacy_toggle);
         inviteUser = (Button) v.findViewById(R.id.invite_user);
-        addDueTime = (Button) v.findViewById(R.id.due_time);
         updateEvent = (Button) v.findViewById(R.id.submit_event);
         cancelEvent = (Button) v.findViewById(R.id.cancel_event);
-        dueTime = (TextView) v.findViewById(R.id.due_submitted);
         error = (TextView) v.findViewById(R.id.error);
         inviteError = (TextView) v.findViewById(R.id.invite_error);
         eventInvitees = (TextView) v.findViewById(R.id.event_invitees);
@@ -105,7 +103,6 @@ public class UpdateEventDialogFragment extends DialogFragment {
         else{
             publicPrivate.setChecked(false);
         }
-        dueTime.setText(((e.getDueDate()).toDate()).toString());
 
 
         publicPrivate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -151,11 +148,6 @@ public class UpdateEventDialogFragment extends DialogFragment {
         });
 
 
-        addDueTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-            }
-        });
 
         updateEvent.setOnClickListener(new View.OnClickListener() {
             @Override

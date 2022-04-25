@@ -275,31 +275,29 @@ public class CreateEventActivity extends AppCompatActivity implements SnackBarIn
                         HashMap<LocalDate, ArrayList<ZonedDateTime>> availTimes = item;
 
                         Map<String, List<Map<String, String>>> availability = TimeUtil.sendTimes(availTimes);
-//                        HashMap<LocalDate, ArrayList<ZonedDateTime>> test = TimeUtil.receiveTimes(availability);
-//                        System.out.println(test);
 
-                    fops.createEvent(e, availability, eventId -> {
-                        if(eventId != null){
-                            for(int i = 0; i < invitedUids.size(); i++){
-                                fops.inviteUserToEvent(invitedUids.get(i), (String)eventId, bool -> {
-                                    if(bool) {
-                                    }
-                                    else {
-                                        LeaveCreateEventDialogFragment leave = LeaveCreateEventDialogFragment.newInstance(uid, "fail");
-                                        leave.show(fragmentManager, "fragment_leave_create_event");
-                                    }
-                                });
+                        fops.createEvent(e, availability, eventId -> {
+                            if(eventId != null){
+                                for(int i = 0; i < invitedUids.size(); i++){
+                                    fops.inviteUserToEvent(invitedUids.get(i), (String)eventId, bool -> {
+                                        if(bool) {
+                                        }
+                                        else {
+                                            LeaveCreateEventDialogFragment leave = LeaveCreateEventDialogFragment.newInstance(uid, "fail");
+                                            leave.show(fragmentManager, "fragment_leave_create_event");
+                                        }
+                                    });
+                                }
+                                Intent viewHosted = new Intent(CreateEventActivity.this, EventDispatcherActivity.class);
+                                viewHosted.putExtra("uid", uid);
+                                viewHosted.putExtra("event_type", "hosting");
+                                startActivity(viewHosted);
                             }
-                            Intent viewHosted = new Intent(CreateEventActivity.this, EventDispatcherActivity.class);
-                            viewHosted.putExtra("uid", uid);
-                            viewHosted.putExtra("event_type", "hosting");
-                            startActivity(viewHosted);
-                        }
-                        else {
-                            LeaveCreateEventDialogFragment leave = LeaveCreateEventDialogFragment.newInstance(uid, "fail");
-                            leave.show(fragmentManager, "fragment_leave_create_event");
-                        }
-                    });
+                            else {
+                                LeaveCreateEventDialogFragment leave = LeaveCreateEventDialogFragment.newInstance(uid, "fail");
+                                leave.show(fragmentManager, "fragment_leave_create_event");
+                            }
+                        });
                     });
 
                 }

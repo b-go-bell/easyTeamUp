@@ -66,34 +66,51 @@ class DayViewContainer extends ViewContainer {
 
             availableModel.getAvailableTimes().observe((unwrap(view.getContext())), item -> {
                 HashMap<LocalDate, ArrayList<ZonedDateTime>> utcTimes = item;
-                if(utcTimes != null && day != null && !utcTimes.isEmpty()){
-                    utcTimes.forEach((key, utcValue) -> {
-                        if (day.getDate().getMonthValue() == key.getMonthValue() &&
-                                day.getDate().getDayOfMonth() == key.getDayOfMonth() && !utcValue.isEmpty()) {
-                            calendar_day_text.setTextColor(ContextCompat.getColor((unwrap(view.getContext())), R.color.blue));
-                        } else if (day.getOwner() != DayOwner.THIS_MONTH) {
-                            calendar_day_text.setTextColor(ContextCompat.getColor((unwrap(view.getContext())), R.color.medium_gray));
-                        } else if ((day.getDate().getDayOfMonth() <= LocalDate.now().getDayOfMonth()) && (day.getDate().getMonthValue() == LocalDate.now().getMonthValue())) {
-                            calendar_day_text.setTextColor(ContextCompat.getColor((unwrap(view.getContext())), R.color.medium_gray));
-                        } else {
-                            dueModel.getDueTime().observe( (unwrap(view.getContext())), dueItem -> {
-                                ZonedDateTime setUTCDueTime = dueItem;
-                                if (setUTCDueTime != null && day != null) {
-                                    ZonedDateTime setDueTime = setUTCDueTime.withZoneSameInstant(TimeZone.getDefault().toZoneId());
+                if(host == null || host){
+                    if(utcTimes != null && day != null && !utcTimes.isEmpty()){
+                        utcTimes.forEach((key, utcValue) -> {
+                            if (day.getDate().getMonthValue() == key.getMonthValue() &&
+                                    day.getDate().getDayOfMonth() == key.getDayOfMonth() && !utcValue.isEmpty()) {
+                                calendar_day_text.setTextColor(ContextCompat.getColor((unwrap(view.getContext())), R.color.blue));
+                            } else if (day.getOwner() != DayOwner.THIS_MONTH) {
+                                calendar_day_text.setTextColor(ContextCompat.getColor((unwrap(view.getContext())), R.color.medium_gray));
+                            } else if ((day.getDate().getDayOfMonth() <= LocalDate.now().getDayOfMonth()) && (day.getDate().getMonthValue() == LocalDate.now().getMonthValue())) {
+                                calendar_day_text.setTextColor(ContextCompat.getColor((unwrap(view.getContext())), R.color.medium_gray));
+                            } else {
+                                dueModel.getDueTime().observe( (unwrap(view.getContext())), dueItem -> {
+                                    ZonedDateTime setUTCDueTime = dueItem;
+                                    if (setUTCDueTime != null && day != null) {
+                                        ZonedDateTime setDueTime = setUTCDueTime.withZoneSameInstant(TimeZone.getDefault().toZoneId());
 
-                                    if((day.getDate().getDayOfMonth() < setDueTime.getDayOfMonth()) && (day.getDate().getMonthValue() == setDueTime.getMonthValue()) ) {
-                                        calendar_day_text.setTextColor(ContextCompat.getColor((unwrap(view.getContext())), R.color.medium_gray));
+                                        if((day.getDate().getDayOfMonth() < setDueTime.getDayOfMonth()) && (day.getDate().getMonthValue() == setDueTime.getMonthValue()) ) {
+                                            calendar_day_text.setTextColor(ContextCompat.getColor((unwrap(view.getContext())), R.color.medium_gray));
+                                        }
+                                        else if(day.getDate().getMonthValue() == setDueTime.getMonthValue() && day.getDate().getDayOfMonth() == setDueTime.getDayOfMonth()){
+                                            calendar_day_text.setTextColor(ContextCompat.getColor((unwrap(view.getContext())), R.color.green));
+                                        }
+                                        else {
+                                            calendar_day_text.setTextColor(ContextCompat.getColor((unwrap(view.getContext())), R.color.gray));
+                                        }
                                     }
-                                    else if(day.getDate().getMonthValue() == setDueTime.getMonthValue() && day.getDate().getDayOfMonth() == setDueTime.getDayOfMonth()){
-                                        calendar_day_text.setTextColor(ContextCompat.getColor((unwrap(view.getContext())), R.color.green));
-                                    }
-                                    else {
-                                        calendar_day_text.setTextColor(ContextCompat.getColor((unwrap(view.getContext())), R.color.gray));
-                                    }
-                                }
-                            });
-                        }
-                    });
+                                });
+                            }
+                        });
+                    }
+                }
+                else {
+                    if(utcTimes != null && day != null && !utcTimes.isEmpty()) {
+                        Log.d("TIMES", String.valueOf(utcTimes));
+                        utcTimes.forEach((key, utcValue) -> {
+                            if (day.getDate().getMonthValue() == key.getMonthValue() &&
+                                    day.getDate().getDayOfMonth() == key.getDayOfMonth() && !utcValue.isEmpty()) {
+                                calendar_day_text.setTextColor(ContextCompat.getColor((unwrap(view.getContext())), R.color.blue));
+                            }
+                            else if(day.getDate().getMonthValue() == key.getMonthValue() &&
+                                    day.getDate().getDayOfMonth() == key.getDayOfMonth() && utcValue.isEmpty()){
+                                calendar_day_text.setTextColor(ContextCompat.getColor((unwrap(view.getContext())), R.color.white));
+                            }
+                        });
+                    }
                 }
             });
 
@@ -109,7 +126,7 @@ class DayViewContainer extends ViewContainer {
                         }
                     }
                 }
-                else if(host){
+                else if(!host){
                     if(day.getOwner() == DayOwner.THIS_MONTH){
                         if(hostTimes != null && !hostTimes.isEmpty()){
                             hostTimes.forEach((key, value) -> {

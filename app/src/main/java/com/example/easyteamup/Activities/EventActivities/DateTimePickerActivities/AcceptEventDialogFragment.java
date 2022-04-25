@@ -3,6 +3,7 @@ package com.example.easyteamup.Activities.EventActivities.DateTimePickerActiviti
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.core.content.ContextCompat;
@@ -18,7 +19,11 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.example.easyteamup.Activities.EventActivities.ViewEventActivities.EventDispatcherActivity;
+import com.example.easyteamup.Activities.EventActivities.ViewEventActivities.ListEventActivities.ViewInvitedEventsActivity;
+import com.example.easyteamup.Activities.UserHomeActivities.LoginLogoutActivities.FailDialogFragment;
 import com.example.easyteamup.Backend.FirebaseOperations;
+import com.example.easyteamup.Backend.TimeUtil;
 import com.example.easyteamup.R;
 
 
@@ -35,6 +40,8 @@ import java.time.YearMonth;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class AcceptEventDialogFragment extends DialogFragment {
@@ -116,20 +123,19 @@ public class AcceptEventDialogFragment extends DialogFragment {
 
 
                 fops.getHostAvailability(eid, mapObject -> {
-                    /** JARRET ADD THE BACKARDS CONVERTER ON MAP OBJECT **/
-//                    HashMap<LocalDate, ArrayList<ZonedDateTime>> hostTimes = mapObject;
-//                    dayViewContainer.hostTimes = hostTimes;
-//                    if(hostTimes != null && !hostTimes.isEmpty()){
-//                        hostTimes.forEach((key, value) -> {
-//                            if(!value.isEmpty()){
-//                                if( (calendarDay.getDate().getYear() == key.getYear()) &&
-//                                        (calendarDay.getDate().getMonthValue() == key.getMonthValue()) &&
-//                                        (calendarDay.getDate().getDayOfMonth() == key.getDayOfMonth()) ){
-//                                    textView.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
-//                                }
-//                            }
-//                        });
-//                    }
+                    HashMap<LocalDate, ArrayList<ZonedDateTime>> hostTimes = TimeUtil.receiveTimes((Map<String, List<Map<String, String>>>) mapObject);
+                    dayViewContainer.hostTimes = hostTimes;
+                    if(hostTimes != null && !hostTimes.isEmpty()){
+                        hostTimes.forEach((key, value) -> {
+                            if(!value.isEmpty()){
+                                if( (calendarDay.getDate().getYear() == key.getYear()) &&
+                                        (calendarDay.getDate().getMonthValue() == key.getMonthValue()) &&
+                                        (calendarDay.getDate().getDayOfMonth() == key.getDayOfMonth()) ){
+                                    textView.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
+                                }
+                            }
+                        });
+                    }
                 });
             }
         });
@@ -179,38 +185,52 @@ public class AcceptEventDialogFragment extends DialogFragment {
 
         goBack.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                availableModel.deleteAvailableTimes();
                 onCancel(getDialog());
                 getDialog().cancel();
             }
         });
 
 
-
         submit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-//                if(    ){
-//                    error.setText("Please pick at least one available time.");
-//                }
-//                else {
-//                    //PASS OFF THE INFO TO GET SCHEDULED
-//                    //FOPS STUFF
-//                    fops.RSVPforEvent(uid, eid, , bool -> {
-//                        if(bool){
-//                            Intent viewAttendingEventsMap = new Intent(getActivity(), EventDispatcherActivity.class);
-//                            viewAttendingEventsMap.putExtra("uid", uid);
-//                            viewAttendingEventsMap.putExtra("event_type", "attending");
-//                            startActivity(viewAttendingEventsMap);
-//                        }
-//                        else {
-//                            FailDialogFragment fail = FailDialogFragment.newInstance(uid, "fail");
-//                            fail.show(fragmentManager, "fragment_fail");
-//                        }
-//                    });
-//
-//                    Intent fetchUpdatedInvitations = new Intent(getActivity(), ViewInvitedEventsActivity.class);
-//                    fetchUpdatedInvitations.putExtra("uid", uid);
-//                    startActivity(fetchUpdatedInvitations);
-//                }
+                availableModel.getAvailableTimes().observe(AcceptEventDialogFragment.this, item -> {
+                    HashMap<LocalDate, ArrayList<ZonedDateTime>> utcTimes = item;
+                    if(utcTimes != null && !utcTimes.isEmpty()){
+                        Boolean[] cont = new Boolean[1];
+                        cont[0] = false;
+                        utcTimes.forEach( (key, value) -> {
+                            if(!value.isEmpty()){
+                                cont[0] = true;
+                            }
+                        });
+
+                        if(cont[0]){
+                            Map<String, List<Map<String, String>>> availability = TimeUtil.sendTimes(utcTimes);
+                            fops.RSVPforEvent(uid, eid, availability, bool -> {
+                                if(bool){
+                                    Intent viewAttendingEventsMap = new Intent(getActivity(), EventDispatcherActivity.class);
+                                    viewAttendingEventsMap.putExtra("uid", uid);
+                                    viewAttendingEventsMap.putExtra("event_type", "attending");
+                                    startActivity(viewAttendingEventsMap);
+                                }
+                                else {
+                                    FailDialogFragment fail = FailDialogFragment.newInstance(uid, "fail");
+                                    fail.show(fragmentManager, "fragment_fail");
+                                }
+                            });
+                            Intent fetchUpdatedInvitations = new Intent(getActivity(), ViewInvitedEventsActivity.class);
+                            fetchUpdatedInvitations.putExtra("uid", uid);
+                            startActivity(fetchUpdatedInvitations);
+                        }
+                        else {
+                            error.setText("Please pick at least one available time.");
+                        }
+                    }
+                    else {
+                        error.setText("Please pick at least one available time.");
+                    }
+                });
             }
         });
 
