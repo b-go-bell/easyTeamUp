@@ -108,6 +108,7 @@ public class DueDatePickerDialogFragment extends DialogFragment {
 
                 dayViewContainer.day = calendarDay;
                 dayViewContainer.due = true;
+                dayViewContainer.host = true;
 
                 if(calendarDay.getDate().getMonthValue() == (dueMonth[0]) &&
                         calendarDay.getDate().getDayOfMonth() == (dueDay[0])){

@@ -101,6 +101,7 @@ public class AvailableTimesPickerDialogFragment extends DialogFragment {
 
                 dayViewContainer.day = calendarDay;
                 dayViewContainer.due = false;
+                dayViewContainer.host = true;
 
                 if(calendarDay.getDate().getYear() == dueDate.getYear() &&
                         calendarDay.getDate().getMonthValue() == dueDate.getMonthValue() &&

@@ -14,7 +14,7 @@
         android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="3dp"
-        android:text="@string/pick_times"
+        android:text="Pick proposed times you can attend"
         android:fontFamily="@font/rubik_bold"
         android:textColor="@color/white"
         android:textSize="18sp"
@@ -22,63 +22,64 @@
         android:gravity="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
-    <Button
-        android:id="@+id/host_times"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_gravity="center"
-        android:text="@string/view_host_times"
-        android:layout_marginHorizontal="10dp"
-        android:fontFamily="@font/rubik_regular"
-        android:backgroundTint="@color/white"
-        android:textColor="@color/gray"
-        android:textSize="12sp"
-        android:textAllCaps="false"
-        android:layout_marginTop="10dp"
-        />
-    <Button
-        android:id="@+id/times"
+    <TextView
+        android:id="@+id/times_submitted"
         android:layout_width="240dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="@string/pick_range"
-        android:layout_marginHorizontal="10dp"
-        android:fontFamily="@font/rubik_bold_italic"
-        android:backgroundTint="@color/blue"
+        android:layout_marginTop="3dp"
+        android:text="@string/no_times"
+        android:fontFamily="@font/rubik_regular"
         android:textColor="@color/white"
-        android:textSize="14sp"
-        android:textAllCaps="false"
-        android:layout_marginTop="10dp"
-        />
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/descrip_layout"
-        android:layout_width="match_parent"
+        android:textSize="12sp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintHeight_max="80dp"
-        android:layout_marginTop="10dp">
-        <ScrollView
-            android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:gravity="center"
+        >
+
+        <ImageButton
+            android:id="@+id/prev_month"
+            android:layout_width="30dp"
+            android:layout_height="40dp"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:layout_marginLeft="8dp"
+            android:src="@drawable/white_backward"
+            android:layout_marginTop="20dp"
+            />
+
+        <com.kizitonwose.calendarview.CalendarView
+            android:id="@+id/calendarView"
+            android:layout_width="240dp"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHeight_max="60dp"
-            app:layout_constraintVertical_bias="0">
-            <TextView
-                android:id="@+id/times_submitted"
-                android:layout_width="240dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:text="@string/no_times"
-                android:fontFamily="@font/rubik_regular"
-                android:textColor="@color/white"
-                android:textSize="12sp"
-                android:layout_gravity="center"
-                android:gravity="center"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
-        </ScrollView>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            app:cv_dayViewResource="@layout/calendar_day_layout_gray"
+            app:cv_monthHeaderResource="@layout/calendar_month_header_layout_white"
+            app:cv_scrollMode="paged"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            />
+
+        <ImageButton
+            android:id="@+id/next_month"
+            android:layout_width="30dp"
+            android:layout_height="40dp"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:layout_marginRight="8dp"
+            android:src="@drawable/white_forward"
+            android:layout_marginTop="20dp"
+            />
+
+    </LinearLayout>
 
 
     <LinearLayout

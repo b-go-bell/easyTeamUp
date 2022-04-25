@@ -23,16 +23,19 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.easyteamup.R;
 import com.kizitonwose.calendarview.model.CalendarDay;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.TimeZone;
 
@@ -40,6 +43,7 @@ public class TimePickerDialogFragment extends DialogFragment {
 
     private CalendarDay day;
     private Boolean due;
+    private ArrayList<ZonedDateTime> hostTimes;
 
     private DueDateViewModel dueModel;
     private AvailableTimesViewModel availableModel;
@@ -60,12 +64,13 @@ public class TimePickerDialogFragment extends DialogFragment {
         // Required empty public constructor
     }
 
-    public static TimePickerDialogFragment newInstance(CalendarDay day, Boolean due) {
+    public static TimePickerDialogFragment newInstance(CalendarDay day, Boolean due, ArrayList<ZonedDateTime> hostTimes) {
         TimePickerDialogFragment fragment = new TimePickerDialogFragment();
 
         Bundle args = new Bundle();
         args.putSerializable("day", day);
         args.putBoolean("due", due);
+        args.putSerializable("hostTimes", hostTimes);
         fragment.setArguments(args);
 
         return fragment;
@@ -86,6 +91,7 @@ public class TimePickerDialogFragment extends DialogFragment {
 
         day = (CalendarDay) getArguments().getSerializable("day");
         due = getArguments().getBoolean("due");
+        hostTimes = (ArrayList<ZonedDateTime>) getArguments().getSerializable("hostTimes");
 
         date = (TextView) v.findViewById(R.id.date);
         select = (TextView) v.findViewById(R.id.select);
@@ -197,6 +203,18 @@ public class TimePickerDialogFragment extends DialogFragment {
         pm1115 = (Button) v.findViewById(R.id.pm1115);
         pm1130 = (Button) v.findViewById(R.id.pm1130);
         pm1145 = (Button) v.findViewById(R.id.pm1145);
+
+        List<Button> buttons = Arrays.asList(am1200, am1215, am1230, am1245, am100, am115, am130, am145, am200, am215, am230, am245, am300, am315, am330, am345,
+                am400, am415, am430, am445, am500, am515, am530, am545, am600, am615, am630, am645, am700, am715, am730, am745,
+                am800, am815, am830, am845, am900, am915, am930, am945, am1000, am1015, am1030, am1045, am1100, am1115, am1130, am1145,
+                pm1200, pm1215, pm1230, pm1245, pm100, pm115, pm130, pm145, pm200, pm215, pm230, pm245, pm300, pm315, pm330, pm345,
+                pm400, pm415, pm430, pm445, pm500, pm515, pm530, pm545, pm600, pm615, pm630, pm645, pm700, pm715, pm730, pm745,
+                pm800, pm815, pm830, pm845, pm900, pm915, pm930, pm945, pm1000, pm1015, pm1030, pm1045, pm1100, pm1115, pm1130, pm1145);
+
+        for(Button b : buttons){
+            b.setEnabled(false);
+            b.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.medium_gray));
+        }
 
 
         //set up the highlighted buttons properly

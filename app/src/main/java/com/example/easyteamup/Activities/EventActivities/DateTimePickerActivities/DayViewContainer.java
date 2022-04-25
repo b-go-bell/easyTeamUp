@@ -28,6 +28,8 @@ import java.util.TimeZone;
 class DayViewContainer extends ViewContainer {
     CalendarDay day = null;
     Boolean due = null;
+    Boolean host = null;
+    HashMap<LocalDate, ArrayList<ZonedDateTime>> hostTimes = null;
     private FragmentManager fragmentManager;
 
     private DueDateViewModel dueModel;
@@ -102,15 +104,31 @@ class DayViewContainer extends ViewContainer {
                     if(day.getOwner() == DayOwner.THIS_MONTH){
                         if(day.getDate().getMonthValue() != LocalDate.now().getMonthValue() ||
                                 (day.getDate().getDayOfMonth() > LocalDate.now().getDayOfMonth())){
-                            DialogFragment dueTimePicker = TimePickerDialogFragment.newInstance(day, due);
+                            DialogFragment dueTimePicker = TimePickerDialogFragment.newInstance(day, due, null);
                             dueTimePicker.show(fragmentManager, "dialog");
+                        }
+                    }
+                }
+                else if(host){
+                    if(day.getOwner() == DayOwner.THIS_MONTH){
+                        if(hostTimes != null && !hostTimes.isEmpty()){
+                            hostTimes.forEach((key, value) -> {
+                                if(!value.isEmpty()){
+                                    if(day.getDate().getYear() == key.getYear() &&
+                                            day.getDate().getMonthValue() == key.getMonthValue() &&
+                                            day.getDate().getDayOfMonth() == key.getDayOfMonth()){
+                                        DialogFragment dueTimePicker = TimePickerDialogFragment.newInstance(day, due, value);
+                                        dueTimePicker.show(fragmentManager, "dialog");
+                                    }
+                                }
+                            });
                         }
                     }
                 }
                 else {
                     if(day.getOwner() == DayOwner.THIS_MONTH){
                         if(day.getDate().getMonthValue() != LocalDate.now().getMonthValue()){
-                            DialogFragment dueTimePicker = TimePickerDialogFragment.newInstance(day, due);
+                            DialogFragment dueTimePicker = TimePickerDialogFragment.newInstance(day, due, null);
                             dueTimePicker.show(fragmentManager, "dialog");
                         }
 
@@ -118,7 +136,7 @@ class DayViewContainer extends ViewContainer {
                             ZonedDateTime dueTime = item;
                             if((day.getDate().getDayOfMonth() > LocalDate.now().getDayOfMonth()) &&
                                     (day.getDate().getDayOfMonth() > dueTime.getDayOfMonth())){
-                                DialogFragment dueTimePicker = TimePickerDialogFragment.newInstance(day, due);
+                                DialogFragment dueTimePicker = TimePickerDialogFragment.newInstance(day, due, null);
                                 dueTimePicker.show(fragmentManager, "dialog");
                             }
                         });
