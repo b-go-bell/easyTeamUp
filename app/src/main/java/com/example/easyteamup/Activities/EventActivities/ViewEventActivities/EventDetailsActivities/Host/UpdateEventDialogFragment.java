@@ -43,11 +43,10 @@ public class UpdateEventDialogFragment extends DialogFragment {
     private EditText eventName, eventAddress, eventType, eventDescription, inviteEmail, eventLength;;
     private SwitchCompat publicPrivate;
     private Button inviteUser, updateEvent, cancelEvent;
-    private TextView eventInvitees, error, inviteError, eventLengthText;
+    private TextView eventInvitees, error, inviteError;
 
     private boolean isPublic = false;
     private ArrayList<String> invitedUids = new ArrayList<String>();
-    private Date dueDate;
 
     public UpdateEventDialogFragment(){
 
@@ -90,7 +89,6 @@ public class UpdateEventDialogFragment extends DialogFragment {
         error = (TextView) v.findViewById(R.id.error);
         inviteError = (TextView) v.findViewById(R.id.invite_error);
         eventInvitees = (TextView) v.findViewById(R.id.event_invitees);
-        eventLengthText = (TextView) v.findViewById(R.id.event_length_text);
         eventLength = (EditText) v.findViewById(R.id.event_length);
 
         eventName.setText(e.getName());
@@ -99,6 +97,7 @@ public class UpdateEventDialogFragment extends DialogFragment {
         eventLength.setText(String.valueOf(e.getEventLength()));
         if(e.getIsPublic()){
             publicPrivate.setChecked(true);
+            isPublic = true;
         }
         else{
             publicPrivate.setChecked(false);
@@ -174,10 +173,6 @@ public class UpdateEventDialogFragment extends DialogFragment {
 
                 String name = eventName.getText().toString();
 
-                if(dueDate == null){
-                    dueDate = e.getDueDate().toDate();
-                }
-
                 if(name == null || name.equals("")){
                     name = e.getName();
                 }
@@ -195,11 +190,43 @@ public class UpdateEventDialogFragment extends DialogFragment {
                 ed.setAddress(address);
                 ed.setCategory(category);
                 ed.setDescription(description);
-                Timestamp ts = new Timestamp(dueDate);
-//                ed.setDueDate(ts);
                 ed.setLatitude(newLat);
                 ed.setLongitude(newLon);
                 ed.setEventLength(eventMinutes);
+                ed.setDueDate(e.getDueDate());
+
+                for(int i = 0; i < invitedUids.size(); i++){
+                    fops.inviteUserToEvent(invitedUids.get(i), eid, inv -> {
+                        if(inv){
+                            Log.d("INVITED", "person");
+                        }
+                        else {
+                            LeaveCreateEventDialogFragment leave = LeaveCreateEventDialogFragment.newInstance(uid, "fail");
+                            leave.show(fragmentManager, "fragment_leave_create_event");
+                        }
+                    });
+                }
+
+                if(e.getIsPublic() != isPublic){
+                    if(e.getIsPublic()){
+                        fops.convertPublicToPrivate(eid, false, cv -> {
+                            if(cv){}
+                            else {
+                                LeaveCreateEventDialogFragment leave = LeaveCreateEventDialogFragment.newInstance(uid, "fail");
+                                leave.show(fragmentManager, "fragment_leave_create_event");
+                            }
+                        });
+                    }
+                    else {
+                        fops.convertPrivateToPublic(eid, cv -> {
+                            if(cv){}
+                            else {
+                                LeaveCreateEventDialogFragment leave = LeaveCreateEventDialogFragment.newInstance(uid, "fail");
+                                leave.show(fragmentManager, "fragment_leave_create_event");
+                            }
+                        });
+                    }
+                }
 
                 fops.setEvent(eid, ed, bc -> {
                     if(bc){
@@ -211,39 +238,6 @@ public class UpdateEventDialogFragment extends DialogFragment {
                     else{
                         LeaveCreateEventDialogFragment leave = LeaveCreateEventDialogFragment.newInstance(uid, "fail");
                         leave.show(fragmentManager, "fragment_leave_create_event");
-                    }
-                    for(int i = 0; i < invitedUids.size(); i++){
-                        fops.inviteUserToEvent(uid, eid, inv -> {
-                            if(inv){}
-                            else {
-                                LeaveCreateEventDialogFragment leave = LeaveCreateEventDialogFragment.newInstance(uid, "fail");
-                                leave.show(fragmentManager, "fragment_leave_create_event");
-                            }
-                        });
-                        Intent viewHosted = new Intent(getContext(), EventDispatcherActivity.class);
-                        viewHosted.putExtra("uid", uid);
-                        viewHosted.putExtra("event_type", "hosting");
-                        startActivity(viewHosted);
-                    }
-                    if(e.getIsPublic() != isPublic){
-                        if(e.getIsPublic()){
-                            fops.convertPublicToPrivate(eid, false, cv -> {
-                                if(cv){}
-                                else {
-                                    LeaveCreateEventDialogFragment leave = LeaveCreateEventDialogFragment.newInstance(uid, "fail");
-                                    leave.show(fragmentManager, "fragment_leave_create_event");
-                                }
-                            });
-                        }
-                        else {
-                            fops.convertPrivateToPublic(eid, cv -> {
-                                if(cv){}
-                                else {
-                                    LeaveCreateEventDialogFragment leave = LeaveCreateEventDialogFragment.newInstance(uid, "fail");
-                                    leave.show(fragmentManager, "fragment_leave_create_event");
-                                }
-                            });
-                        }
                     }
                 });
 
