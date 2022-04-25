@@ -714,7 +714,7 @@ public class TimePickerDialogFragment extends DialogFragment {
                 if(due)
                     dueClick(pm130);
                 else
-                    availClick(pm1230);
+                    availClick(pm130);
             }
         });
 
