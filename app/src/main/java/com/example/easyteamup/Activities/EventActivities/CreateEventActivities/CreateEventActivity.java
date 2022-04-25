@@ -275,7 +275,8 @@ public class CreateEventActivity extends AppCompatActivity implements SnackBarIn
                         HashMap<LocalDate, ArrayList<ZonedDateTime>> availTimes = item;
 
                         Map<String, List<Map<String, String>>> availability = TimeUtil.sendTimes(availTimes);
-
+//                        HashMap<LocalDate, ArrayList<ZonedDateTime>> test = TimeUtil.receiveTimes(availability);
+//                        System.out.println(test);
 
                     fops.createEvent(e, availability, eventId -> {
                         if(eventId != null){

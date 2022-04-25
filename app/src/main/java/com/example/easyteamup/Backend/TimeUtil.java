@@ -4,6 +4,7 @@ import com.google.type.DateTime;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -51,6 +52,25 @@ public  class TimeUtil {
             availability.put(date, valueList);
         }
         return availability;
+    }
+
+    public static HashMap<LocalDate, ArrayList<ZonedDateTime>>
+        receiveTimes(Map<String, List<Map<String, String>>> availability){
+
+        HashMap<LocalDate, ArrayList<ZonedDateTime>> availTimes = new HashMap<>();
+        DateTimeFormatter dateForm = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter timeForm = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm").withZone(ZoneId.of("UTC"));
+        for(Map.Entry<String, List<Map<String, String>>> item : availability.entrySet()){
+            LocalDate date = LocalDate.parse(item.getKey(), dateForm);
+            ArrayList<ZonedDateTime> times = new ArrayList<>();
+            for(int i=0; i < item.getValue().size(); i++){
+                String t = item.getValue().get(i).get("start");
+                ZonedDateTime time = ZonedDateTime.parse(date + " " + t, timeForm);
+                times.add(time);
+            }
+            availTimes.put(date, times);
+        }
+        return availTimes;
     }
 
 }
