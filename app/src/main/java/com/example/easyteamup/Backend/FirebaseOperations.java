@@ -307,6 +307,26 @@ public class FirebaseOperations {
                 .addOnCompleteListener(task -> {
                     bc.isTrue(task.isSuccessful());
                 });
+
+        //notify attendees
+        StringRequest request = new StringRequest(Request.Method.POST,
+                "https://easy-team-up.uc.r.appspot.com/notifyEventUpdated",
+                response -> {
+                    Log.d("ATTENDEE NOTIFICATION", "Attendees successfully notified about update to event " + eventId);
+                },
+                error -> {
+                    Log.d("ATTENDEE NOTIFICATION", "Failure notifying attendees about update to event " + eventId);
+                })
+        {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>(){{
+                    put("event", eventId);
+                }};
+                return headers;
+            }
+        };
+        requestQueue.add(request);
     }
 
     /**
