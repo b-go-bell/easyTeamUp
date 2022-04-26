@@ -1,4 +1,8 @@
 package com.example.easyteamup.Backend;
+import static android.app.Notification.DEFAULT_SOUND;
+import static android.app.Notification.DEFAULT_VIBRATE;
+
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.os.Build;
@@ -21,7 +25,10 @@ public class FirebaseMessageReceiver extends FirebaseMessagingService {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             //create notification channels
-            NotificationChannel channel = new NotificationChannel("main-channel", "Main Channel", NotificationManager.IMPORTANCE_HIGH);
+            NotificationChannel channel = new NotificationChannel("main-channel", "All Notifications", NotificationManager.IMPORTANCE_HIGH);
+            channel.setDescription("All notifications for the EasyTeamUp App.");
+            channel.setShowBadge(true);
+            channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
@@ -33,6 +40,7 @@ public class FirebaseMessageReceiver extends FirebaseMessagingService {
     @Override
     public void
     onMessageReceived(RemoteMessage remoteMessage){
+        System.out.println("Notification Received!");
         if(remoteMessage.getNotification() != null){
             showNotification(remoteMessage.getNotification().getTitle(),
                     remoteMessage.getNotification().getBody());
@@ -56,19 +64,12 @@ public class FirebaseMessageReceiver extends FirebaseMessagingService {
 
     public void showNotification(String title, String message) {
 
-//        CharSequence name = "test channel";
-//        String description = "description channel";
-//        int importance = NotificationManager.IMPORTANCE_DEFAULT;
-//        NotificationChannel channel = new NotificationChannel("test-id", name, importance);
-//        channel.setDescription(description);
-//        NotificationManager notificationManager = getSystemService(NotificationManager.class);
-//        notificationManager.createNotificationChannel(channel);
-
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "main-channel")
                 .setSmallIcon(R.drawable.clock)
                 .setContentTitle(title)
                 .setContentText(message)
-                .setPriority(NotificationCompat.PRIORITY_HIGH);
+                .setDefaults(DEFAULT_SOUND | DEFAULT_VIBRATE)
+                .setPriority(NotificationCompat.PRIORITY_MAX);
 
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
 
