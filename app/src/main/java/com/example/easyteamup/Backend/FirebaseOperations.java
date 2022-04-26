@@ -784,6 +784,7 @@ public class FirebaseOperations {
                 .document(uid)
                 .get()
                 .addOnSuccessListener(documentSnapshot -> {
+                    String action;
                     if (documentSnapshot.exists()) { //if user was invited
                         //change user invitation status
                         Task<Void> updateUserInvitation = db.collection("users")
@@ -803,40 +804,46 @@ public class FirebaseOperations {
                                     bc.isTrue(task.isSuccessful());
                                 });
 
+                        action = "accept";
+
                     }
                     else {//if user wasn't invited
                         Tasks.whenAll(updateUserRSVP, updateEventRSVP, addAvailabilities)
                                 .addOnCompleteListener(task -> {
                                     bc.isTrue(task.isSuccessful());
                                 });
+                        action = "rsvp";
                     }
+
+                    //notify host
+                    StringRequest request = new StringRequest(Request.Method.POST,
+                            "https://easy-team-up.uc.r.appspot.com/notifyHost",
+                            response -> {
+                                Log.d("HOST NOTIFICATION", "Host succesfully notified about action " + action + " to event " + eventId);
+                            },
+                            error -> {
+                                Log.d("HOST NOTIFICATION FAILURE", "Failure notifying host about new RSVP to event " + eventId);
+                                System.out.println(error);
+                            })
+                    {
+                        @Override
+                        public Map<String, String> getHeaders() throws AuthFailureError {
+                            Map<String, String> headers = new HashMap<String, String>(){{
+                                put("event", eventId);
+                                put("attendee", authenticatedUser.getUid());
+                                put("action", action);
+                            }};
+                            return headers;
+                        }
+                    };
+                    requestQueue.add(request);
 
                 })
                 .addOnFailureListener(e -> {
                     bc.isTrue(false);
                 });
 
-        //notify host
-        StringRequest request = new StringRequest(Request.Method.POST,
-                "https://easy-team-up.uc.r.appspot.com/notifyHost",
-                response -> {
-                    Log.d("HOST NOTIFICATION", "Host succesfully notified about rsvp to event " + eventId);
-                },
-                error -> {
-                    Log.d("HOST NOTIFICATION FAILURE", "Failure notifying host about new RSVP to event " + eventId);
-                })
-        {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<String, String>(){{
-                    put("event", eventId);
-                    put("attendee", authenticatedUser.getUid());
-                    put("action", "rsvp");
-                }};
-                return headers;
-            }
-        };
-        requestQueue.add(request);
+
 
     }
 
