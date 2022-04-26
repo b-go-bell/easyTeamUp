@@ -520,7 +520,6 @@ public class FirebaseOperations {
                                     if (invitation.exists()) {
                                         e.setInvitationStatus(invitation.getString("status"));
                                     }
-                                    System.out.println("In callback");
                                     events.add(e);
                                 }
                             });
@@ -882,6 +881,29 @@ public class FirebaseOperations {
                 .document(uid)
                 .get()
                 .addOnSuccessListener(documentSnapshot -> {
+                    //notify host
+                    StringRequest request = new StringRequest(Request.Method.POST,
+                            "https://easy-team-up.uc.r.appspot.com/notifyHost",
+                            response -> {
+                                Log.d("HOST NOTIFICATION", "Host successfully notified about action withdraw to event " + eventId);
+                            },
+                            error -> {
+                                Log.d("HOST NOTIFICATION", "Failure notifying host about new RSVP to event " + eventId);
+                                System.out.println(error);
+                            })
+                    {
+                        @Override
+                        public Map<String, String> getHeaders() throws AuthFailureError {
+                            Map<String, String> headers = new HashMap<String, String>(){{
+                                put("event", eventId);
+                                put("attendee", authenticatedUser.getUid());
+                                put("action", "withdraw");
+                            }};
+                            return headers;
+                        }
+                    };
+                    requestQueue.add(request);
+
                     if (documentSnapshot.exists()) {//if user was invited
                         Task<Void> updateUserInvitation = db.collection("users")
                                 .document(uid)
@@ -934,6 +956,29 @@ public class FirebaseOperations {
                             .update("invitedEvents." + eventId, "rejected")
                             .addOnSuccessListener(Void2 -> {
                                 bc.isTrue(true);
+
+                                //notify host
+                                StringRequest request = new StringRequest(Request.Method.POST,
+                                        "https://easy-team-up.uc.r.appspot.com/notifyHost",
+                                        response -> {
+                                            Log.d("HOST NOTIFICATION", "Host succesfully notified about action decline to event " + eventId);
+                                        },
+                                        error -> {
+                                            Log.d("HOST NOTIFICATION", "Failure notifying host about new RSVP to event " + eventId);
+                                            System.out.println(error);
+                                        })
+                                {
+                                    @Override
+                                    public Map<String, String> getHeaders() throws AuthFailureError {
+                                        Map<String, String> headers = new HashMap<String, String>(){{
+                                            put("event", eventId);
+                                            put("attendee", authenticatedUser.getUid());
+                                                put("action", "decline");
+                                        }};
+                                        return headers;
+                                    }
+                                };
+                                requestQueue.add(request);
                             })
                             .addOnFailureListener(Void2 -> {
                                 bc.isTrue(false);
