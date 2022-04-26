@@ -1,6 +1,7 @@
 package com.example.easyteamup.Backend;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.os.Build;
 import android.widget.RemoteViews;
 
 import com.example.easyteamup.R;
@@ -12,10 +13,20 @@ import com.google.firebase.messaging.RemoteMessage;
 
 public class FirebaseMessageReceiver extends FirebaseMessagingService {
 
-    FirebaseOperations fops;
+    private FirebaseOperations fops;
+    private int notificationCount;
 
     public void onCreate() {
         fops = new FirebaseOperations(this);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            //create notification channels
+            NotificationChannel channel = new NotificationChannel("main-channel", "Main Channel", NotificationManager.IMPORTANCE_HIGH);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+
+        notificationCount = 1;
     }
 
 
@@ -45,24 +56,24 @@ public class FirebaseMessageReceiver extends FirebaseMessagingService {
 
     public void showNotification(String title, String message) {
 
-        CharSequence name = "test channel";
-        String description = "description channel";
-        int importance = NotificationManager.IMPORTANCE_DEFAULT;
-        NotificationChannel channel = new NotificationChannel("test-id", name, importance);
-        channel.setDescription(description);
-        NotificationManager notificationManager = getSystemService(NotificationManager.class);
-        notificationManager.createNotificationChannel(channel);
+//        CharSequence name = "test channel";
+//        String description = "description channel";
+//        int importance = NotificationManager.IMPORTANCE_DEFAULT;
+//        NotificationChannel channel = new NotificationChannel("test-id", name, importance);
+//        channel.setDescription(description);
+//        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+//        notificationManager.createNotificationChannel(channel);
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "test-id")
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "main-channel")
                 .setSmallIcon(R.drawable.clock)
                 .setContentTitle(title)
                 .setContentText(message)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                .setPriority(NotificationCompat.PRIORITY_HIGH);
 
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
 
 // notificationId is a unique int for each notification that you must define
-        notificationManagerCompat.notify(69, builder.build());
+        notificationManagerCompat.notify(notificationCount++, builder.build());
     }
 
 
