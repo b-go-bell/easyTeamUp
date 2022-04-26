@@ -4,6 +4,7 @@ import static java.lang.Math.min;
 
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -814,6 +815,28 @@ public class FirebaseOperations {
                 .addOnFailureListener(e -> {
                     bc.isTrue(false);
                 });
+
+        //notify host
+        StringRequest request = new StringRequest(Request.Method.POST,
+                "https://easy-team-up.uc.r.appspot.com/notifyHost",
+                response -> {
+                    Log.d("HOST NOTIFICATION", "Host succesfully notified about rsvp to event " + eventId);
+                },
+                error -> {
+                    Log.d("HOST NOTIFICATION FAILURE", "Failure notifying host about new RSVP to event " + eventId);
+                })
+        {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>(){{
+                    put("event", eventId);
+                    put("attendee", authenticatedUser.getUid());
+                    put("action", "rsvp");
+                }};
+                return headers;
+            }
+        };
+        requestQueue.add(request);
 
     }
 
