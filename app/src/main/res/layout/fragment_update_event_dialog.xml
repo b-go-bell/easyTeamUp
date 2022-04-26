@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="340dp"
+    android:layout_width="match_parent"
     android:layout_height="540dp"
     tools:context=".Activities.EventActivities.CreateEventActivities.CreateEventActivity">
 
@@ -36,8 +36,6 @@
                     android:text="@string/update_event"
                     android:fontFamily="@font/rubik_bold"
                     android:textSize="36dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginEnd="20dp"
                     android:layout_marginTop="40dp"
                     android:textColor="@color/gray"/>
                 <EditText
@@ -116,6 +114,25 @@
                     android:inputType="textLongMessage"
                     android:textSize="11dp"
                     />
+                <EditText
+                    android:id="@+id/event_length"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="60dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="60dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/logo"
+                    android:hint="@string/minutes"
+                    android:backgroundTint="@color/gray"
+                    android:textColor="@color/gray"
+                    android:textColorHint="@color/medium_gray"
+                    android:fontFamily="@font/rubik_regular"
+                    android:inputType="number"
+                    android:textSize="11dp"
+                    />
                 <TextView
                     android:id="@+id/pub_or_priv"
                     android:layout_marginTop="20dp"
@@ -183,41 +200,6 @@
                         />
                 </LinearLayout>
                 <TextView
-                    android:id="@+id/event_length_text"
-                    android:layout_marginTop="20dp"
-                    android:layout_width="280dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:fontFamily="@font/rubik_regular"
-                    android:text="@string/event_length_text"
-                    android:textColor="@color/gray"
-                    android:textSize="18dp"
-                    app:layout_constraintTop_toBottomOf="@+id/map_list_text"
-                    app:layout_constraintBottom_toTopOf="@+id/submit"
-                    app:layout_constraintEnd_toStartOf="@+id/map_toggle"
-                    app:layout_constraintStart_toStartOf="parent"
-                    />
-                <EditText
-                    android:id="@+id/event_length"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="60dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginRight="60dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/logo"
-                    android:hint="@string/minutes"
-                    android:backgroundTint="@color/gray"
-                    android:textColor="@color/gray"
-                    android:textColorHint="@color/medium_gray"
-                    android:fontFamily="@font/rubik_regular"
-                    android:inputType="number"
-                    android:textSize="11dp"
-                    />
-                <TextView
                     android:id="@+id/invite_users_text"
                     android:layout_marginTop="20dp"
                     android:layout_width="260dp"
@@ -263,6 +245,19 @@
                     android:layout_marginTop="10dp"
                     android:text="@string/invite_user"
                     android:textAllCaps="false"/>
+                <TextView
+                    android:id="@+id/invite_error"
+                    android:layout_width="260dp"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:fontFamily="@font/rubik_regular"
+                    android:textColor="@color/coral"
+                    android:textSize="10sp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/invited_users_layout"
                     android:layout_width="match_parent"
