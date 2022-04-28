@@ -1,6 +1,11 @@
 # Easy Team Up
 By Bridget Bell, Jarret Spino, and Isaac Gerstmann
 
+### 2.5 Updates 
+#### Improved Date Time Picker Dialogs for Hosts & Attendees 
+A major thing we felt lacking in our 2.3 submission was not only the lack of user-friendliness, but also the buggy-ness of the date time pickers for event due time, host availability time, and attendee availability time. There were issues with the calendar in that the default Android pickers allowed people to pick times that had already past, or perhaps weren't resitricted by due time and/or host availability time. There was also a bug that when due time was set by a host, the current seconds were appended, and if it wasn't exactly 00, then the the event would never be scheduled. 
+So in 2.5, we completely removed the existing date-time picker ingrastructure and started anew. While I used a GitHub directory I found as a template, much of it was customized, especially due to the fact the source code was written in Java. Although it is completely new and hasn't undergone as rigorous testing, we feel it is a vast improvement, and better conforms to the original project guidelines since now attendee time is limited by host availability. 
+
 ### Testing Instructions
 * Please run your emulator before starting the tests.
 * Please choose an android image that is running version 32 or later. One of the developers is running on Apple silicon which limits backward compatibility. Ensure the emulator has location services enabled. Any screen size works, but it is recommended to use a larger phone screen size; the lead frontend developer used a Pixel 4 for reference. Also, ensure that your emulator has enough RAM allocated.
