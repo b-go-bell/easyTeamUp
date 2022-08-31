@@ -1,6 +1,8 @@
 # Easy Team Up
 By Bridget Bell, Jarret Spino, and Isaac Gerstmann
 
+_Note: Server repository can be found at https://github.com/igerstma/easyTeamUp-server_
+
 ### 2.5 Updates 
 #### Improved Date Time Picker Dialogs for Hosts & Attendees 
 A major thing we felt lacking in our 2.3 submission was not only the lack of user-friendliness, but also the buggy-ness of the date time pickers for event due time, host availability time, and attendee availability time. There were issues with the calendar in that the default Android pickers allowed people to pick times that had already past, or perhaps weren't resitricted by due time and/or host availability time. There was also a bug that when due time was set by a host, the current seconds were appended, and if it wasn't exactly 00, then the the event would never be scheduled. 
